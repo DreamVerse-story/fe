@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env
+
+# documentation (local only, not tracked in git)
+README.md
+IDI_specification.md
+FEATURES.md
