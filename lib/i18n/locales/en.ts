@@ -121,6 +121,9 @@ export const en: Translation = {
             processingLabel: 'Processing',
             successRate: 'Success Rate',
             successRateLabel: 'Success Rate',
+            completed: 'Completed',
+            public: 'Public',
+            recent7days: 'Recent 7 Days',
         },
         charts: {
             genres: 'Dream Genres',

@@ -118,6 +118,9 @@ export const ko: Translation = {
             processingLabel: '처리 중',
             successRate: '성공률',
             successRateLabel: '성공률',
+            completed: '완료됨',
+            public: '공개',
+            recent7days: '최근 7일',
         },
         charts: {
             genres: '꿈 장르',
