@@ -111,9 +111,20 @@ export interface Translation {
         subtitle: string;
         cards: {
             total: string;
+            totalLabel: string;
+            minted: string;
+            mintedLabel: string;
+            processing: string;
+            processingLabel: string;
+            successRate: string;
+            successRateLabel: string;
             completed: string;
             public: string;
             recent7days: string;
+        };
+        charts: {
+            genres: string;
+            tones: string;
         };
         topGenres: string;
         topTones: string;

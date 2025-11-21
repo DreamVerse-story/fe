@@ -28,7 +28,7 @@ export function EmptyState({
                 {title}
             </h3>
             {description && (
-                <p className="text-white mb-6 text-center max-w-md text-lg">
+                <p className="text-white mb-6 text-center text-lg">
                     {description}
                 </p>
             )}

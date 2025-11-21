@@ -114,18 +114,26 @@ export const en: Translation = {
             'View statistics and insights of generated Dream IPs',
         cards: {
             total: 'Total Dream IPs',
-            completed: 'Completed IPs',
-            public: 'Public IPs',
-            recent7days: 'Last 7 Days',
+            totalLabel: 'Total Dreams',
+            minted: 'Minted IPs',
+            mintedLabel: 'IP Minted',
+            processing: 'Processing',
+            processingLabel: 'Processing',
+            successRate: 'Success Rate',
+            successRateLabel: 'Success Rate',
+        },
+        charts: {
+            genres: 'Dream Genres',
+            tones: 'Emotional Tones',
         },
         topGenres: 'Top 5 Genres',
         topTones: 'Top 5 Tones',
         successRate: 'Dream IP Generation Success Rate',
         cta: {
-            title: 'Create More Dream IPs!',
+            title: 'Ready to Contribute?',
             description:
-                'AI will turn your dreams into amazing IPs',
-            button: 'Record New Dream',
+                'Your dreams help expand the collective unconscious database. Mint your dream IP today and join the network.',
+            button: 'Start Recording',
         },
     },
 

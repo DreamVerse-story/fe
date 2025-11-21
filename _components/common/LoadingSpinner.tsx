@@ -16,8 +16,10 @@ export function LoadingSpinner({
     return (
         <div className="flex items-center justify-center relative">
             {/* Outer Glow */}
-            <div className={`absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse ${sizes[size]}`} />
-            
+            <div
+                className={`absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse ${sizes[size]}`}
+            />
+
             <svg
                 className={`animate-spin ${sizes[size]} text-primary relative z-10`}
                 xmlns="http://www.w3.org/2000/svg"

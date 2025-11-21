@@ -7,7 +7,8 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n/context';
-import { LoadingSpinner } from './LoadingSpinner';
+import { LoadingSpinner } from '../common/LoadingSpinner';
+import { Button, Textarea } from '../ui';
 
 interface DreamRecorderProps {
     onSubmit: (dreamText: string) => Promise<void>;
@@ -79,10 +80,10 @@ export function DreamRecorder({
             onSubmit={handleSubmit}
             className="w-full space-y-6"
         >
-            <div className="space-y-3">
+            <div className="space-y-2 sm:space-y-3">
                 <label
                     htmlFor="dream-text"
-                    className="block text-xl font-semibold text-gray-900 dark:text-white"
+                    className="block text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white"
                 >
                     {locale === 'ko'
                         ? '오늘 꾼 꿈을 기록해주세요'
@@ -90,14 +91,13 @@ export function DreamRecorder({
                 </label>
 
                 <div className="relative">
-                    <textarea
+                    <Textarea
                         id="dream-text"
                         value={dreamText}
                         onChange={handleChange}
                         disabled={isProcessing}
                         placeholder={t.record.placeholder}
-                        className="w-full min-h-[300px] px-5 py-4 text-lg text-white placeholder-white/50 bg-black/40 border-2 border-white/10 rounded-xl focus:ring-4 focus:ring-primary/20 focus:border-primary backdrop-blur-xl resize-y transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                        rows={12}
+                        rows={10}
                     />
 
                     {/* Character Counter */}
@@ -161,20 +161,22 @@ export function DreamRecorder({
                 </div>
             </div>
 
-            <button
+            <Button
                 type="submit"
+                variant="primary"
+                size="lg"
+                fullWidth
                 disabled={isProcessing || !isValid}
-                className="w-full px-8 py-4 bg-linear-to-r from-blue-600 to-purple-600 text-white text-lg font-bold rounded-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-[1.02] active:scale-[0.98] disabled:transform-none"
             >
                 {isProcessing ? (
-                    <span className="flex items-center justify-center gap-3">
+                    <>
                         <LoadingSpinner size="sm" />
                         {t.record.submitting}
-                    </span>
+                    </>
                 ) : (
-                    <span className="flex items-center justify-center gap-2">
+                    <>
                         <svg
-                            className="w-6 h-6"
+                            className="w-4 h-4 sm:w-5 sm:h-6"
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -187,9 +189,9 @@ export function DreamRecorder({
                             />
                         </svg>
                         {t.record.submitButton}
-                    </span>
+                    </>
                 )}
-            </button>
+            </Button>
 
             {progress && (
                 <div className="space-y-4 p-6 bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-900/50 animate-fade-in">

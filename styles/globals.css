@@ -4,27 +4,27 @@
     /* Lucid Anchor Theme - Default Dark */
     --background: #05050a;
     --foreground: #ffffff;
-    
+
     /* Neon Lime */
     --primary: #ccff00;
     --primary-foreground: #000000;
-    
+
     /* Deep Ocean Blue / Purple */
     --secondary: #4f46e5;
     --secondary-foreground: #ffffff;
-    
+
     /* Hot Pink for accents */
     --accent: #ff00ff;
     --accent-foreground: #ffffff;
-    
+
     --card: rgba(20, 20, 30, 0.6);
     --card-foreground: #ffffff;
     --card-border: rgba(255, 255, 255, 0.1);
-    
+
     --glass-bg: rgba(10, 10, 15, 0.4);
     --glass-border: rgba(255, 255, 255, 0.08);
     --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
-    
+
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
 }
@@ -35,13 +35,15 @@
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
     --color-secondary: var(--secondary);
-    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary-foreground: var(
+        --secondary-foreground
+    );
     --color-accent: var(--accent);
     --color-accent-foreground: var(--accent-foreground);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
     --color-card-border: var(--card-border);
-    
+
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
 }
@@ -80,30 +82,59 @@ body {
 
 /* Custom Animations */
 @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 @keyframes glow {
-    0% { box-shadow: 0 0 5px var(--primary); }
-    50% { box-shadow: 0 0 20px var(--primary), 0 0 10px var(--secondary); }
-    100% { box-shadow: 0 0 5px var(--primary); }
+    0% {
+        box-shadow: 0 0 5px var(--primary);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--primary),
+            0 0 10px var(--secondary);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--primary);
+    }
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .animate-float {
@@ -132,11 +163,21 @@ body {
     animation: slideInUp 0.6s ease-out forwards;
 }
 
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.stagger-children > *:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.stagger-children > *:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.stagger-children > *:nth-child(4) {
+    animation-delay: 0.4s;
+}
+.stagger-children > *:nth-child(5) {
+    animation-delay: 0.5s;
+}
 
 /* Card Hover Effects */
 .card-hover {
@@ -151,14 +192,22 @@ body {
 
 /* Gradient Text */
 .text-gradient {
-    background: linear-gradient(135deg, #ffffff 0%, #a5a5a5 100%);
+    background: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #a5a5a5 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
 
 .text-gradient-primary {
-    background: linear-gradient(135deg, var(--primary), #ffffff);
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        #ffffff
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -180,4 +229,22 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
 }

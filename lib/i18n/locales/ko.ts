@@ -111,18 +111,26 @@ export const ko: Translation = {
             '생성된 Dream IP의 통계와 인사이트를 확인하세요',
         cards: {
             total: '전체 Dream IP',
-            completed: '완성된 IP',
-            public: '공개 IP',
-            recent7days: '최근 7일',
+            totalLabel: '전체 꿈',
+            minted: '민팅된 IP',
+            mintedLabel: 'IP 민팅',
+            processing: '처리 중',
+            processingLabel: '처리 중',
+            successRate: '성공률',
+            successRateLabel: '성공률',
+        },
+        charts: {
+            genres: '꿈 장르',
+            tones: '감정 분위기',
         },
         topGenres: '인기 장르 Top 5',
         topTones: '인기 분위기 Top 5',
         successRate: 'Dream IP 생성 성공률',
         cta: {
-            title: '더 많은 Dream IP를 만들어보세요!',
+            title: '기여할 준비가 되셨나요?',
             description:
-                'AI가 당신의 꿈을 멋진 IP로 만들어드립니다',
-            button: '새 꿈 기록하기',
+                '당신의 꿈이 집단 무의식 데이터베이스를 확장하는 데 도움이 됩니다. 오늘 꿈 IP를 민팅하고 네트워크에 참여하세요.',
+            button: '기록 시작하기',
         },
     },
 

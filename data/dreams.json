@@ -2163,5 +2163,137 @@
       "totalSteps": 6,
       "stepKey": "completed"
     }
+  },
+  {
+    "id": "d82f8c9a-0412-42e4-980a-7135a21a1fc8",
+    "dreamRecord": {
+      "id": "a53feb8d-caaa-40c8-b533-777646aaca62",
+      "userId": "user-001",
+      "dreamText": " 짧은 스토리: “창문 밖 얼굴”\n\n주인공 간단 디테일\n\t•\t이름: 김라온 (18세, 고3)\n\t•\t특징: 머리 질끈 묶고 다크서클 깊은 눈, 창가 자리 좋아함\n\t•\t성격: 말수 적고 “괜찮아요”만 입에 붙어 있지만, 속으로는 늘 불안함\n\n⸻\n\n라온은 밤늦게까지 책상에 앉아 공부하다가\n잠깐 눈을 붙이려고 책상에 엎드려 잤다.\n\n방 안은 스탠드 불만 켜져 있었고,\n창밖은 완전히 까만 유리처럼 변해 있었다.\n\n얼마나 잤는지 모를 시간,\n눈을 반쯤 뜨자\n시야 구석에 창문이 보였다.\n\n검은 유리 속에,\n자기 뒷모습이 비치고 있었…\n어야 정상인데,\n\n오늘은\n자기 뒷모습 말고 “얼굴 하나”가 더 떠 있었다.\n\n창문 한가운데,\n정면을 빤히 바라보는 얼굴.\n\n눈도, 코도, 입도\n딱 “사람 얼굴”인데,\n묘하게 라온이랑 닮은 듯 안 닮은 듯.\n\n라온은 눈을 제대로 뜨지도 않은 채\n속으로 중얼거렸다.\n\n‘아, 또 개꿈이네…’\n\n그 순간,\n창문 속 그 얼굴이\n입모양만 움직이며 말했다.\n\n소리는 없는데,\n입 읽기가 될 정도로 느리게.\n\n“꿈 아니야.”\n\n“너, 지금 깨어 있는 쪽이 아니야.”\n\n라온은 흠칫하고 몸을 일으켰다.\n\n책상, 스탠드, 문제집,\n다 그대로였다.\n\n근데\n창문 속 “라온 얼굴”이\n표정이 없었다.\n\n마치 사진처럼.\n\n라온은 시험 삼아\n손을 들어 머리를 쓸어올렸다.\n\n유리 속 얼굴은\n따라 하지 않았다.\n\n그냥, 계속\n라온을 내려다보고 있었다.\n\n심장이 쿵 내려앉았다.\n\n‘어느 쪽이 진짜지?’\n\n숨이 가빠지려는 순간,\n휴대폰 알람이 크게 울렸다.\n\n삐— 삐— 삐—\n\n라온은 뒤돌아서 폰을 껐다가\n다시 창문을 봤다.\n\n창문엔\n아무도 없었다.\n\n그냥 자기 책상과 방만 비칠 뿐.\n\n라온은 안도의 한숨을 쉬고,\n혼잣말로 중얼거렸다.\n\n“역시… 꿈이었네.”\n\n침대에 누우면서\n마지막으로 창문을 흘끗 봤다.\n\n창문 유리 맨 위\n가장자리에서\n방금 본 그 얼굴이\n아주 작게,\n거꾸로 매달린 채\n조용히 속삭였다.\n\n“아니야.”\n\n“다음엔 네가 밖에 서 있을 차례야.”\n\n라온은 듣지 못했다.\n이미 잠들었으니까.\n\n대신,\n그날 이후로\n밤마다 창문을 볼 때면\n자기 얼굴이\n0.5초쯤 늦게 따라오는 느낌이 들 뿐이었다.",
+      "recordedAt": "2025-11-21T19:02:37.407Z"
+    },
+    "analysis": {
+      "title": "창문 너머의 나",
+      "title_en": "Me Beyond the Window",
+      "summary": "밤늦게 공부하던 김라온이 창문 속에서 자신의 얼굴과 마주치는 꿈",
+      "summary_en": "Kim Raon, studying late at night, encounters her own face in the window in a dream.",
+      "characters": [
+        "김라온",
+        "창문 속 얼굴"
+      ],
+      "characters_en": [
+        "Kim Raon",
+        "Face in the Window"
+      ],
+      "world": "어두운 방",
+      "world_en": "Dark Room",
+      "objects": [
+        "책상",
+        "스탠드",
+        "휴대폰"
+      ],
+      "locations": [
+        "김라온의 방"
+      ],
+      "tones": [
+        "불안함",
+        "신비로움",
+        "긴장감"
+      ],
+      "tones_en": [
+        "Unease",
+        "Mysterious",
+        "Tension"
+      ],
+      "genres": [
+        "심리",
+        "스릴러",
+        "판타지"
+      ],
+      "genres_en": [
+        "Psychological",
+        "Thriller",
+        "Fantasy"
+      ],
+      "emotions": [
+        "두려움",
+        "혼란",
+        "안도"
+      ]
+    },
+    "visuals": [
+      {
+        "id": "aacb0ee7-bf70-4763-a32d-b46f4848ce42",
+        "type": "key_visual",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-LHTV25aXs2k5qWQsZokim2gP.png?st=2025-11-21T18%3A04%3A01Z&se=2025-11-21T20%3A04%3A01Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=31d50bd4-689f-439b-a875-f22bd677744d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-21T19%3A04%3A01Z&ske=2025-11-22T19%3A04%3A01Z&sks=b&skv=2024-08-04&sig=1tGVnj765VITPDgwhEvtcfKXAJiQ%2Bh3Ow9k0hZ97P3o%3D",
+        "prompt": "Ultra-detailed cinematic key visual, professional film/game quality. Concept: 김라온 studying late at night, encountering her own face in a dream through a window. World: dark room. Location: 김라온's room. Characters: 김라온, face in the window. Objects: desk, lamp. Genre: psychological, thriller, fantasy. Mood: unease, mystery, tension. Emotions: fear, confusion. Highly detailed textures, materials, and surfaces. Rich atmospheric effects: dynamic lighting, fog, particles, weather. Complex composition with multiple detail layers. Dramatic lighting: highlights, shadows, rim lighting. Depth of field, atmospheric perspective. Professional matte painting, maximum detail. 1024x1024 square format with foreground/midground/background details, cinematic scale. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual el...",
+        "title": "창문 너머의 나 - Key Visual",
+        "title_en": "Me Beyond the Window - Key Visual",
+        "description": "밤늦게 공부하던 김라온이 창문 속에서 자신의 얼굴과 마주치는 꿈",
+        "description_en": "Kim Raon, studying late at night, encounters her own face in the window in a dream.",
+        "ipfsCid": "bafybeigcbtsoaabdf662jmfxahq7wqsj4d2ozbtxarq7tpq7ta3ip4ow5i",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeigcbtsoaabdf662jmfxahq7wqsj4d2ozbtxarq7tpq7ta3ip4ow5i"
+      },
+      {
+        "id": "3691ab57-d2ab-4af5-9ee6-a871afed4728",
+        "type": "character",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-BuJVqgJN0eAPSFpN0C0REAXk.png?st=2025-11-21T18%3A04%3A44Z&se=2025-11-21T20%3A04%3A44Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=32836cae-d25f-4fe9-827b-1c8c59c442cc&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-21T19%3A04%3A44Z&ske=2025-11-22T19%3A04%3A44Z&sks=b&skv=2024-08-04&sig=T6j%2BKfO4yXj/IVFJqT3OLLaU5WhVPVjo0hUjxviQgHQ%3D",
+        "prompt": "Highly detailed character concept art of 김라온, showcasing complete face and full body in a dark room setting. Genre: psychological thriller fantasy. Mood: anxiety, mystery, tension. Emotions: fear, confusion, relief. Ultra-detailed textures for fabric, skin, and hair. Clear facial features and expressive eyes. Detailed clothing and accessories with rich colors. Professional lighting with highlights and shadows, atmospheric rendering. 1024x1024 square format, character centered, no cropping. Background from a dark room. Professional game/animation quality, cinematic lighting, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.",
+        "title": "김라온",
+        "title_en": "Kim Raon",
+        "description": "김라온 캐릭터 컨셉 아트",
+        "description_en": "Kim Raon character concept art",
+        "ipfsCid": "bafybeifwiibwcefxzhtczvtj6dejnb54hkn5qx5stthjdg34rinjy3y32q",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeifwiibwcefxzhtczvtj6dejnb54hkn5qx5stthjdg34rinjy3y32q"
+      },
+      {
+        "id": "c7d18511-aae9-47ad-a216-afacea5ae438",
+        "type": "world",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-ySY8GZBIdUmakuTzIQMkHKIF.png?st=2025-11-21T18%3A05%3A30Z&se=2025-11-21T20%3A05%3A30Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=31d50bd4-689f-439b-a875-f22bd677744d&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-21T19%3A05%3A30Z&ske=2025-11-22T19%3A05%3A30Z&sks=b&skv=2024-08-04&sig=UNsVAXTKChc1w0wB5l8Gl4wckjq1em%2BCyHCHvc3IoXs%3D",
+        "prompt": "Ultra-detailed epic environment concept art, professional game/film quality. World: 어두운 방. Location: 김라온의 방. Genre: 심리, 스릴러, 판타지. Mood: 불안함, 신비로움, 긴장감. Objects: 책상, 스탠드, 휴대폰. Emotions: 두려움, 혼란. Highly detailed textures: stone, metal, wood, nature. Intricate architecture and structures. Atmospheric effects: fog, mist, light rays, particles. Foreground, midground, background layers. Complex lighting, shadows, reflections. Depth of field, atmospheric perspective. Cinematic composition. Professional matte painting, photorealistic details. 1024x1024 square format, all elements visible, detailed perspective, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.",
+        "title": "어두운 방",
+        "title_en": "Dark Room",
+        "description": "어두운 방 세계관 컨셉 아트",
+        "description_en": "Dark Room world concept art",
+        "ipfsCid": "bafybeiaa4c6ibns77d2fpd46h57c4mxr54o377543efb4y3opvkwha5x6a",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeiaa4c6ibns77d2fpd46h57c4mxr54o377543efb4y3opvkwha5x6a"
+      }
+    ],
+    "story": {
+      "synopsis": "18세의 고3 학생 김라온은 심각한 시험 스트레스와 불안감 속에서 밤늦게까지 공부하던 중, 잠깐 눈을 붙이게 된다. 그녀가 엎드려 있는 책상 위에서 잠든 사이, 창밖은 완전히 검은 유리처럼 변해버렸다. 잠에서 깬 라온은 창문에 비친 자신의 뒷모습 대신 알 수 없는 얼굴을 발견하게 된다. 그것은 자신과 비슷하면서도 전혀 다른, 무표정한 얼굴이다. 그 얼굴은 입모양만 움직이며 '꿈이 아니야'라고 속삭인다. 혼란스러운 상황 속에서 라온은 자신이 지금 깨어 있는 쪽이 아닌 현실의 경계를 넘어갔음을 깨닫게 된다. 다시 창문을 바라본 라온은 그곳에 아무것도 없다는 것을 확인하고 안도의 한숨을 쉬지만, 그날 이후로 매일 밤 창문을 볼 때면 자신의 얼굴이 0.5초 늦게 따라오는 느낌을 받게 된다. 이로 인해 라온은 자신이 진정한 자신을 찾기 위해 정신적인 여정을 떠나게 되지만, 그 과정에서 점점 더 불안해진다. 결국 그녀는 두 얼굴의 정체를 밝혀내기 위해 과거의 상처를 직면하게 되고, 이는 그녀가 직면한 불안과 맞서 싸워 성장하는 계기가 된다.",
+      "synopsis_en": "At 18, high school student Kim Raon is overwhelmed with exam stress and anxiety as she studies late into the night. While taking a brief nap at her desk, the outside world turns into a pitch-black window. When she wakes, instead of seeing her own reflection, she discovers a mysterious face staring back at her. It resembles her but is entirely different, expressionless. The face begins to mouth the words, 'This is not a dream.' Confused, Raon realizes she is not in the waking world anymore. When she turns back to the window, she finds nothing there, sighing in relief. However, from that night on, every time she gazes out the window, she feels her face lagging behind by 0.5 seconds. This leads Raon on a psychological journey to discover her true self, but as she delves deeper, her anxiety intensifies. Ultimately, she must confront the duality of her existence and face her past traumas, which becomes a turning point in her growth in battling her fears.",
+      "sceneBits": [
+        "밤늦게까지 공부하던 라온이 책상 위에서 잠이 든다.",
+        "창밖의 풍경이 완전히 검어진다.",
+        "라온이 눈을 뜨자 창문에 비친 얼굴이 나타난다.",
+        "무표정한 얼굴이 느리게 입을 움직이며 말한다.",
+        "라온이 창문을 다시 바라보고 아무것도 없음을 확인한다.",
+        "라온이 다시 잠들기 전 마지막으로 창문을 바라본다.",
+        "창문에 비친 얼굴이 거꾸로 매달려 속삭인다.",
+        "라온은 매일 밤 창문을 볼 때마다 자신의 얼굴이 따라오는 느낌을 받는다."
+      ],
+      "sceneBits_en": [
+        "Raon, studying late into the night, dozes off at her desk.",
+        "The landscape outside the window turns completely black.",
+        "Upon waking, Raon sees a face reflected in the window.",
+        "The expressionless face slowly moves its lips and speaks.",
+        "Raon looks back at the window and sees nothing there.",
+        "Before falling asleep again, Raon takes one last look at the window.",
+        "The face in the window whispers while hanging upside down.",
+        "Every night, Raon feels her face lagging behind when she looks out the window."
+      ],
+      "lore": "이 세계는 현실과 꿈이 얽혀 있는 독특한 차원이다. 사람들의 내부 갈등이나 두려움이 시각적인 형태로 나타나며, 창문은 그 경계를 가르는 통로 역할을 한다. 창문은 단순한 유리가 아니라, 자신을 반영하는 거울로 작용하며, 사용자가 진정한 자아를 인식하게 해준다. 이 세상에서는 자신과의 대면이 필수적이며, 두 얼굴이란 라온이 자신의 내부 갈등을 상징적으로 표현한 것이다. 이 이야기는 자아 발견과 성장의 과정을 탐구하며, 불안감과 두려움을 극복하는 방법에 대한 메시지를 담고 있다.",
+      "lore_en": "This world is a unique dimension where reality and dreams intertwine. Internal conflicts and fears of individuals manifest into visual forms, and windows serve as portals that separate these realms. The window is not just a piece of glass but a mirror that reflects the user’s true self, prompting them to recognize their authentic identity. In this world, confronting oneself is essential, and the duality of faces symbolizes Raon's internal struggles. This story explores the journey of self-discovery and growth, conveying a message about overcoming anxiety and fear."
+    },
+    "dreamHash": "c2a9ddaf587513ff2d3066e767918ba84079fad6157bdefbdef19e6f569418a3",
+    "createdAt": "2025-11-21T19:02:37.407Z",
+    "updatedAt": "2025-11-21T19:05:36.441Z",
+    "isPublic": false,
+    "status": "completed",
+    "progress": {
+      "currentStep": 6,
+      "totalSteps": 6,
+      "stepKey": "completed"
+    }
   }
 ]
