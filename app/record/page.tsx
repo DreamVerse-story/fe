@@ -23,7 +23,10 @@ export default function RecordPage() {
         stepKey: string;
     } | null>(null);
 
-    const handleSubmit = async (dreamText: string) => {
+    const handleSubmit = async (
+        dreamText: string,
+        model: 'openai' | 'flock'
+    ) => {
         setIsProcessing(true);
         setProgress({
             currentStep: 0,
@@ -47,6 +50,7 @@ export default function RecordPage() {
                     body: JSON.stringify({
                         dreamText,
                         userId,
+                        model, // 모델 선택 전달
                     }),
                 }
             );

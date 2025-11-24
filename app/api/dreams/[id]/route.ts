@@ -10,7 +10,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getDreamById, saveDream, deleteDream } from '@/lib/storage/file-storage';
+import { getDreamById, saveDream, deleteDream } from '@/lib/storage/mongo-storage';
 import type { DreamIPPackage } from '@/lib/types';
 
 interface RouteContext {

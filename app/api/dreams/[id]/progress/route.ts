@@ -4,7 +4,7 @@
  */
 
 import { NextRequest } from 'next/server';
-import { getDreamById } from '@/lib/storage/file-storage';
+import { getDreamById } from '@/lib/storage/mongo-storage';
 
 interface RouteContext {
     params: Promise<{ id: string }>;

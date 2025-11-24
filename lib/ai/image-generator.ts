@@ -10,6 +10,7 @@ import { uploadImagesToIPFS } from '../storage/ipfs';
 
 /**
  * Key Visual 생성 프롬프트 구성
+ * 드라마/영화/게임 썸네일용 - 매우 화려하고 임팩트 있게
  */
 function buildKeyVisualPrompt(
     analysis: DreamAnalysis,
@@ -26,21 +27,51 @@ function buildKeyVisualPrompt(
         .slice(0, 2)
         .join(', ');
 
-    return `Ultra-detailed cinematic key visual, professional film/game quality. Visual concept based on: ${
-        analysis.summary
-    }. World: ${analysis.world}${
-        locations ? `. Locations: ${locations}` : ''
-    }${characters ? `. Characters: ${characters}` : ''}${
-        objects ? `. Objects: ${objects}` : ''
-    }. Genre: ${analysis.genres.join(
-        ', '
-    )}. Mood: ${analysis.tones.join(', ')}${
-        emotions ? `. Emotions: ${emotions}` : ''
-    }. Highly detailed textures, materials, surfaces. Rich atmospheric effects: lighting, fog, particles, weather. Complex composition, multiple detail layers. Dramatic lighting: highlights, shadows, rim lighting. Depth of field, atmospheric perspective. Professional matte painting, maximum detail. ${size} square format, foreground/midground/background details, cinematic scale, all elements visible. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements: characters, objects, environments, lighting, colors, and atmosphere.`;
+    // 영화/드라마/게임 포스터 수준의 화려한 Key Visual 프롬프트
+    const parts = [
+        // 핵심 컨셉
+        `Epic cinematic key visual poster for ${analysis.summary}`,
+
+        // 세계관 & 위치
+        `World: ${analysis.world}`,
+        locations && `Setting: ${locations}`,
+
+        // 캐릭터 & 오브젝트
+        characters && `Main subjects: ${characters}`,
+        objects && `Key elements: ${objects}`,
+
+        // 장르 & 분위기
+        `Genre: ${analysis.genres.join(', ')}`,
+        `Mood: ${analysis.tones.join(', ')}`,
+        emotions && `Emotion: ${emotions}`,
+
+        // 시각적 품질 (영화 포스터 수준)
+        'Dramatic composition with strong visual hierarchy',
+        'Cinematic lighting with dynamic shadows and highlights',
+        'Rich color grading and atmospheric effects',
+        'Depth of field with layered foreground and background',
+        'Professional movie poster quality',
+        'AAA game cover art style',
+        'Highly detailed textures and materials',
+        'Epic scale and grandeur',
+        'Eye-catching and memorable visual impact',
+
+        // 기술적 요구사항
+        'Ultra high resolution digital art',
+        'Professional illustration',
+        'Masterpiece quality',
+
+        // 텍스트 절대 금지 (가장 중요!)
+        'ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO TITLES, NO CAPTIONS, NO WRITING, NO TYPOGRAPHY, NO SYMBOLS of any kind',
+        'Pure visual imagery only',
+    ].filter(Boolean);
+
+    return parts.join('. ') + '.';
 }
 
 /**
  * 캐릭터 컨셉 아트 프롬프트 구성
+ * 실사(Photorealistic) 스타일 - 영화 배우 수준의 리얼리티
  */
 function buildCharacterPrompt(
     characterName: string,
@@ -54,17 +85,52 @@ function buildCharacterPrompt(
         .slice(0, 3)
         .join(', ');
 
-    return `Highly detailed professional character concept art, complete face and full body visible. Character: ${characterName}. Setting: ${
-        analysis.world
-    }${
-        locations ? `, ${locations}` : ''
-    }. Genre: ${analysis.genres.join(
-        ', '
-    )}. Mood: ${analysis.tones.join(', ')}${
-        emotions ? `. Emotions: ${emotions}` : ''
-    }. Ultra-detailed textures, fabric, skin, hair details. Clear facial features, expressive eyes. Detailed clothing and accessories. Rich colors, professional lighting with highlights and shadows. Atmospheric rendering. ${size} square format, character centered, complete face visible, no cropping. Include background from ${
-        analysis.world
-    }. Professional game/animation concept art quality, cinematic lighting, rich textures, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements: character, clothing, accessories, background, lighting, colors, and atmosphere.`;
+    // 실사 스타일 캐릭터 포트레이트
+    const parts = [
+        // 핵심: 실사 스타일 명시
+        `Photorealistic character portrait: ${characterName}`,
+
+        // 세팅 & 위치
+        `Setting: ${analysis.world}`,
+        locations && `Location: ${locations}`,
+
+        // 장르 & 분위기
+        `Genre: ${analysis.genres.join(', ')}`,
+        `Atmosphere: ${analysis.tones.join(', ')}`,
+        emotions && `Expression: ${emotions}`,
+
+        // 실사 스타일 요구사항
+        'Hyperrealistic human features and skin textures',
+        'Professional photography style',
+        'Cinema quality character portrait',
+        'Realistic facial details and expressions',
+        'Natural skin tones and lighting',
+        'Film grain and cinematic color grading',
+
+        // 구도 & 조명
+        'Dramatic portrait lighting with soft shadows',
+        'Shallow depth of field with bokeh background',
+        'Professional headshot to full body composition',
+        'Studio or environmental portrait setup',
+
+        // 디테일
+        'Ultra detailed facial features',
+        'Realistic hair and clothing textures',
+        'Natural pose and body language',
+        'Award-winning portrait photography quality',
+
+        // 기술적 품질
+        'Shot on high-end cinema camera',
+        'IMAX quality',
+        '8K resolution',
+        'Professional color grading',
+
+        // 텍스트 절대 금지
+        'ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO CAPTIONS, NO WRITING, NO SYMBOLS of any kind',
+        'Pure photographic portrait only',
+    ].filter(Boolean);
+
+    return parts.join('. ') + '.';
 }
 
 /**
@@ -82,17 +148,20 @@ function buildWorldPrompt(
         .slice(0, 2)
         .join(', ');
 
-    return `Ultra-detailed epic environment concept art, professional game/film quality. World: ${
-        analysis.world
-    }${
-        locations ? `. Locations: ${locations}` : ''
-    }. Genre: ${analysis.genres.join(
-        ', '
-    )}. Mood: ${analysis.tones.join(', ')}${
-        objects ? `. Objects: ${objects}` : ''
-    }${
-        emotions ? `. Emotions: ${emotions}` : ''
-    }. Highly detailed textures: stone, metal, wood, nature. Intricate architecture and structures. Atmospheric effects: fog, mist, light rays, particles. Foreground, midground, background layers. Complex lighting, shadows, reflections. Depth of field, atmospheric perspective. Cinematic composition. Professional matte painting, photorealistic details. ${size} square format, all elements visible, detailed perspective, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements: architecture, nature, objects, lighting, colors, and atmosphere.`;
+    // 안전한 환경 프롬프트
+    const parts = [
+        `Environment concept art: ${analysis.world}`,
+        locations && `Featuring: ${locations}`,
+        `Genre: ${analysis.genres.join(', ')}`,
+        `Atmosphere: ${analysis.tones.join(', ')}`,
+        objects && `Elements: ${objects}`,
+        'Detailed landscape illustration',
+        'Professional digital painting',
+        'Wide scenic view',
+        'No text in image',
+    ].filter(Boolean);
+
+    return parts.join('. ') + '.';
 }
 
 /**
@@ -113,14 +182,15 @@ Image type: ${imageType}
 
 Requirements:
 1. Keep all essential information: characters, settings, genres, moods, objects, locations
-2. Preserve key style requirements: detailed, professional, cinematic, etc.
-3. Maintain technical specifications: lighting, textures, composition, etc.
+2. Preserve key style requirements: epic, dramatic, cinematic, professional quality
+3. Maintain visual impact keywords: lighting, composition, scale, grandeur
 4. Ensure the optimized prompt is under 1000 characters
-5. Use concise but descriptive language
-6. Keep important keywords that affect image quality
-7. CRITICAL: You MUST ALWAYS include this exact text at the END of your optimized prompt: "CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements."
-8. Remove any references to titles, text, or written content from the prompt - only keep visual descriptions
-9. Do NOT remove or shorten the CRITICAL text directive - it must be included exactly as specified
+5. Use powerful, vivid language that creates visual impact
+6. Keep keywords for AAA game/movie poster quality
+7. CRITICAL FOR KEY VISUALS: This will be used as a thumbnail for movies/games/dramas, so it must be extremely eye-catching and impressive
+8. ABSOLUTELY MANDATORY: Include strong "NO TEXT" directive at the end
+9. The NO TEXT directive should emphasize: ZERO text, letters, words, titles, captions, writing, typography, symbols in ANY language
+10. Do NOT remove or weaken the NO TEXT directive - make it even stronger if possible
 
 Return ONLY the optimized prompt, nothing else.`;
 
@@ -175,21 +245,27 @@ Return ONLY the optimized prompt, nothing else.`;
 
 /**
  * 텍스트 금지 지시를 프롬프트에 강제로 추가
+ * Key Visual은 특히 더 강력하게 텍스트 금지 강조
  */
-function enforceNoTextPrompt(prompt: string): string {
-    const noTextDirective =
-        ' CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.';
+function enforceNoTextPrompt(
+    prompt: string,
+    isKeyVisual: boolean = false
+): string {
+    // Key Visual용 강력한 텍스트 금지 지시
+    const strongNoTextDirective = isKeyVisual
+        ? ' CRITICAL REQUIREMENT: This image will be used as a movie/game/drama thumbnail poster. ABSOLUTELY FORBIDDEN: Any form of text, letters, words, numbers, symbols, typography, calligraphy, writing, signs, labels, captions, titles, inscriptions, or any written content in any language. The image MUST be 100% pure visual artwork with ZERO textual elements. Reject any attempt to include text.'
+        : ' CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.';
 
     // 이미 텍스트 금지 지시가 포함되어 있는지 확인
     const hasNoTextDirective =
         prompt.toLowerCase().includes('no text') ||
         prompt.toLowerCase().includes('no letters') ||
         prompt.toLowerCase().includes('no words') ||
-        prompt.toLowerCase().includes('pure visual');
+        prompt.toLowerCase().includes('absolutely no');
 
     if (!hasNoTextDirective) {
         // 프롬프트 끝에 텍스트 금지 지시 추가
-        return prompt + noTextDirective;
+        return prompt + strongNoTextDirective;
     }
 
     return prompt;
@@ -200,15 +276,25 @@ function enforceNoTextPrompt(prompt: string): string {
  */
 async function generateSingleImage(
     prompt: string,
-    size: string = '1024x1024'
+    size: string = '1024x1024',
+    isKeyVisual: boolean = false
 ): Promise<string> {
     const client = getOpenAIClient();
 
-    // 텍스트 금지 지시를 강제로 추가
-    const finalPrompt = enforceNoTextPrompt(prompt);
+    // 텍스트 금지 지시를 강제로 추가 (Key Visual은 더 강력하게)
+    const finalPrompt = enforceNoTextPrompt(
+        prompt,
+        isKeyVisual
+    );
+
+    if (isKeyVisual) {
+        console.log(
+            '🎬 Key Visual 생성 (영화/게임 썸네일 수준)'
+        );
+    }
     console.log(
         '🎨 최종 프롬프트 (텍스트 금지 포함):',
-        finalPrompt.substring(finalPrompt.length - 200)
+        finalPrompt.substring(finalPrompt.length - 250)
     );
 
     try {
@@ -240,7 +326,10 @@ async function generateSingleImage(
 
         // 프롬프트는 이미 최적화되어 1000자 이내이므로 그대로 사용
         // 텍스트 금지 지시는 이미 포함되어 있음
-        const fallbackPrompt = enforceNoTextPrompt(prompt);
+        const fallbackPrompt = enforceNoTextPrompt(
+            prompt,
+            isKeyVisual
+        );
         const fallbackResponse =
             await client.images.generate({
                 model: 'dall-e-2',
@@ -280,23 +369,30 @@ export async function generateDreamVisuals(
     const imageSize = '1024x1024';
 
     try {
-        // 1. Key Visual 생성
+        // 1. Key Visual 생성 (드라마/영화/게임 썸네일 수준)
         if (onProgress) {
             await onProgress(3, 'generatingKeyVisual');
         }
-        const originalKeyVisualPrompt =
-            buildKeyVisualPrompt(analysis, imageSize);
-        console.log('🔧 Key Visual 프롬프트 최적화 중...');
-        const keyVisualPrompt = await optimizePrompt(
-            originalKeyVisualPrompt,
-            'key_visual'
+        const keyVisualPrompt = buildKeyVisualPrompt(
+            analysis,
+            imageSize
         );
         console.log(
-            `✅ 최적화 완료: ${keyVisualPrompt.length}자`
+            '🎬 Key Visual 생성 중 (영화/게임 포스터 수준)...'
+        );
+        console.log(
+            `프롬프트 길이: ${keyVisualPrompt.length}자`
+        );
+        console.log(
+            `프롬프트 미리보기: ${keyVisualPrompt.substring(
+                0,
+                200
+            )}...`
         );
         const keyVisualUrl = await generateSingleImage(
             keyVisualPrompt,
-            imageSize
+            imageSize,
+            true // Key Visual임을 표시
         );
 
         visuals.push({
@@ -312,29 +408,25 @@ export async function generateDreamVisuals(
             description_en: analysis.summary_en,
         });
 
-        // 2. 주요 캐릭터 (첫 번째 캐릭터만)
+        // 2. 주요 캐릭터 (첫 번째 캐릭터만) - 실사 스타일
         if (analysis.characters.length > 0) {
             if (onProgress) {
                 await onProgress(4, 'generatingCharacter');
             }
             const mainCharacter = analysis.characters[0];
-            const originalCharacterPrompt =
-                buildCharacterPrompt(
-                    mainCharacter,
-                    analysis,
-                    imageSize
-                );
-            console.log('🔧 캐릭터 프롬프트 최적화 중...');
-            const characterPrompt = await optimizePrompt(
-                originalCharacterPrompt,
-                'character'
+            const characterPrompt = buildCharacterPrompt(
+                mainCharacter,
+                analysis,
+                imageSize
             );
             console.log(
-                `✅ 최적화 완료: ${characterPrompt.length}자`
+                '🎭 실사 스타일 캐릭터 생성 중 (영화 배우 수준)...'
             );
+            console.log(`캐릭터: ${mainCharacter}`);
             const characterUrl = await generateSingleImage(
                 characterPrompt,
-                imageSize
+                imageSize,
+                false // 캐릭터는 Key Visual만큼 강력한 텍스트 금지는 불필요
             );
 
             const characterEn =
@@ -356,18 +448,11 @@ export async function generateDreamVisuals(
         if (onProgress) {
             await onProgress(5, 'generatingWorld');
         }
-        const originalWorldPrompt = buildWorldPrompt(
+        const worldPrompt = buildWorldPrompt(
             analysis,
             imageSize
         );
-        console.log('🔧 세계관 프롬프트 최적화 중...');
-        const worldPrompt = await optimizePrompt(
-            originalWorldPrompt,
-            'world'
-        );
-        console.log(
-            `✅ 최적화 완료: ${worldPrompt.length}자`
-        );
+        console.log('🎨 세계관 생성 중...');
         const worldUrl = await generateSingleImage(
             worldPrompt,
             imageSize

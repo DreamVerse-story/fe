@@ -14,12 +14,16 @@ import { generateDreamVisuals } from '@/lib/ai/image-generator';
 import {
     saveDream,
     getDreamById,
-} from '@/lib/storage/file-storage';
-import type { DreamIPPackage } from '@/lib/types';
+} from '@/lib/storage/mongo-storage';
+import type {
+    DreamIPPackage,
+    AnalysisModel,
+} from '@/lib/types';
 
 interface CreateDreamRequest {
     dreamText: string;
     userId: string;
+    model?: AnalysisModel; // 'openai' | 'flock'
 }
 
 export async function POST(request: NextRequest) {
@@ -89,7 +93,8 @@ export async function POST(request: NextRequest) {
         processDreamAsync(
             dreamId,
             body.dreamText,
-            initialPackage
+            initialPackage,
+            body.model || 'openai' // 기본값: openai
         ).catch((error) => {
             console.error('백그라운드 처리 오류:', error);
         });
@@ -120,7 +125,8 @@ export async function POST(request: NextRequest) {
 async function processDreamAsync(
     dreamId: string,
     dreamText: string,
-    initialPackage: DreamIPPackage
+    initialPackage: DreamIPPackage,
+    model: AnalysisModel = 'openai'
 ) {
     try {
         // 단계 1: AI 분석
@@ -133,9 +139,14 @@ async function processDreamAsync(
             },
             updatedAt: new Date().toISOString(),
         });
-        console.log('✅ Step 1/6: 꿈 분석 시작');
+        console.log(
+            `✅ Step 1/6: 꿈 분석 시작 (모델: ${model.toUpperCase()})`
+        );
 
-        const analysis = await analyzeDream(dreamText);
+        const analysis = await analyzeDream(
+            dreamText,
+            model
+        );
 
         // 분석 완료 후 진행 상태 업데이트
         await saveDream({

@@ -4,7 +4,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllDreams, getPublicDreams } from '@/lib/storage/file-storage';
+import { getAllDreams, getPublicDreams } from '@/lib/storage/mongo-storage';
 
 export async function GET(request: NextRequest) {
   try {

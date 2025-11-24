@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "delete": "bun scripts/clean-failed.ts"
+    "delete": "bun scripts/clean-failed.ts",
+    "db:init": "bun scripts/init-db.ts",
+    "db:migrate": "bun scripts/migrate-to-mongodb.ts"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
     "jotai": "^2.10.0",
+    "mongodb": "^7.0.0",
     "next": "16.0.3",
     "openai": "^4.77.3",
     "pinata-web3": "^0.5.4",

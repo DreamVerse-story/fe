@@ -9,9 +9,13 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from '@/lib/i18n/context';
 import { LoadingSpinner } from '../common/LoadingSpinner';
 import { Button, Textarea } from '../ui';
+import type { AnalysisModel } from '@/lib/types';
 
 interface DreamRecorderProps {
-    onSubmit: (dreamText: string) => Promise<void>;
+    onSubmit: (
+        dreamText: string,
+        model: AnalysisModel
+    ) => Promise<void>;
     isProcessing?: boolean;
     progress?: {
         currentStep: number;
@@ -28,6 +32,8 @@ export function DreamRecorder({
     const { t, locale } = useTranslation();
     const [dreamText, setDreamText] = useState('');
     const [charCount, setCharCount] = useState(0);
+    const [selectedModel, setSelectedModel] =
+        useState<AnalysisModel>('openai');
 
     // 디버깅: progress 업데이트 추적
     useEffect(() => {
@@ -64,7 +70,7 @@ export function DreamRecorder({
             return;
         }
 
-        await onSubmit(dreamText);
+        await onSubmit(dreamText, selectedModel);
         setDreamText('');
         setCharCount(0);
     };
@@ -89,6 +95,36 @@ export function DreamRecorder({
                         ? '오늘 꾼 꿈을 기록해주세요'
                         : 'Record Your Dream'}
                 </label>
+
+                {/* Model Selection */}
+                <div className="mb-4">
+                    <label
+                        htmlFor="model-select"
+                        className="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2"
+                    >
+                        {locale === 'ko'
+                            ? '분석 모델 선택'
+                            : 'Analysis Model'}
+                    </label>
+                    <select
+                        id="model-select"
+                        value={selectedModel}
+                        onChange={(e) =>
+                            setSelectedModel(
+                                e.target.value as AnalysisModel
+                            )
+                        }
+                        disabled={isProcessing}
+                        className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <option value="openai">
+                            OpenAI GPT-4o Mini
+                        </option>
+                        <option value="flock">
+                            FLock.io AI
+                        </option>
+                    </select>
+                </div>
 
                 <div className="relative">
                     <Textarea

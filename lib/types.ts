@@ -16,6 +16,11 @@ export type DreamGenre =
     | '드라마';
 
 /**
+ * AI 분석 모델 선택
+ */
+export type AnalysisModel = 'openai' | 'flock';
+
+/**
  * 꿈의 톤/분위기
  */
 export type DreamTone =

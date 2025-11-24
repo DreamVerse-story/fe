@@ -2295,5 +2295,387 @@
       "totalSteps": 6,
       "stepKey": "completed"
     }
+  },
+  {
+    "id": "15a71a2a-ccec-428e-a98e-a5b355c11a3d",
+    "dreamRecord": {
+      "id": "177480f5-5bac-4931-9d8f-be63ebc7c3a2",
+      "userId": "user-001",
+      "dreamText": "[Project Guardian 안에서의 DAMA 2: 규제 샌드박스에서 태어나는 기관형 토큰화 운영 레이어]\n전통 금융기관의 토큰화 논의는 이제 개별 파일럿을 넘어, “규제 환경 속에서 실제 운용 가능한 구조를 어떻게 만들 것인가”라는 질문으로 옮겨가고 있다. 싱가포르 통화청(MAS)의 Project Guardian은 이 질문을 전면에 두고, 글로벌 금융기관과 함께 토큰화·DeFi·멀티체인 인프라를 검증하는 장기 프로그램이다.\n이 프로그램 안에서 도이치뱅크가 제시한 DAMA 2는 단순한 기술 실험이 아니라, “기관이 규제 환경을 벗어나지 않으면서 토큰화된 펀드와 자산을 실제로 운영할 수 있는가?”라는 문제에 대한 하나의 답안지에 가깝다.\n\nProject Guardian이 다루는 핵심 질문\nProject Guardian의 공통된 출발점은 명확하다.\n“퍼블릭 블록체인의 개방성과 DeFi의 유동성을 활용하고 싶지만, KYC/AML, 투자자 보호, 리스크 관리, 보고 의무 같은 전통 규제 요구를 어떻게 만족시킬 것인가?”\n이를 위해 MAS는\n자산·재산관리(Asset & Wealth Management)\n\n\n토큰화 국채·예금·MMF\n\n\n기관급 DeFi 프로토콜\n\n\n체인 간 상호운용성\n\n 같은 영역을 나누어 복수의 파일럿을 동시에 돌리고 있다.\n\n\nDAMA 2는 이 중 Asset & Wealth Management 트랙에서, 토큰화 펀드를 중심으로 한 실제 운용 모델을 제시하는 프로젝트다. 즉, “토큰화 펀드가 규제 안에서 돌아가려면 어떤 운영 인프라가 필요하냐”를 검증하는 실험이자 레퍼런스 아키텍처다.\n\nDAMA 2가 맡은 자리: 파일럿이 아닌 ‘운영 레이어’\n같은 Project Guardian 안에서도 많은 프로젝트가 개별 상품에 초점을 맞춘다면, DAMA 2는 ‘운영 레이어’에 집중한다는 점이 다르다.\n토큰화 MMF(tMMF)나 토큰화 국채 실험이 “특정 상품”의 타당성을 보여준다면,\n\n\nDAMA 2는 “여러 상품을 한꺼번에 다루는 운영 플랫폼을 어떻게 설계할 것인가”를 보여준다.\n\n\n그래서 DAMA 2의 질문은 자연스럽게 이렇게 정리된다.\n“하나의 운용사가 여러 체인에 펀드를 발행·분배하면서, 규제·리스크·보고 체계를 단일 운영 레이어에서 관리할 수 있는가?”\n이것이 바로 DAMA 2가 Project Guardian 안에서 차지하는 포지션이다.\n\nProject Guardian이 요구하는 제약 조건을 전제로 한 설계\nDAMA 2의 구조는 전형적인 Web3 스타트업식 설계가 아니라, 규제기관이 제시하는 제약 조건을 먼저 받아들인 뒤 남은 설계 자유도를 활용하는 방식이다. 예를 들어:\n투자자 식별과 자금세탁 방지(KYC/AML)는 체인 밖(off-chain)이 아니라,\n\n 온체인 권한·정책 레이어에 직접 연결된다.\n\n\n데이터 프라이버시는 “가급적 숨기자” 수준이 아니라,\n\n 기관 전용 L2(Memento ZK Chain)에서 역할 기반 접근 제어 + ZK 증명을 활용해 설계 단계부터 반영된다.\n\n\n상호운용성도 단순 브릿지가 아니라,\n\n 결제 확정 시점, 법적 효력, 보고 포맷까지 함께 정의되는 “운영 레벨의 인터체인”을 목표로 한다.\n\n\n즉, Project Guardian 특유의 규제 실험 환경이 있었기에 DAMA 2는 처음부터 “규제 가능한 하이브리드 멀티체인 구조”를 전제로 설계될 수 있었다고 볼 수 있다.\n\nProject Guardian 관점에서 본 DAMA 2의 의미\nProject Guardian 전체 맥락에서 보면, DAMA 2는 다음과 같은 역할을 수행한다.\n‘체인 선택’이라는 논의를 상위 레이어로 끌어올림\n\n\n어떤 체인을 쓸지, 어떤 커스터디를 붙일지가 아니라\n\n\n“기관이 통제 가능한 운영 레이어 위에 다양한 체인을 붙인다”는 관점을 제시한다.\n\n\n규제기관이 이해할 수 있는 구조로 DeFi/멀티체인을 번역\n\n\n퍼블릭 체인의 보안성과 상호운용성을 인정하되,\n\n\n규제기관이 익숙한 개념(계정·권한·레포트·감사 트레일)으로 매핑해서 보여주는 일종의 번역 계층 역할을 한다.\n\n\n다른 파일럿에 재사용 가능한 표준 후보를 제공\n\n\n프로젝트 자체의 성공 여부를 떠나,\n\n\n“기관형 토큰화 펀드 운영 인프라”에 대한 정책·기술 레퍼런스로 활용될 수 있는 구조를 보여준다.\n\n\n결국 DAMA 2는 Project Guardian 안에서\n“규제 친화적인 멀티체인 토큰화 운영 레이어가 어떤 모습이어야 하는지”\n를 구체적 아키텍처로 제시하는 실험이라고 정리할 수 있다.\n\n결론: Project Guardian이 열어준 ‘레퍼런스 아키텍처’로서의 DAMA 2\n토큰화를 둘러싼 논의는 이제 기술 데모를 넘어 운영·규제·거버넌스로 이동하고 있다. Project Guardian은 이 변화를 제도권 안에서 실험할 수 있는 드문 장(field)이고, 그 안에서 DAMA 2는 기관형 토큰화 펀드 운영 레이어의 하나의 레퍼런스 아키텍처를 제시한다.\n퍼블릭 블록체인의 보안성과 유동성, 기관 전용 L2의 프라이버시와 내부 통제, 그리고 Project Guardian이 요구하는 규제 요건을 동시에 만족시키려는 DAMA 2의 시도는, 향후 글로벌 자산운용사·커스터디 기관이 어떤 방향으로 토큰화 인프라를 설계해야 하는지에 대한 의미 있는 힌트를 제공한다.\n결국 Project Guardian 안에서 DAMA 2가 남길 유산은,\n“어떤 체인이냐”가 아니라\n“어떤 운영 레이어 위에서 여러 체인을 다룰 것이냐”라는 질문 자체를\n기관형 토큰화 논의의 새로운 출발점으로 만들어 놓는 데 있을 것이다.\n\n",
+      "recordedAt": "2025-11-22T07:37:03.338Z"
+    },
+    "analysis": {
+      "title": "규제 샌드박스 속의 토큰화 혁신",
+      "title_en": "Tokenization Innovation in the Regulatory Sandbox",
+      "summary": "DAMA 2 프로젝트는 규제 환경에서 기관형 토큰화 펀드를 운영하기 위한 새로운 아키텍처를 제시하는 실험이다.",
+      "summary_en": "The DAMA 2 project proposes a new architecture for operating institutional tokenized funds within a regulatory environment.",
+      "characters": [
+        "MAS",
+        "도이치뱅크",
+        "기관 투자자"
+      ],
+      "characters_en": [
+        "MAS",
+        "Deutsche Bank",
+        "Institutional Investors"
+      ],
+      "world": "규제 샌드박스 환경",
+      "world_en": "Regulatory Sandbox Environment",
+      "objects": [
+        "토큰화 펀드",
+        "운영 레이어",
+        "규제 조건"
+      ],
+      "locations": [
+        "싱가포르",
+        "Project Guardian"
+      ],
+      "tones": [
+        "혁신적",
+        "전략적",
+        "복잡함"
+      ],
+      "tones_en": [
+        "Innovative",
+        "Strategic",
+        "Complex"
+      ],
+      "genres": [
+        "기술",
+        "금융",
+        "규제"
+      ],
+      "genres_en": [
+        "Technology",
+        "Finance",
+        "Regulation"
+      ],
+      "emotions": [
+        "호기심",
+        "기대감",
+        "긴장감"
+      ]
+    },
+    "visuals": [
+      {
+        "id": "e96566ba-6e68-46d7-870e-dc9a346e9c84",
+        "type": "key_visual",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-ynJxcrXMZq8CKbBSBLpLEmFo.png?st=2025-11-22T06%3A38%3A15Z&se=2025-11-22T08%3A38%3A15Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=8eb2c87c-0531-4dab-acb3-b5e2adddce6c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-22T07%3A35%3A36Z&ske=2025-11-23T07%3A35%3A36Z&sks=b&skv=2024-08-04&sig=9%2BhAY8qC1VRMJPWVrIpkkbN7ldpxoQD3SUXeiUk0TcI%3D",
+        "prompt": "Ultra-detailed cinematic key visual, professional film/game quality. Visual concept: DAMA 2 project exploring a new architecture for institutional tokenized funds in a regulatory sandbox environment. Locations: Singapore, Project Guardian. Characters: MAS, Deutsche Bank. Objects: tokenized fund, operational layer. Genre: technology, finance, regulation. Mood: innovative, strategic, complex. Emotions: curiosity, anticipation. Highly detailed textures, materials, surfaces. Rich atmospheric effects: lighting, fog, particles, weather. Complex composition with multiple detail layers. Dramatic lighting: highlights, shadows, rim lighting. Depth of field, atmospheric perspective. Professional matte painting, maximum detail. 1024x1024 square format with foreground/midground/background details, cinematic scale, all elements visible. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, ...",
+        "title": "규제 샌드박스 속의 토큰화 혁신 - Key Visual",
+        "title_en": "Tokenization Innovation in the Regulatory Sandbox - Key Visual",
+        "description": "DAMA 2 프로젝트는 규제 환경에서 기관형 토큰화 펀드를 운영하기 위한 새로운 아키텍처를 제시하는 실험이다.",
+        "description_en": "The DAMA 2 project proposes a new architecture for operating institutional tokenized funds within a regulatory environment.",
+        "ipfsCid": "bafybeiaoo7nb5culgpn2hpw2nf6rav5rvqbu52bgfwex7inegdpvc7ucni",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeiaoo7nb5culgpn2hpw2nf6rav5rvqbu52bgfwex7inegdpvc7ucni"
+      },
+      {
+        "id": "e8490dda-0d70-4c9e-8f22-a90f248a81eb",
+        "type": "character",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-iOgYz24Fduwz8a71nYqD1msZ.png?st=2025-11-22T06%3A38%3A57Z&se=2025-11-22T08%3A38%3A57Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=0e2a3d55-e963-40c9-9c89-2a1aa28cb3ac&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-22T07%3A33%3A06Z&ske=2025-11-23T07%3A33%3A06Z&sks=b&skv=2024-08-04&sig=5Ew4o%2BiBbcfBj0FY5MUu31V9P75XrTNSPiY68eBxGIw%3D",
+        "prompt": "Highly detailed character concept art of MAS, complete face and full body visible. Setting: 규제 샌드박스 환경, 싱가포르, Project Guardian. Genre: 기술, 금융, 규제. Mood: 혁신적, 전략적, 복잡함. Emotions: 호기심, 기대감, 긴장감. Ultra-detailed textures, fabric, skin, and hair. Clear facial features and expressive eyes. Detailed clothing and accessories with rich colors. Professional lighting with highlights and shadows, atmospheric rendering. 1024x1024 square format, character centered, complete face visible, no cropping. Include background from 규제 샌드박스 환경. Professional game/animation quality, cinematic lighting, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.",
+        "title": "MAS",
+        "title_en": "MAS",
+        "description": "MAS 캐릭터 컨셉 아트",
+        "description_en": "MAS character concept art",
+        "ipfsCid": "bafybeibuexapcvvhn7mfpin6ji2r2kopbpht2wbq7eyuujbtvdwrj7hm3u",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeibuexapcvvhn7mfpin6ji2r2kopbpht2wbq7eyuujbtvdwrj7hm3u"
+      },
+      {
+        "id": "0f40b0a7-2862-4656-abae-31ce51036a46",
+        "type": "world",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-vsfb6xfMckP8bj3sn2816prr.png?st=2025-11-22T06%3A39%3A50Z&se=2025-11-22T08%3A39%3A50Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=c6569cb0-0faa-463d-9694-97df3dc1dfb1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-22T07%3A39%3A50Z&ske=2025-11-23T07%3A39%3A50Z&sks=b&skv=2024-08-04&sig=F8mFU9BeAaErV5i0IBOpysrZTWWdOmh2DH6ELHZMZxM%3D",
+        "prompt": "Ultra-detailed epic environment concept art, professional game/film quality. World: 규제 샌드박스 환경. Locations: 싱가포르, Project Guardian. Genre: 기술, 금융, 규제. Mood: 혁신적, 전략적, 복잡함. Objects: 토큰화 펀드, 운영 레이어, 규제 조건. Emotions: 호기심, 기대감. Highly detailed textures: stone, metal, wood, nature. Intricate architecture and structures. Atmospheric effects: fog, mist, light rays, particles. Foreground, midground, background layers. Complex lighting, shadows, reflections. Depth of field, atmospheric perspective. Cinematic composition. Professional matte painting, photorealistic details. 1024x1024 square format, all elements visible, detailed perspective, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.",
+        "title": "규제 샌드박스 환경",
+        "title_en": "Regulatory Sandbox Environment",
+        "description": "규제 샌드박스 환경 세계관 컨셉 아트",
+        "description_en": "Regulatory Sandbox Environment world concept art",
+        "ipfsCid": "bafybeia7air4pejijwksejqeuvatgyzqsq4otjxogccsfmdho2l6g5ps6i",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeia7air4pejijwksejqeuvatgyzqsq4otjxogccsfmdho2l6g5ps6i"
+      }
+    ],
+    "story": {
+      "synopsis": "싱가포르의 규제 샌드박스 환경 속에서, MAS와 도이치뱅크는 기관형 토큰화 펀드 운영을 위한 DAMA 2 프로젝트를 시작한다. 이 프로젝트는 전통 금융기관과 블록체인 기술의 경계를 허물며 새로운 운영 레이어를 제시한다. 규제 요건을 충족시키면서도 퍼블릭 블록체인의 장점을 활용하는 혁신적인 방법을 모색하는 이 과정에서, 주인공인 MAS의 규제 전문가와 도이치뱅크의 기술 전문가가 만나 서로의 관점을 공유하고, 복잡한 규제 환경 속에서 해결책을 찾기 위해 협력하게 된다. 그들은 서로의 전문성을 바탕으로 다양한 체인을 통합한 운영 플랫폼을 설계하고, 안전성과 유동성을 동시에 만족시키는 아키텍처를 개발한다. 그러나 이 과정에서 그들은 예상치 못한 도전과 위험을 마주하게 되고, 규제를 넘어서기 위해서는 어떤 선택을 해야 하는지 깊이 고민하게 된다. 결국, DAMA 2는 단순한 기술 실험을 넘어 기관형 토큰화의 새로운 기준을 제시하며, 글로벌 금융시장의 미래를 열어가는 중요한 역할을 하게 된다.",
+      "synopsis_en": "In the regulatory sandbox environment of Singapore, MAS and Deutsche Bank embark on the DAMA 2 project to operate institutional tokenized funds. This project breaks down the boundaries between traditional financial institutions and blockchain technology, proposing a new operational layer. In the quest for innovative methods that utilize the advantages of public blockchain while meeting regulatory requirements, the protagonist, a regulatory expert from MAS, collaborates with a technology expert from Deutsche Bank, sharing their perspectives. Together, they design an operating platform that integrates various chains while ensuring safety and liquidity through a complex architecture. However, they face unforeseen challenges and risks, forcing them to deeply contemplate the choices necessary to transcend regulation. Ultimately, DAMA 2 evolves beyond a mere technical experiment, establishing new standards for institutional tokenization and playing a critical role in shaping the future of the global financial market.",
+      "sceneBits": [
+        "MAS의 규제 전문가가 도이치뱅크의 기술 팀과 첫 회의를 진행하며 프로젝트의 비전을 공유한다.",
+        "규제 요건을 충족하기 위해 필요한 운영 인프라에 대한 초기 스케치를 만든다.",
+        "블록체인 기술의 장점과 전통 금융의 복잡성을 조화롭게 결합하기 위한 brainstorming 세션이 열린다.",
+        "프로젝트의 중반, 예상치 못한 법적 문제에 직면하며 팀원들이 긴장하는 모습이 그려진다.",
+        "다양한 체인을 통합한 운영 플랫폼의 초기 프로토타입이 공개되며, 그들의 노력이 결실을 맺기 시작한다.",
+        "MAS가 규제 기관과의 미팅에서 DAMA 2의 혁신적인 접근 방식을 설명하며 설득하는 장면.",
+        "프로젝트의 마지막 단계, 팀이 성공적으로 통합된 플랫폼을 발표하며 글로벌 금융 시장의 변화를 예고한다."
+      ],
+      "sceneBits_en": [
+        "A regulatory expert from MAS holds the first meeting with Deutsche Bank's tech team, sharing the vision for the project.",
+        "They create initial sketches of the operational infrastructure required to meet regulatory requirements.",
+        "A brainstorming session is held to harmoniously combine the advantages of blockchain technology with the complexities of traditional finance.",
+        "Midway through the project, the team faces unexpected legal issues, creating a tense atmosphere.",
+        "The initial prototype of the integrated operating platform is unveiled, marking the beginning of their efforts bearing fruit.",
+        "MAS presents the innovative approach of DAMA 2 in a meeting with regulatory agencies, persuading them of its merits.",
+        "In the final stages of the project, the team successfully announces the integrated platform, hinting at changes in the global financial market."
+      ],
+      "lore": "이 이야기의 배경은 싱가포르의 규제 샌드박스 환경으로, 이곳에서 MAS(싱가포르 통화청)와 도이치뱅크는 기관형 토큰화 펀드를 운영하기 위한 DAMA 2 프로젝트를 추진하고 있다. 이 프로젝트는 전통 금융과 블록체인 기술이 만나는 지점에 위치하며, 규제 요건을 준수하면서도 블록체인의 장점을 최대한 활용할 수 있는 새로운 운영 레이어를 구축하기 위해 다양한 실험과 혁신을 시도하고 있다. DAMA 2의 목표는 여러 체인을 통합하여 안전하고 유동성 있는 투자 환경을 조성하는 것으로, 이는 기관 투자자들에게 실질적인 혜택을 제공하고 글로벌 금융 시장의 변화의 선두주자가 될 수 있는 기회를 만들어준다. 이 과정에서 팀은 복잡한 규제 환경 속에서의 도전과 기회를 탐색하며, 성공적인 결과를 도출하기 위해 노력한다.",
+      "lore_en": "The backdrop of this story is Singapore's regulatory sandbox environment, where MAS (Monetary Authority of Singapore) and Deutsche Bank are advancing the DAMA 2 project to operate institutional tokenized funds. This project sits at the intersection of traditional finance and blockchain technology, attempting various experiments and innovations to build a new operational layer that maximizes the advantages of blockchain while adhering to regulatory requirements. The goal of DAMA 2 is to create a safe and liquid investment environment by integrating multiple chains, offering tangible benefits to institutional investors and positioning itself as a frontrunner in the transformation of the global financial market. Throughout this process, the team explores the challenges and opportunities within the complex regulatory environment, striving to achieve a successful outcome."
+    },
+    "dreamHash": "99cc7be3d6b3ffdbc4ca7523845c147011231a6b7235848c72af20b9df2b41c9",
+    "createdAt": "2025-11-22T07:37:03.338Z",
+    "updatedAt": "2025-11-22T07:39:56.490Z",
+    "isPublic": false,
+    "status": "completed",
+    "progress": {
+      "currentStep": 6,
+      "totalSteps": 6,
+      "stepKey": "completed"
+    }
+  },
+  {
+    "id": "23b60f96-14f0-4eaa-bcdf-3d8b74f83719",
+    "dreamRecord": {
+      "id": "8ed60078-9f56-4523-b514-cc71912a03ab",
+      "userId": "user-001",
+      "dreamText": "🌑 짧은 스토리: “창문 밖 얼굴”\n\n주인공 간단 디테일\n\t•\t이름: 김라온 (18세, 고3)\n\t•\t특징: 머리 질끈 묶고 다크서클 깊은 눈, 창가 자리 좋아함\n\t•\t성격: 말수 적고 “괜찮아요”만 입에 붙어 있지만, 속으로는 늘 불안함\n\n⸻\n\n라온은 밤늦게까지 책상에 앉아 공부하다가\n잠깐 눈을 붙이려고 책상에 엎드려 잤다.\n\n방 안은 스탠드 불만 켜져 있었고,\n창밖은 완전히 까만 유리처럼 변해 있었다.\n\n얼마나 잤는지 모를 시간,\n눈을 반쯤 뜨자\n시야 구석에 창문이 보였다.\n\n검은 유리 속에,\n자기 뒷모습이 비치고 있었…\n어야 정상인데,\n\n오늘은\n자기 뒷모습 말고 “얼굴 하나”가 더 떠 있었다.\n\n창문 한가운데,\n정면을 빤히 바라보는 얼굴.\n\n눈도, 코도, 입도\n딱 “사람 얼굴”인데,\n묘하게 라온이랑 닮은 듯 안 닮은 듯.\n\n라온은 눈을 제대로 뜨지도 않은 채\n속으로 중얼거렸다.\n\n‘아, 또 개꿈이네…’\n\n그 순간,\n창문 속 그 얼굴이\n입모양만 움직이며 말했다.\n\n소리는 없는데,\n입 읽기가 될 정도로 느리게.\n\n“꿈 아니야.”\n\n“너, 지금 깨어 있는 쪽이 아니야.”\n\n라온은 흠칫하고 몸을 일으켰다.\n\n책상, 스탠드, 문제집,\n다 그대로였다.\n\n근데\n창문 속 “라온 얼굴”이\n표정이 없었다.\n\n마치 사진처럼.\n\n라온은 시험 삼아\n손을 들어 머리를 쓸어올렸다.\n\n유리 속 얼굴은\n따라 하지 않았다.\n\n그냥, 계속\n라온을 내려다보고 있었다.\n\n심장이 쿵 내려앉았다.\n\n‘어느 쪽이 진짜지?’\n\n숨이 가빠지려는 순간,\n휴대폰 알람이 크게 울렸다.\n\n삐— 삐— 삐—\n\n라온은 뒤돌아서 폰을 껐다가\n다시 창문을 봤다.\n\n창문엔\n아무도 없었다.\n\n그냥 자기 책상과 방만 비칠 뿐.\n\n라온은 안도의 한숨을 쉬고,\n혼잣말로 중얼거렸다.\n\n“역시… 꿈이었네.”\n\n침대에 누우면서\n마지막으로 창문을 흘끗 봤다.\n\n창문 유리 맨 위\n가장자리에서\n방금 본 그 얼굴이\n아주 작게,\n거꾸로 매달린 채\n조용히 속삭였다.\n\n“아니야.”\n\n“다음엔 네가 밖에 서 있을 차례야.”\n\n라온은 듣지 못했다.\n이미 잠들었으니까.\n\n대신,\n그날 이후로\n밤마다 창문을 볼 때면\n자기 얼굴이\n0.5초쯤 늦게 따라오는 느낌이 들 뿐이었다.",
+      "recordedAt": "2025-11-24T10:43:21.121Z"
+    },
+    "analysis": {
+      "title": "",
+      "summary": "",
+      "characters": [],
+      "world": "",
+      "objects": [],
+      "locations": [],
+      "tones": [],
+      "genres": [],
+      "emotions": []
+    },
+    "visuals": [],
+    "story": {
+      "synopsis": "",
+      "sceneBits": [],
+      "lore": ""
+    },
+    "dreamHash": "55c92a7f65a8fdb1b306fa7fac08a92037169740060e48943d927476877c9f9c",
+    "createdAt": "2025-11-24T10:43:21.121Z",
+    "updatedAt": "2025-11-24T10:43:27.751Z",
+    "isPublic": false,
+    "status": "failed",
+    "progress": {
+      "currentStep": 6,
+      "totalSteps": 6,
+      "stepKey": "failed"
+    }
+  },
+  {
+    "id": "cdd4fb6e-4067-4f2b-b0cc-46ad971db0da",
+    "dreamRecord": {
+      "id": "a5f8499e-0b52-4120-a46d-fb1670b82f52",
+      "userId": "user-001",
+      "dreamText": "🌑 짧은 스토리: “창문 밖 얼굴”\n\n주인공 간단 디테일\n\t•\t이름: 김라온 (18세, 고3)\n\t•\t특징: 머리 질끈 묶고 다크서클 깊은 눈, 창가 자리 좋아함\n\t•\t성격: 말수 적고 “괜찮아요”만 입에 붙어 있지만, 속으로는 늘 불안함\n\n⸻\n\n라온은 밤늦게까지 책상에 앉아 공부하다가\n잠깐 눈을 붙이려고 책상에 엎드려 잤다.\n\n방 안은 스탠드 불만 켜져 있었고,\n창밖은 완전히 까만 유리처럼 변해 있었다.\n\n얼마나 잤는지 모를 시간,\n눈을 반쯤 뜨자\n시야 구석에 창문이 보였다.\n\n검은 유리 속에,\n자기 뒷모습이 비치고 있었…\n어야 정상인데,\n\n오늘은\n자기 뒷모습 말고 “얼굴 하나”가 더 떠 있었다.\n\n창문 한가운데,\n정면을 빤히 바라보는 얼굴.\n\n눈도, 코도, 입도\n딱 “사람 얼굴”인데,\n묘하게 라온이랑 닮은 듯 안 닮은 듯.\n\n라온은 눈을 제대로 뜨지도 않은 채\n속으로 중얼거렸다.\n\n‘아, 또 개꿈이네…’\n\n그 순간,\n창문 속 그 얼굴이\n입모양만 움직이며 말했다.\n\n소리는 없는데,\n입 읽기가 될 정도로 느리게.\n\n“꿈 아니야.”\n\n“너, 지금 깨어 있는 쪽이 아니야.”\n\n라온은 흠칫하고 몸을 일으켰다.\n\n책상, 스탠드, 문제집,\n다 그대로였다.\n\n근데\n창문 속 “라온 얼굴”이\n표정이 없었다.\n\n마치 사진처럼.\n\n라온은 시험 삼아\n손을 들어 머리를 쓸어올렸다.\n\n유리 속 얼굴은\n따라 하지 않았다.\n\n그냥, 계속\n라온을 내려다보고 있었다.\n\n심장이 쿵 내려앉았다.\n\n‘어느 쪽이 진짜지?’\n\n숨이 가빠지려는 순간,\n휴대폰 알람이 크게 울렸다.\n\n삐— 삐— 삐—\n\n라온은 뒤돌아서 폰을 껐다가\n다시 창문을 봤다.\n\n창문엔\n아무도 없었다.\n\n그냥 자기 책상과 방만 비칠 뿐.\n\n라온은 안도의 한숨을 쉬고,\n혼잣말로 중얼거렸다.\n\n“역시… 꿈이었네.”\n\n침대에 누우면서\n마지막으로 창문을 흘끗 봤다.\n\n창문 유리 맨 위\n가장자리에서\n방금 본 그 얼굴이\n아주 작게,\n거꾸로 매달린 채\n조용히 속삭였다.\n\n“아니야.”\n\n“다음엔 네가 밖에 서 있을 차례야.”\n\n라온은 듣지 못했다.\n이미 잠들었으니까.\n\n대신,\n그날 이후로\n밤마다 창문을 볼 때면\n자기 얼굴이\n0.5초쯤 늦게 따라오는 느낌이 들 뿐이었다.",
+      "recordedAt": "2025-11-24T10:43:37.305Z"
+    },
+    "analysis": {
+      "title": "",
+      "summary": "",
+      "characters": [],
+      "world": "",
+      "objects": [],
+      "locations": [],
+      "tones": [],
+      "genres": [],
+      "emotions": []
+    },
+    "visuals": [],
+    "story": {
+      "synopsis": "",
+      "sceneBits": [],
+      "lore": ""
+    },
+    "dreamHash": "55c92a7f65a8fdb1b306fa7fac08a92037169740060e48943d927476877c9f9c",
+    "createdAt": "2025-11-24T10:43:37.305Z",
+    "updatedAt": "2025-11-24T10:43:44.296Z",
+    "isPublic": false,
+    "status": "failed",
+    "progress": {
+      "currentStep": 6,
+      "totalSteps": 6,
+      "stepKey": "failed"
+    }
+  },
+  {
+    "id": "8bd3fa01-2aa4-43ce-9b96-55b8ef7326d2",
+    "dreamRecord": {
+      "id": "71466864-1ac0-4a51-b202-b2202c11938d",
+      "userId": "user-001",
+      "dreamText": "🌑 짧은 스토리: “창문 밖 얼굴”\n\n주인공 간단 디테일\n\t•\t이름: 김라온 (18세, 고3)\n\t•\t특징: 머리 질끈 묶고 다크서클 깊은 눈, 창가 자리 좋아함\n\t•\t성격: 말수 적고 “괜찮아요”만 입에 붙어 있지만, 속으로는 늘 불안함\n\n⸻\n\n라온은 밤늦게까지 책상에 앉아 공부하다가\n잠깐 눈을 붙이려고 책상에 엎드려 잤다.\n\n방 안은 스탠드 불만 켜져 있었고,\n창밖은 완전히 까만 유리처럼 변해 있었다.\n\n얼마나 잤는지 모를 시간,\n눈을 반쯤 뜨자\n시야 구석에 창문이 보였다.\n\n검은 유리 속에,\n자기 뒷모습이 비치고 있었…\n어야 정상인데,\n\n오늘은\n자기 뒷모습 말고 “얼굴 하나”가 더 떠 있었다.\n\n창문 한가운데,\n정면을 빤히 바라보는 얼굴.\n\n눈도, 코도, 입도\n딱 “사람 얼굴”인데,\n묘하게 라온이랑 닮은 듯 안 닮은 듯.\n\n라온은 눈을 제대로 뜨지도 않은 채\n속으로 중얼거렸다.\n\n‘아, 또 개꿈이네…’\n\n그 순간,\n창문 속 그 얼굴이\n입모양만 움직이며 말했다.\n\n소리는 없는데,\n입 읽기가 될 정도로 느리게.\n\n“꿈 아니야.”\n\n“너, 지금 깨어 있는 쪽이 아니야.”\n\n라온은 흠칫하고 몸을 일으켰다.\n\n책상, 스탠드, 문제집,\n다 그대로였다.\n\n근데\n창문 속 “라온 얼굴”이\n표정이 없었다.\n\n마치 사진처럼.\n\n라온은 시험 삼아\n손을 들어 머리를 쓸어올렸다.\n\n유리 속 얼굴은\n따라 하지 않았다.\n\n그냥, 계속\n라온을 내려다보고 있었다.\n\n심장이 쿵 내려앉았다.\n\n‘어느 쪽이 진짜지?’\n\n숨이 가빠지려는 순간,\n휴대폰 알람이 크게 울렸다.\n\n삐— 삐— 삐—\n\n라온은 뒤돌아서 폰을 껐다가\n다시 창문을 봤다.\n\n창문엔\n아무도 없었다.\n\n그냥 자기 책상과 방만 비칠 뿐.\n\n라온은 안도의 한숨을 쉬고,\n혼잣말로 중얼거렸다.\n\n“역시… 꿈이었네.”\n\n침대에 누우면서\n마지막으로 창문을 흘끗 봤다.\n\n창문 유리 맨 위\n가장자리에서\n방금 본 그 얼굴이\n아주 작게,\n거꾸로 매달린 채\n조용히 속삭였다.\n\n“아니야.”\n\n“다음엔 네가 밖에 서 있을 차례야.”\n\n라온은 듣지 못했다.\n이미 잠들었으니까.\n\n대신,\n그날 이후로\n밤마다 창문을 볼 때면\n자기 얼굴이\n0.5초쯤 늦게 따라오는 느낌이 들 뿐이었다.",
+      "recordedAt": "2025-11-24T10:45:53.990Z"
+    },
+    "analysis": {
+      "title": "",
+      "summary": "",
+      "characters": [],
+      "world": "",
+      "objects": [],
+      "locations": [],
+      "tones": [],
+      "genres": [],
+      "emotions": []
+    },
+    "visuals": [],
+    "story": {
+      "synopsis": "",
+      "sceneBits": [],
+      "lore": ""
+    },
+    "dreamHash": "55c92a7f65a8fdb1b306fa7fac08a92037169740060e48943d927476877c9f9c",
+    "createdAt": "2025-11-24T10:45:53.990Z",
+    "updatedAt": "2025-11-24T10:46:00.322Z",
+    "isPublic": false,
+    "status": "failed",
+    "progress": {
+      "currentStep": 6,
+      "totalSteps": 6,
+      "stepKey": "failed"
+    }
+  },
+  {
+    "id": "9ef85f57-3bc9-4f02-83a3-c4a9532f5ffa",
+    "dreamRecord": {
+      "id": "fa90e848-fb24-4a77-bfff-e8a5ceed4d84",
+      "userId": "user-001",
+      "dreamText": "🌑 짧은 스토리: “창문 밖 얼굴”\n\n주인공 간단 디테일\n\t•\t이름: 김라온 (18세, 고3)\n\t•\t특징: 머리 질끈 묶고 다크서클 깊은 눈, 창가 자리 좋아함\n\t•\t성격: 말수 적고 “괜찮아요”만 입에 붙어 있지만, 속으로는 늘 불안함\n\n⸻\n\n라온은 밤늦게까지 책상에 앉아 공부하다가\n잠깐 눈을 붙이려고 책상에 엎드려 잤다.\n\n방 안은 스탠드 불만 켜져 있었고,\n창밖은 완전히 까만 유리처럼 변해 있었다.\n\n얼마나 잤는지 모를 시간,\n눈을 반쯤 뜨자\n시야 구석에 창문이 보였다.\n\n검은 유리 속에,\n자기 뒷모습이 비치고 있었…\n어야 정상인데,\n\n오늘은\n자기 뒷모습 말고 “얼굴 하나”가 더 떠 있었다.\n\n창문 한가운데,\n정면을 빤히 바라보는 얼굴.\n\n눈도, 코도, 입도\n딱 “사람 얼굴”인데,\n묘하게 라온이랑 닮은 듯 안 닮은 듯.\n\n라온은 눈을 제대로 뜨지도 않은 채\n속으로 중얼거렸다.\n\n‘아, 또 개꿈이네…’\n\n그 순간,\n창문 속 그 얼굴이\n입모양만 움직이며 말했다.\n\n소리는 없는데,\n입 읽기가 될 정도로 느리게.\n\n“꿈 아니야.”\n\n“너, 지금 깨어 있는 쪽이 아니야.”\n\n라온은 흠칫하고 몸을 일으켰다.\n\n책상, 스탠드, 문제집,\n다 그대로였다.\n\n근데\n창문 속 “라온 얼굴”이\n표정이 없었다.\n\n마치 사진처럼.\n\n라온은 시험 삼아\n손을 들어 머리를 쓸어올렸다.\n\n유리 속 얼굴은\n따라 하지 않았다.\n\n그냥, 계속\n라온을 내려다보고 있었다.\n\n심장이 쿵 내려앉았다.\n\n‘어느 쪽이 진짜지?’\n\n숨이 가빠지려는 순간,\n휴대폰 알람이 크게 울렸다.\n\n삐— 삐— 삐—\n\n라온은 뒤돌아서 폰을 껐다가\n다시 창문을 봤다.\n\n창문엔\n아무도 없었다.\n\n그냥 자기 책상과 방만 비칠 뿐.\n\n라온은 안도의 한숨을 쉬고,\n혼잣말로 중얼거렸다.\n\n“역시… 꿈이었네.”\n\n침대에 누우면서\n마지막으로 창문을 흘끗 봤다.\n\n창문 유리 맨 위\n가장자리에서\n방금 본 그 얼굴이\n아주 작게,\n거꾸로 매달린 채\n조용히 속삭였다.\n\n“아니야.”\n\n“다음엔 네가 밖에 서 있을 차례야.”\n\n라온은 듣지 못했다.\n이미 잠들었으니까.\n\n대신,\n그날 이후로\n밤마다 창문을 볼 때면\n자기 얼굴이\n0.5초쯤 늦게 따라오는 느낌이 들 뿐이었다.",
+      "recordedAt": "2025-11-24T10:48:34.544Z"
+    },
+    "analysis": {
+      "title": "창문 밖 얼굴",
+      "title_en": "Face Outside the Window",
+      "summary": "시험 준비로 지친 고3 학생 김라온이 밤새 공부하다가 창문 속에 자신의 얼굴과 겹쳐진 이상한 얼굴을 보게 되며, 현실과 환영의 경계가 흐려지는 초현실적 경험을 시작한다.",
+      "summary_en": "A high school senior overwhelmed by exam stress sees a mysterious face superimposed on her reflection in the window at night, blurring the line between reality and illusion in a surreal experience.",
+      "characters": [
+        "김라온",
+        "창문 속 얼굴"
+      ],
+      "characters_en": [
+        "Kim Ra-on",
+        "The Face in the Window"
+      ],
+      "world": "밤중에 조용한 방과 그 안에서 흔들리는 현실의 경계",
+      "world_en": "A quiet room at midnight where the boundary of reality trembles",
+      "objects": [
+        "창문",
+        "스탠드",
+        "휴대폰",
+        "문제집",
+        "책상"
+      ],
+      "locations": [
+        "김라온의 방",
+        "창문",
+        "침대",
+        "밤하늘 (간접적)"
+      ],
+      "tones": [
+        "불안감",
+        "무서움",
+        "몽환적",
+        "고요함"
+      ],
+      "tones_en": [
+        "Anxiety",
+        "Fear",
+        "Dreamy",
+        "Silence"
+      ],
+      "genres": [
+        "공포",
+        "심리",
+        "초자연"
+      ],
+      "genres_en": [
+        "Horror",
+        "Psychological",
+        "Supernatural"
+      ],
+      "emotions": [
+        "불안",
+        "공포",
+        "혼란",
+        "경악",
+        "망상"
+      ]
+    },
+    "visuals": [
+      {
+        "id": "b1c13c85-5713-4c39-b1cb-78178c5fe460",
+        "type": "key_visual",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-or3CqhSO5hMfmz5ptM1YqmmC.png?st=2025-11-24T09%3A49%3A46Z&se=2025-11-24T11%3A49%3A46Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=8eb2c87c-0531-4dab-acb3-b5e2adddce6c&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-24T08%3A03%3A09Z&ske=2025-11-25T08%3A03%3A09Z&sks=b&skv=2024-08-04&sig=qeBFloFdPGqR2ekG8my8zuxQTEdND46uzHMikTOBLuo%3D",
+        "prompt": "Ultra-detailed cinematic key visual, professional film/game quality. Concept: 고3 학생 김라온이 밤새 공부하다가 창문 속에 자신의 얼굴과 겹쳐진 이상한 얼굴을 보며 현실과 환영의 경계가 흐려지는 초현실적 경험. World: 조용한 방, 현실의 경계. Locations: 김라온의 방, 창문. Characters: 김라온, 창문 속 얼굴. Objects: 창문, 스탠드. Genre: 공포, 심리, 초자연. Mood: 불안감, 무서움, 몽환적, 고요함. Emotions: 불안, 공포. Highly detailed textures, materials, surfaces. Rich atmospheric effects: lighting, fog, particles. Complex composition, multiple detail layers. Dramatic lighting: highlights, shadows, rim lighting. Depth of field, atmospheric perspective. Professional matte painting, maximum detail. 1024x1024 square format, cinematic scale, all elements visible. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.",
+        "title": "창문 밖 얼굴 - Key Visual",
+        "title_en": "Face Outside the Window - Key Visual",
+        "description": "시험 준비로 지친 고3 학생 김라온이 밤새 공부하다가 창문 속에 자신의 얼굴과 겹쳐진 이상한 얼굴을 보게 되며, 현실과 환영의 경계가 흐려지는 초현실적 경험을 시작한다.",
+        "description_en": "A high school senior overwhelmed by exam stress sees a mysterious face superimposed on her reflection in the window at night, blurring the line between reality and illusion in a surreal experience.",
+        "ipfsCid": "bafybeiex6slyksiwk3ivexsjq5ews4uggvckzzudi2yl6yceqk6s7hwn4q",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeiex6slyksiwk3ivexsjq5ews4uggvckzzudi2yl6yceqk6s7hwn4q"
+      },
+      {
+        "id": "0ce0eba2-bc73-4d8b-9484-91b218a9b5db",
+        "type": "character",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-SU2MBvIiyXCx1sxZUc0LRA6v.png?st=2025-11-24T09%3A50%3A26Z&se=2025-11-24T11%3A50%3A26Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=38e27a3b-6174-4d3e-90ac-d7d9ad49543f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-24T10%3A21%3A31Z&ske=2025-11-25T10%3A21%3A31Z&sks=b&skv=2024-08-04&sig=%2Behxsm9MlZNQebId53eKJo3IG6wkgFq8WZLg%2BoYjGeM%3D",
+        "prompt": "Highly detailed character concept art of 김라온, showcasing complete face and full body. Setting: a quiet room at night, blending reality's edge with a window view. Genre: horror, psychological, supernatural. Mood: unease, fear, dreamlike calm. Emotions: anxiety, terror, confusion. Focus on ultra-detailed textures, fabric, skin, and hair. Clear facial features and expressive eyes. Detailed clothing and accessories in rich colors, with professional lighting highlighting textures and shadows. Atmospheric rendering in a 1024x1024 square format, character centered, full face visible, no cropping. Include the background of the quiet room and its surreal atmosphere. Professional game/animation quality with cinematic lighting and maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only visual elements.",
+        "title": "김라온",
+        "title_en": "Kim Ra-on",
+        "description": "김라온 캐릭터 컨셉 아트",
+        "description_en": "Kim Ra-on character concept art",
+        "ipfsCid": "bafybeid3hr2y2vih6rqcfugltrrjjrnrtxlvowg7qzszvkypdoik4au5uq",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeid3hr2y2vih6rqcfugltrrjjrnrtxlvowg7qzszvkypdoik4au5uq"
+      },
+      {
+        "id": "ea646d53-bee1-49c1-b2e0-e9f1484f462f",
+        "type": "world",
+        "imageUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-twGNaUYnEFgxvL2wdIDQPEdw/user-LM9OYMC0C6FYqV9R1bQLLbip/img-zOHaLeHXRxCHwrDuCSGQyTuL.png?st=2025-11-24T09%3A51%3A03Z&se=2025-11-24T11%3A51%3A03Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=c6569cb0-0faa-463d-9694-97df3dc1dfb1&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-11-24T10%3A17%3A30Z&ske=2025-11-25T10%3A17%3A30Z&sks=b&skv=2024-08-04&sig=TRv5uwXSeMlxJIUbcc1P7scSLkcJ93aR%2BpCi95BvlWM%3D",
+        "prompt": "Ultra-detailed epic environment concept art, professional game/film quality. World: a quiet room at midnight, blurring the boundaries of reality. Locations: Kim Raon’s room, window, bed. Genre: horror, psychological, supernatural. Mood: unease, fear, dreamlike, tranquility. Objects: window, lamp, phone. Emotions: anxiety, terror. Highly detailed textures: stone, metal, wood, nature. Intricate architecture and structures. Atmospheric effects: fog, mist, light rays, particles. Foreground, midground, background layers. Complex lighting, shadows, reflections. Depth of field, atmospheric perspective. Cinematic composition. Professional matte painting, photorealistic details. 1024x1024 square format, all elements visible, detailed perspective, maximum detail. CRITICAL: This is a pure visual image. Do not include any text, letters, words, writing, signs, symbols, typography, calligraphy, inscriptions, labels, captions, titles, or any written content whatsoever. The image must contain only ...",
+        "title": "밤중에 조용한 방과 그 안에서 흔들리는 현실의 경계",
+        "title_en": "A quiet room at midnight where the boundary of reality trembles",
+        "description": "밤중에 조용한 방과 그 안에서 흔들리는 현실의 경계 세계관 컨셉 아트",
+        "description_en": "A quiet room at midnight where the boundary of reality trembles world concept art",
+        "ipfsCid": "bafybeidgxemy27vyasmxouatlkagszmj43kwspzdi7u3oiqvbmzr46uaje",
+        "ipfsUrl": "https://maroon-nearby-seahorse-541.mypinata.cloud/ipfs/bafybeidgxemy27vyasmxouatlkagszmj43kwspzdi7u3oiqvbmzr46uaje"
+      }
+    ],
+    "story": {
+      "synopsis": "고3 학생 김라온은 시험 준비로 지쳐 밤늦게까지 공부하던 중, 창문에서 자신의 모습과 겹쳐진 이상한 얼굴을 보게 된다. 그 얼굴은 그녀와 비슷하면서도 다르게 생긴 존재로, 그녀에게 ‘꿈이 아니야’라고 속삭인다. 이 사건 이후, 라온은 현실과 환상이 얽히는 초현실적 경험에 휘말리게 된다. 창문 속 얼굴은 점점 더 자주 나타나, 그녀의 불안한 마음을 더욱 자극한다. 밤마다 창문을 볼 때마다 자신이 창문 너머에 서 있는 것 같은 감각을 느끼며, 그녀는 점점 더 혼란스러워진다. 결국, 라온은 자신의 불안과 두려움의 정체를 드러내고, 그녀의 내면에 자리 잡은 그 얼굴과 마주하게 된다. 이 과정을 통해 그녀는 자신을 이해하고 극복하는 길을 찾아 나가게 된다.",
+      "synopsis_en": "High school senior Kim Ra-on, overwhelmed by exam stress, witnesses a strange face superimposed on her reflection in the window while studying late at night. This face, resembling her yet distinctly different, whispers to her, 'This isn't a dream.' Following this encounter, Ra-on becomes entangled in a surreal experience where reality and illusion blur. The face appears increasingly often, heightening her anxiety. Each night, she feels as if she is standing outside the window, deepening her confusion. Ultimately, Ra-on confronts the identity of her fears and anxieties, facing the face within her, leading her on a journey to understand and overcome herself.",
+      "sceneBits": [
+        "김라온이 책상에 엎드려 잠이 드는 장면. 방 안은 어두워지고, 스탠드 불빛만이 방을 가로막고 있다.",
+        "라온의 눈이 반쯤 뜨이고, 창문에서 이상한 얼굴을 발견하는 순간의 공포.",
+        "창문 속 얼굴이 '꿈 아니야'라고 느리게 입모양을 움직이는 장면.",
+        "창문 속 얼굴이 라온의 움직임을 따라하지 않는 냉정한 모습.",
+        "휴대폰 알람이 울리며 현실로 돌아오는 순간의 안도감.",
+        "침대에 누워 다시 한 번 창문을 바라보는 장면, 그곳에서 다시 나타난 얼굴.",
+        "라온이 창문을 통해 자신의 내면과 마주하는 결정적인 순간.",
+        "결국, 라온이 두려움을 극복하고 자신을 받아들이는 장면."
+      ],
+      "sceneBits_en": [
+        "Kim Ra-on falls asleep on her desk, the room darkening with only the desk lamp illuminating the space.",
+        "The moment Ra-on partially opens her eyes and sees a strange face in the window, filled with terror.",
+        "The face in the window slowly mouths the words, 'This isn't a dream.'",
+        "The cool demeanor of the face in the window as it does not mimic Ra-on's movements.",
+        "The moment of relief when the phone alarm rings, pulling her back to reality.",
+        "Lying in bed, Ra-on glances at the window, where the face reappears.",
+        "The pivotal moment when Ra-on confronts her inner self through the window.",
+        "Ultimately, Ra-on overcomes her fears and embraces herself."
+      ],
+      "lore": "이 이야기는 불안과 두려움, 그리고 자기 이해의 여정을 담고 있다. 김라온은 고3 학생으로, 시험 준비로 인해 극심한 스트레스를 받고 있다. 그녀는 항상 창가에 앉아 공부하며, 창문은 그녀에게 외부 세계와의 연결 고리 역할을 하지만, 그 창문을 통해 드러나는 얼굴은 그녀의 불안을 상징한다. 이 얼굴은 그녀의 내면의 모습으로, 결국 그녀는 그 얼굴을 통해 자기 자신과 대면하게 된다. 이 세계는 현실과 꿈의 경계가 흐려지는 심리적 스릴러의 설정으로, 밤마다 나타나는 창문 속 얼굴은 라온의 불안의 총체를 나타낸다. 이야기는 수많은 긴장감을 조성하며, 독자와 관객에게 심리적 영향을 미친다.",
+      "lore_en": "This narrative encapsulates a journey of anxiety, fear, and self-understanding. Kim Ra-on, a high school senior, is under immense stress from exam preparations. She often sits by the window to study, which serves as a connection to the outside world, but the face appearing through the window symbolizes her unease. This face represents her inner self, leading her to confront herself. The setting blurs the lines between reality and dreams, and the face in the window manifests Ra-on's total anxiety. The story creates a multitude of tensions, impacting the psyche of both readers and viewers."
+    },
+    "dreamHash": "55c92a7f65a8fdb1b306fa7fac08a92037169740060e48943d927476877c9f9c",
+    "createdAt": "2025-11-24T10:48:34.544Z",
+    "updatedAt": "2025-11-24T10:51:09.310Z",
+    "isPublic": false,
+    "status": "completed",
+    "progress": {
+      "currentStep": 6,
+      "totalSteps": 6,
+      "stepKey": "completed"
+    }
   }
 ]
