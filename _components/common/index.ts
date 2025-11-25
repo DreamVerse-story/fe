@@ -12,3 +12,5 @@ export { EmptyState } from './EmptyState';
 export { ToastProvider, useToast } from './Toast';
 export { DreamIPCard } from './DreamIPCard';
 export { DreamIPDetail } from './DreamIPDetail';
+export { WalletButton } from './WalletButton';
+export { StoryRegisterButton } from './StoryRegisterButton';

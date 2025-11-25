@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LanguageSwitcher } from '../common/LanguageSwitcher';
+import { WalletButton } from '../common/WalletButton';
 
 export function Header() {
     const pathname = usePathname();
@@ -50,6 +51,9 @@ export function Header() {
                             </Link>
                         ))}
                     </nav>
+
+                    {/* Wallet Connect Button */}
+                    <WalletButton />
 
                     {/* Mobile Menu Button */}
                     <button

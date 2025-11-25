@@ -12,6 +12,7 @@ import { format } from 'date-fns';
 import { ko, enUS } from 'date-fns/locale';
 import { useTranslation } from '@/lib/i18n/context';
 import { useToast } from './Toast';
+import { StoryRegisterButton } from './StoryRegisterButton';
 
 interface DreamIPDetailProps {
     dream: DreamIPPackage;
@@ -168,6 +169,10 @@ export function DreamIPDetailContent({
                                 Export
                             </span>
                         </button>
+
+                        <StoryRegisterButton
+                            dreamId={dream.id}
+                        />
 
                         {onDelete && (
                             <button
@@ -395,6 +400,10 @@ export function DreamIPDetail({
                                 Export
                             </span>
                         </button>
+
+                        <StoryRegisterButton
+                            dreamId={dream.id}
+                        />
 
                         {onDelete && (
                             <button
