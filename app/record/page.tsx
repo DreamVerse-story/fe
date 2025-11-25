@@ -28,7 +28,7 @@ export default function RecordPage() {
 
     const handleSubmit = async (
         dreamText: string,
-        model: 'openai' | 'flock'
+        model: 'openai' | 'flock' = 'openai'
     ) => {
         setIsProcessing(true);
         setProgress({
@@ -243,7 +243,7 @@ export default function RecordPage() {
             <div className="max-w-4xl mx-auto">
                 {/* Header */}
                 <div className="text-center mb-10 sm:mb-12">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border-2 border-primary/30 mb-6 shadow-sm">
                         <span className="text-2xl">✨</span>
                         <span className="text-primary text-sm font-semibold">
                             {locale === 'ko'
@@ -288,7 +288,7 @@ export default function RecordPage() {
                         {tips.map((tip, idx) => (
                             <div
                                 key={idx}
-                                className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-primary/20 transition-colors"
+                                className="flex items-start gap-3 p-4 rounded-xl bg-white/10 border-2 border-white/20 hover:border-primary/30 transition-colors"
                             >
                                 <span className="text-xl shrink-0">
                                     {tip.icon}
@@ -335,7 +335,7 @@ export default function RecordPage() {
                         },
                     ].map((item, idx) => (
                         <div key={idx} className="relative">
-                            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl">
+                            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/10 border-2 border-white/20 flex items-center justify-center text-2xl">
                                 {item.icon}
                             </div>
                             <p className="text-sm font-medium text-white/70">

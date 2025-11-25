@@ -32,8 +32,8 @@ export function DreamRecorder({
     const { t, locale } = useTranslation();
     const [dreamText, setDreamText] = useState('');
     const [charCount, setCharCount] = useState(0);
-    const [selectedModel, setSelectedModel] =
-        useState<AnalysisModel>('openai');
+    // GPT-4o Mini를 기본 모델로 사용
+    const selectedModel: AnalysisModel = 'openai';
 
     // 디버깅: progress 업데이트 추적
     useEffect(() => {
@@ -89,42 +89,12 @@ export function DreamRecorder({
             <div className="space-y-2 sm:space-y-3">
                 <label
                     htmlFor="dream-text"
-                    className="block text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white"
+                    className="block text-base sm:text-lg md:text-xl font-semibold text-white"
                 >
                     {locale === 'ko'
                         ? '오늘 꾼 꿈을 기록해주세요'
                         : 'Record Your Dream'}
                 </label>
-
-                {/* Model Selection */}
-                <div className="mb-4">
-                    <label
-                        htmlFor="model-select"
-                        className="block text-sm sm:text-base font-medium text-gray-700 dark:text-gray-300 mb-2"
-                    >
-                        {locale === 'ko'
-                            ? '분석 모델 선택'
-                            : 'Analysis Model'}
-                    </label>
-                    <select
-                        id="model-select"
-                        value={selectedModel}
-                        onChange={(e) =>
-                            setSelectedModel(
-                                e.target.value as AnalysisModel
-                            )
-                        }
-                        disabled={isProcessing}
-                        className="w-full px-4 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-primary focus:border-transparent transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        <option value="openai">
-                            OpenAI GPT-4o Mini
-                        </option>
-                        <option value="flock">
-                            FLock.io AI
-                        </option>
-                    </select>
-                </div>
 
                 <div className="relative">
                     <Textarea
@@ -137,26 +107,26 @@ export function DreamRecorder({
                     />
 
                     {/* Character Counter */}
-                    <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 shadow-lg">
+                    <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md px-4 py-2 rounded-lg border-2 border-white/20 shadow-lg">
                         <div className="flex items-center gap-3">
                             <div className="text-base font-medium">
                                 <span
                                     className={`${
                                         isValid
-                                            ? 'text-green-600 dark:text-green-400'
-                                            : 'text-gray-700 dark:text-gray-200'
+                                            ? 'text-green-400'
+                                            : 'text-white/70'
                                     }`}
                                 >
                                     {charCount}
                                 </span>
-                                <span className="text-white/80">
+                                <span className="text-white/60">
                                     {' '}
                                     / 50+
                                 </span>
                             </div>
                             {isValid && (
                                 <svg
-                                    className="w-5 h-5 text-green-600 dark:text-green-400"
+                                    className="w-5 h-5 text-green-400"
                                     fill="currentColor"
                                     viewBox="0 0 20 20"
                                 >
@@ -173,7 +143,7 @@ export function DreamRecorder({
 
                 {/* Progress Bar */}
                 <div className="space-y-2">
-                    <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-2 bg-white/10 rounded-full overflow-hidden border border-white/10">
                         <div
                             className={`h-full transition-all duration-300 ${
                                 isValid
@@ -185,13 +155,15 @@ export function DreamRecorder({
                             }}
                         />
                     </div>
-                    <p className="text-base text-white font-medium">
+                    <p className="text-sm text-white/80 font-medium">
                         {isValid ? (
                             <span className="text-green-400 font-medium">
                                 ✓ {t.record.minLength}
                             </span>
                         ) : (
-                            t.record.minLength
+                            <span className="text-white/60">
+                                {t.record.minLength}
+                            </span>
                         )}
                     </p>
                 </div>
@@ -230,15 +202,15 @@ export function DreamRecorder({
             </Button>
 
             {progress && (
-                <div className="space-y-4 p-6 bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-900/50 animate-fade-in">
+                <div className="space-y-4 p-6 bg-white/5 border-2 border-white/20 rounded-xl animate-fade-in backdrop-blur-sm">
                     {/* Progress Header */}
                     <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                        <h3 className="text-lg font-bold text-white">
                             {progress.stepKey ===
                             'completed' ? (
                                 <span className="flex items-center gap-2">
                                     <svg
-                                        className="w-5 h-5 text-green-600 dark:text-green-400"
+                                        className="w-5 h-5 text-green-400"
                                         fill="currentColor"
                                         viewBox="0 0 20 20"
                                     >
@@ -262,8 +234,8 @@ export function DreamRecorder({
                             className={`text-base font-semibold ${
                                 progress.stepKey ===
                                 'completed'
-                                    ? 'text-green-600 dark:text-green-400'
-                                    : 'text-blue-600 dark:text-blue-400'
+                                    ? 'text-green-400'
+                                    : 'text-primary'
                             }`}
                         >
                             {progress.currentStep}/
@@ -273,14 +245,13 @@ export function DreamRecorder({
 
                     {/* Progress Bar */}
                     <div className="space-y-2">
-                        {' '}
-                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <div className="h-3 bg-white/10 rounded-full overflow-hidden border border-white/10">
                             <div
                                 className={`h-full transition-all duration-500 ease-out ${
                                     progress.stepKey ===
                                     'completed'
                                         ? 'bg-linear-to-r from-green-500 to-emerald-500'
-                                        : 'bg-linear-to-r from-blue-500 to-purple-500'
+                                        : 'bg-linear-to-r from-primary to-secondary'
                                 }`}
                                 style={{
                                     width: `${
@@ -291,7 +262,7 @@ export function DreamRecorder({
                                 }}
                             />
                         </div>
-                        <p className="text-base text-gray-700 dark:text-gray-200 text-center">
+                        <p className="text-sm text-white/70 text-center">
                             {Math.round(
                                 (progress.currentStep /
                                     progress.totalSteps) *
@@ -303,16 +274,16 @@ export function DreamRecorder({
 
                     {/* Loading Animation - 완료 상태가 아닐 때만 표시 */}
                     {progress.stepKey !== 'completed' && (
-                        <div className="flex items-center justify-center gap-2 text-base text-white/70">
-                            <span className="inline-block w-2 h-2 bg-blue-600 rounded-full animate-bounce" />
+                        <div className="flex items-center justify-center gap-2 text-sm text-white/60">
+                            <span className="inline-block w-2 h-2 bg-primary rounded-full animate-bounce" />
                             <span
-                                className="inline-block w-2 h-2 bg-purple-600 rounded-full animate-bounce"
+                                className="inline-block w-2 h-2 bg-secondary rounded-full animate-bounce"
                                 style={{
                                     animationDelay: '0.1s',
                                 }}
                             />
                             <span
-                                className="inline-block w-2 h-2 bg-pink-600 rounded-full animate-bounce"
+                                className="inline-block w-2 h-2 bg-accent rounded-full animate-bounce"
                                 style={{
                                     animationDelay: '0.2s',
                                 }}

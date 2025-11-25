@@ -69,23 +69,27 @@ export function BuyLicenseButton({
                 'info'
             );
 
-            const response = await fetch('/api/story/license', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ipAssetId,
-                    amount: 1, // 라이선스 1개 구매
-                    receiverAddress: address, // 구매자 주소
-                }),
-            });
+            const response = await fetch(
+                '/api/story/license',
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        ipAssetId,
+                        amount: 1, // 라이선스 1개 구매
+                        receiverAddress: address, // 구매자 주소
+                    }),
+                }
+            );
 
             const data = await response.json();
 
             if (!data.success) {
                 throw new Error(
-                    data.error || '라이선스 구매에 실패했습니다.'
+                    data.error ||
+                        '라이선스 구매에 실패했습니다.'
                 );
             }
 
@@ -118,10 +122,12 @@ export function BuyLicenseButton({
 
     return (
         <Button
-            variant="default"
+            variant="primary"
             size="md"
             onClick={handleBuy}
-            disabled={!isConnected || !ipAssetId || isBuying}
+            disabled={
+                !isConnected || !ipAssetId || isBuying
+            }
             className={className}
         >
             {isBuying
@@ -129,9 +135,8 @@ export function BuyLicenseButton({
                     ? '구매 중...'
                     : 'Purchasing...'
                 : locale === 'ko'
-                  ? `라이선스 구매 (${price} IP)`
-                  : `Buy License (${price} IP)`}
+                ? `라이선스 구매 (${price} IP)`
+                : `Buy License (${price} IP)`}
         </Button>
     );
 }
-

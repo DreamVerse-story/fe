@@ -8,10 +8,10 @@ import { getIPAssetInfo } from '@/lib/blockchain/story-protocol';
 
 export async function GET(
     request: NextRequest,
-    { params }: { params: { ipAssetId: string } }
+    { params }: { params: Promise<{ ipAssetId: string }> }
 ) {
     try {
-        const ipAssetId = params.ipAssetId;
+        const { ipAssetId } = await params;
 
         if (!ipAssetId) {
             return NextResponse.json(
