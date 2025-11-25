@@ -1,5 +1,6 @@
 /**
  * Button UI 컴포넌트
+ * 통일된 크기와 명확한 스타일
  */
 
 'use client';
@@ -8,7 +9,6 @@ import React, {
     ButtonHTMLAttributes,
     ReactNode,
 } from 'react';
-import Link from 'next/link';
 
 interface ButtonProps
     extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -26,18 +26,18 @@ interface ButtonProps
 
 const variantStyles = {
     primary:
-        'bg-primary hover:bg-primary/90 text-black font-bold uppercase tracking-wider hover:shadow-[0_0_25px_rgba(204,255,0,0.4)] hover:-translate-y-0.5',
+        'bg-primary hover:bg-primary/90 text-black font-semibold border-2 border-primary hover:border-primary/80 shadow-md hover:shadow-lg hover:shadow-primary/30',
     secondary:
-        'bg-secondary hover:bg-secondary/90 text-white font-bold uppercase tracking-wider',
-    glass: 'glass-button text-white hover:bg-white/20',
-    ghost: 'bg-transparent hover:bg-white/10 text-white border border-white/10',
-    danger: 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30',
+        'bg-secondary hover:bg-secondary/90 text-white font-semibold border-2 border-secondary hover:border-secondary/80 shadow-md hover:shadow-lg',
+    glass: 'bg-white/10 hover:bg-white/15 text-white border-2 border-white/20 hover:border-white/30 backdrop-blur-sm shadow-sm hover:shadow-md',
+    ghost: 'bg-transparent hover:bg-white/5 text-white border-2 border-white/20 hover:border-white/30',
+    danger: 'bg-red-500/20 hover:bg-red-500/30 text-red-400 border-2 border-red-500/40 hover:border-red-500/50',
 };
 
 const sizeStyles = {
-    sm: 'px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg min-h-[44px]',
-    md: 'px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-lg rounded-lg sm:rounded-xl min-h-[44px] sm:min-h-[48px]',
-    lg: 'px-6 sm:px-8 md:px-10 py-3 sm:py-4 md:py-5 text-base sm:text-lg md:text-xl rounded-xl min-h-[48px] sm:min-h-[52px] md:min-h-[56px]',
+    sm: 'h-9 px-4 text-sm rounded-lg',
+    md: 'h-11 px-5 text-base rounded-xl',
+    lg: 'h-14 px-8 text-lg rounded-xl',
 };
 
 export function Button({
@@ -53,9 +53,10 @@ export function Button({
         ${variantStyles[variant]}
         ${sizeStyles[size]}
         ${fullWidth ? 'w-full' : ''}
-        flex items-center justify-center gap-1.5 sm:gap-2
-        transition-all duration-300
-        disabled:opacity-50 disabled:cursor-not-allowed
+        inline-flex items-center justify-center gap-2
+        font-semibold
+        transition-all duration-200
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none
         ${className}
     `
         .trim()

@@ -28,15 +28,16 @@ export const Select = forwardRef<
             <select
                 ref={ref}
                 className={`
-                    bg-black/40 border border-white/10
-                    rounded-lg sm:rounded-xl
-                    px-4 sm:px-5 py-2.5 sm:py-3
-                    text-sm sm:text-base
+                    bg-white/10 border-2 border-white/20
+                    rounded-xl
+                    px-4 py-2.5
+                    text-sm
                     text-white
-                    focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
-                    transition-colors
+                    focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20
+                    transition-all
                     cursor-pointer
-                    min-h-[44px]
+                    h-11
+                    shadow-sm
                     ${className}
                 `}
                 {...props}

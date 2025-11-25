@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import type { DreamIPPackage } from '@/lib/types';
 import { format } from 'date-fns';
@@ -13,6 +13,12 @@ import { ko, enUS } from 'date-fns/locale';
 import { useTranslation } from '@/lib/i18n/context';
 import { useToast } from './Toast';
 import { StoryRegisterButton } from './StoryRegisterButton';
+import {
+    LicenseSetupButton,
+    BuyLicenseButton,
+    ClaimRoyaltyButton,
+} from './';
+import { useAccount } from 'wagmi';
 
 interface DreamIPDetailProps {
     dream: DreamIPPackage;
@@ -24,6 +30,7 @@ interface DreamIPDetailContentProps {
     dream: DreamIPPackage;
     onBack?: () => void;
     onDelete?: (dreamId: string) => void;
+    isNew?: boolean;
 }
 
 // 페이지용 컴포넌트
@@ -31,13 +38,22 @@ export function DreamIPDetailContent({
     dream,
     onBack,
     onDelete,
+    isNew = false,
 }: DreamIPDetailContentProps) {
     const { t, locale } = useTranslation();
     const { showToast } = useToast();
     const router = useRouter();
+    const { address } = useAccount();
     const [activeTab, setActiveTab] = useState<
         'overview' | 'story' | 'visuals'
     >('overview');
+
+    // Check if current user is the owner/creator
+    const dreamAny = dream as any;
+    const isOwner = 
+        address &&
+        dreamAny.creatorAddress &&
+        dreamAny.creatorAddress.toLowerCase() === address.toLowerCase();
 
     const handleShare = () => {
         const url = `${window.location.origin}/dreams/${dream.id}`;
@@ -121,89 +137,36 @@ export function DreamIPDetailContent({
 
                     {/* Actions */}
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                        <button
-                            onClick={handleShare}
-                            className="glass-button px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium text-sm sm:text-base flex items-center gap-1.5 sm:gap-2 text-white hover:text-primary min-h-[44px]"
-                        >
-                            <svg
-                                className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                                />
-                            </svg>
-                            <span className="hidden sm:inline">
-                                {t.detail.buttons.share}
-                            </span>
-                            <span className="sm:hidden">
-                                Share
-                            </span>
-                        </button>
-                        <button
-                            onClick={handleExport}
-                            className="glass-button px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium text-sm sm:text-base flex items-center gap-1.5 sm:gap-2 text-white hover:text-primary min-h-[44px]"
-                        >
-                            <svg
-                                className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                                />
-                            </svg>
-                            <span className="hidden sm:inline">
-                                {t.detail.buttons.export}
-                            </span>
-                            <span className="sm:hidden">
-                                Export
-                            </span>
-                        </button>
+                        {/* Register to Story - Owner Only & Not Yet Registered */}
+                        {isOwner && !(dream as any).ipAssetId && (
+                            <StoryRegisterButton
+                                dreamId={dream.id}
+                                dream={dream}
+                                autoTrigger={isNew}
+                            />
+                        )}
 
-                        <StoryRegisterButton
-                            dreamId={dream.id}
-                        />
-
-                        {onDelete && (
-                            <button
-                                onClick={() =>
-                                    onDelete(dream.id)
-                                }
-                                className="px-3 sm:px-4 py-2 sm:py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-lg sm:rounded-xl font-medium transition-all text-sm sm:text-base ml-auto flex items-center gap-1.5 sm:gap-2 min-h-[44px]"
-                            >
-                                <svg
-                                    className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        {/* 라이선스 버튼들 - Only if registered */}
+                        {(dream as any).ipAssetId && (
+                            <>
+                                {/* License Setup - Owner Only */}
+                                {isOwner && (
+                                    <LicenseSetupButton
+                                        ipAssetId={
+                                            (dream as any)
+                                                .ipAssetId
+                                        }
                                     />
-                                </svg>
-                                <span className="hidden sm:inline">
-                                    {
-                                        t.detail.buttons
-                                            .delete
+                                )}
+                                {/* Buy License - Everyone */}
+                                <BuyLicenseButton
+                                    ipAssetId={
+                                        (dream as any)
+                                            .ipAssetId
                                     }
-                                </span>
-                                <span className="sm:hidden">
-                                    Delete
-                                </span>
-                            </button>
+                                    price="0.1"
+                                />
+                            </>
                         )}
                     </div>
                 </div>
@@ -403,6 +366,7 @@ export function DreamIPDetail({
 
                         <StoryRegisterButton
                             dreamId={dream.id}
+                            dream={dream}
                         />
 
                         {onDelete && (
@@ -592,7 +556,224 @@ function OverviewTab({ dream }: { dream: DreamIPPackage }) {
                     </p>
                 </div>
             </Section>
+
+            {/* License Section */}
+            {(dream as any).ipAssetId && (
+                <LicenseSection
+                    dream={dream}
+                    ipAssetId={(dream as any).ipAssetId}
+                />
+            )}
         </div>
+    );
+}
+
+function LicenseSection({
+    dream,
+    ipAssetId,
+}: {
+    dream: DreamIPPackage;
+    ipAssetId: string;
+}) {
+    const { locale } = useTranslation();
+    const { address, isConnected } = useAccount();
+    const [isOwner, setIsOwner] = useState(false);
+    const [isCheckingOwner, setIsCheckingOwner] =
+        useState(true);
+    const [royaltyInfo, setRoyaltyInfo] = useState<{
+        totalRoyalties: string;
+        claimableSnapshots: string[];
+        claimedSnapshots: string[];
+    } | null>(null);
+
+    // 소유자 확인 (지갑 주소로 확인)
+    useEffect(() => {
+        const checkOwner = async () => {
+            if (!isConnected || !address || !ipAssetId) {
+                setIsOwner(false);
+                setIsCheckingOwner(false);
+                return;
+            }
+
+            try {
+                // IP Asset 정보 조회
+                const infoResponse = await fetch(
+                    `/api/story/info?ipAssetId=${ipAssetId}`
+                );
+                const infoData = await infoResponse.json();
+
+                if (infoData.success && infoData.data) {
+                    // 소유자 확인 (지갑 주소 비교)
+                    // TODO: Story Protocol SDK에서 실제 소유자 조회
+                    // 현재는 MongoDB에서 저장된 정보로 확인
+                    const dreamAny = dream as any;
+                    const registeredAddress =
+                        dreamAny?.registeredAddress ||
+                        dreamAny?.ownerAddress;
+
+                    // 지갑 주소 비교 (대소문자 무시)
+                    const isOwnerAddress =
+                        registeredAddress &&
+                        registeredAddress.toLowerCase() ===
+                            address.toLowerCase();
+                    setIsOwner(isOwnerAddress || false);
+                } else {
+                    setIsOwner(false);
+                }
+            } catch (error) {
+                console.error('소유자 확인 오류:', error);
+                setIsOwner(false);
+            } finally {
+                setIsCheckingOwner(false);
+            }
+        };
+
+        checkOwner();
+    }, [isConnected, address, ipAssetId, dream]);
+
+    // 로열티 정보 조회
+    useEffect(() => {
+        const fetchRoyaltyInfo = async () => {
+            if (!ipAssetId) return;
+
+            try {
+                const response = await fetch(
+                    `/api/story/royalty/${ipAssetId}`
+                );
+                const data = await response.json();
+
+                if (data.success && data.data) {
+                    setRoyaltyInfo({
+                        totalRoyalties:
+                            data.data.totalRoyalties || '0',
+                        claimableSnapshots:
+                            data.data.claimableSnapshots ||
+                            [],
+                        claimedSnapshots:
+                            data.data.claimedSnapshots ||
+                            [],
+                    });
+                }
+            } catch (error) {
+                console.error(
+                    '로열티 정보 조회 오류:',
+                    error
+                );
+            }
+        };
+
+        fetchRoyaltyInfo();
+    }, [ipAssetId]);
+
+    return (
+        <Section
+            title={
+                locale === 'ko'
+                    ? '라이선스 & 로열티'
+                    : 'License & Royalty'
+            }
+        >
+            <div className="glass-panel p-6 rounded-xl border border-white/10 bg-white/5 space-y-4">
+                {/* IP Asset 정보 */}
+                <div className="flex items-center justify-between pb-4 border-b border-white/10">
+                    <div>
+                        <p className="text-white/60 text-sm mb-1">
+                            {locale === 'ko'
+                                ? 'IP Asset ID'
+                                : 'IP Asset ID'}
+                        </p>
+                        <p className="text-primary font-mono text-sm break-all">
+                            {ipAssetId}
+                        </p>
+                    </div>
+                    <a
+                        href={`https://aeneid.explorer.story.foundation/ipa/${ipAssetId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 bg-primary/10 text-primary border border-primary/20 rounded-lg hover:bg-primary/20 transition-colors text-sm font-medium"
+                    >
+                        {locale === 'ko'
+                            ? 'Explorer'
+                            : 'Explorer'}
+                    </a>
+                </div>
+
+                {/* 로열티 정보 (소유자만) */}
+                {isOwner &&
+                    royaltyInfo &&
+                    royaltyInfo.claimableSnapshots.length >
+                        0 && (
+                        <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                            <p className="text-white/80 text-sm mb-2">
+                                {locale === 'ko'
+                                    ? '청구 가능한 로열티'
+                                    : 'Claimable Royalties'}
+                            </p>
+                            <p className="text-primary font-bold text-lg">
+                                {royaltyInfo.totalRoyalties}{' '}
+                                IP
+                            </p>
+                            <p className="text-white/60 text-xs mt-1">
+                                {locale === 'ko'
+                                    ? `청구 가능한 스냅샷: ${royaltyInfo.claimableSnapshots.length}개`
+                                    : `Claimable snapshots: ${royaltyInfo.claimableSnapshots.length}`}
+                            </p>
+                        </div>
+                    )}
+
+                {/* 라이선스 액션 */}
+                {isConnected && !isCheckingOwner && (
+                    <div className="flex flex-col sm:flex-row gap-3 pt-4">
+                        {isOwner ? (
+                            // 소유자: 라이선스 설정 + 로열티 청구
+                            <>
+                                <LicenseSetupButton
+                                    ipAssetId={ipAssetId}
+                                    className="flex-1"
+                                />
+                                {royaltyInfo &&
+                                    royaltyInfo
+                                        .claimableSnapshots
+                                        .length > 0 && (
+                                        <ClaimRoyaltyButton
+                                            ipAssetId={
+                                                ipAssetId
+                                            }
+                                            snapshotIds={
+                                                royaltyInfo.claimableSnapshots
+                                            }
+                                            className="flex-1"
+                                        />
+                                    )}
+                            </>
+                        ) : (
+                            // 비소유자: 라이선스 구매만
+                            <BuyLicenseButton
+                                ipAssetId={ipAssetId}
+                                price="0.1"
+                                className="flex-1"
+                            />
+                        )}
+                    </div>
+                )}
+
+                {!isConnected && (
+                    <p className="text-white/60 text-sm text-center py-4">
+                        {locale === 'ko'
+                            ? '라이선스를 구매하려면 지갑을 연결해주세요.'
+                            : 'Please connect your wallet to purchase a license.'}
+                    </p>
+                )}
+
+                {isCheckingOwner && isConnected && (
+                    <p className="text-white/60 text-sm text-center py-4">
+                        {locale === 'ko'
+                            ? '소유자 확인 중...'
+                            : 'Checking ownership...'}
+                    </p>
+                )}
+            </div>
+        </Section>
     );
 }
 

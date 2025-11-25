@@ -23,15 +23,16 @@ export const Textarea = forwardRef<
             <textarea
                 ref={ref}
                 className={`
-                    w-full min-h-[200px] sm:min-h-[250px] md:min-h-[300px] lg:min-h-[350px]
-                    px-4 sm:px-5 md:px-6 py-3 sm:py-4 md:py-5
-                    text-sm sm:text-base md:text-lg
+                    w-full min-h-[250px]
+                    px-4 py-3
+                    text-base
                     text-white placeholder-white/50
-                    bg-black/40 border-2 border-white/10
-                    rounded-lg sm:rounded-xl
-                    focus:ring-2 sm:focus:ring-4 focus:ring-primary/20 focus:border-primary
-                    backdrop-blur-xl resize-y
+                    bg-white/10 border-2 border-white/20
+                    rounded-xl
+                    focus:ring-2 focus:ring-primary/20 focus:border-primary
+                    backdrop-blur-sm resize-y
                     transition-all
+                    shadow-sm
                     disabled:opacity-50 disabled:cursor-not-allowed
                     ${className}
                 `}

@@ -24,6 +24,7 @@ interface CreateDreamRequest {
     dreamText: string;
     userId: string;
     model?: AnalysisModel; // 'openai' | 'flock'
+    creatorAddress?: string; // Dream IP를 생성한 사용자의 지갑 주소 (보안용)
 }
 
 export async function POST(request: NextRequest) {
@@ -83,6 +84,7 @@ export async function POST(request: NextRequest) {
                 totalSteps: 6,
                 stepKey: 'starting',
             },
+            creatorAddress: body.creatorAddress, // 생성자 지갑 주소 저장 (보안용)
         };
 
         // 3. 초기 상태 저장

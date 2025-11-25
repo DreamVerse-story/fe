@@ -26,11 +26,11 @@ export const Input = forwardRef<
         ref
     ) => {
         const baseStyles =
-            'w-full bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all';
+            'w-full bg-white/10 border-2 border-white/20 rounded-xl text-white placeholder-white/50 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all shadow-sm';
         const paddingStyles =
             variant === 'search'
-                ? 'px-4 sm:px-5 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base min-h-[44px]'
-                : 'px-4 sm:px-5 md:px-6 py-3 sm:py-3.5 md:py-4 text-sm sm:text-base md:text-lg min-h-[44px] sm:min-h-[48px]';
+                ? 'px-4 py-2.5 text-sm h-11'
+                : 'px-4 py-3 text-base h-11';
 
         if (variant === 'search' && icon) {
             return (

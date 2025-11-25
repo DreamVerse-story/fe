@@ -14,3 +14,6 @@ export { DreamIPCard } from './DreamIPCard';
 export { DreamIPDetail } from './DreamIPDetail';
 export { WalletButton } from './WalletButton';
 export { StoryRegisterButton } from './StoryRegisterButton';
+export { LicenseSetupButton } from './LicenseSetupButton';
+export { BuyLicenseButton } from './BuyLicenseButton';
+export { ClaimRoyaltyButton } from './ClaimRoyaltyButton';

@@ -1,14 +1,16 @@
 /**
- * 꿈 기록 페이지
- * Design Concept: "The Lucid Anchor" - Focus Mode
+ * 꿈 기록 페이지 (Create)
+ * AI로 꿈을 분석하고 IP 자산으로 변환
  */
 
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAccount } from 'wagmi';
 import { DreamRecorder } from '@/_components/forms';
 import { PageContainer } from '@/_components/layout';
+import { Card } from '@/_components/ui';
 import { useTranslation } from '@/lib/i18n/context';
 import { useToast } from '@/_components/common';
 
@@ -16,6 +18,7 @@ export default function RecordPage() {
     const { t, locale } = useTranslation();
     const router = useRouter();
     const { showToast } = useToast();
+    const { address, isConnected } = useAccount();
     const [isProcessing, setIsProcessing] = useState(false);
     const [progress, setProgress] = useState<{
         currentStep: number;
@@ -39,6 +42,13 @@ export default function RecordPage() {
         try {
             const userId = 'user-001';
 
+            // 지갑이 연결되어 있으면 creatorAddress 전달
+            // (Story Protocol 등록 시 생성자 검증용)
+            const creatorAddress =
+                isConnected && address
+                    ? address
+                    : undefined;
+
             // API 호출
             const response = await fetch(
                 '/api/dreams/create',
@@ -51,6 +61,7 @@ export default function RecordPage() {
                         dreamText,
                         userId,
                         model, // 모델 선택 전달
+                        creatorAddress, // 생성자 지갑 주소 (보안용)
                     }),
                 }
             );
@@ -125,7 +136,9 @@ export default function RecordPage() {
                             // 2초 후에 gallery로 이동
                             setTimeout(() => {
                                 setIsProcessing(false);
-                                router.push('/market');
+                                router.push(
+                                    `/dreams/${dreamId}?new=true`
+                                );
                             }, 2000);
                         } else {
                             setIsProcessing(false);
@@ -175,158 +188,164 @@ export default function RecordPage() {
         }
     };
 
+    const tips =
+        locale === 'ko'
+            ? [
+                  {
+                      icon: '🎨',
+                      title: '구체적인 장면 묘사',
+                      desc: '"어두운 숲"보다 "달빛이 비치는 고요한 대나무 숲"이 더 좋습니다',
+                  },
+                  {
+                      icon: '👤',
+                      title: '등장인물의 특징',
+                      desc: '외모, 성격, 행동 등을 자세히 적어주세요',
+                  },
+                  {
+                      icon: '💭',
+                      title: '감정과 분위기',
+                      desc: '꿈에서 느낀 감정과 전체적인 분위기를 포함하세요',
+                  },
+                  {
+                      icon: '⚡',
+                      title: '주요 사건',
+                      desc: '꿈에서 일어난 중요한 사건이나 전환점을 기록하세요',
+                  },
+              ]
+            : [
+                  {
+                      icon: '🎨',
+                      title: 'Specific scenes',
+                      desc: '"A quiet bamboo forest illuminated by moonlight" is better than "dark forest"',
+                  },
+                  {
+                      icon: '👤',
+                      title: 'Character traits',
+                      desc: 'Describe appearance, personality, and actions in detail',
+                  },
+                  {
+                      icon: '💭',
+                      title: 'Emotions & mood',
+                      desc: 'Include the feelings and overall atmosphere of your dream',
+                  },
+                  {
+                      icon: '⚡',
+                      title: 'Key events',
+                      desc: 'Record important events or turning points in your dream',
+                  },
+              ];
+
     return (
         <PageContainer
             showBackground={true}
             backgroundType="default"
         >
-            <div className="w-full max-w-4xl mx-auto animate-fade-in">
-                <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16">
-                    <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-3 sm:mb-4 md:mb-5 lg:mb-6 tracking-tight text-white">
+            <div className="max-w-4xl mx-auto">
+                {/* Header */}
+                <div className="text-center mb-10 sm:mb-12">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                        <span className="text-2xl">✨</span>
+                        <span className="text-primary text-sm font-semibold">
+                            {locale === 'ko'
+                                ? 'AI 기반 꿈 분석'
+                                : 'AI-Powered Dream Analysis'}
+                        </span>
+                    </div>
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
                         {t.record.title}
                     </h1>
-                    <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-white/80 leading-relaxed px-4">
+                    <p className="text-lg text-white/60 max-w-xl mx-auto">
                         {t.record.subtitle}
                     </p>
                 </div>
 
-                <div className="glass-panel rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 animate-slide-in-up shadow-2xl border border-white/10 bg-black/40 backdrop-blur-xl">
+                {/* Main Form Card */}
+                <Card
+                    variant="glass"
+                    padding="lg"
+                    className="mb-8 animate-fade-in"
+                >
                     <DreamRecorder
                         onSubmit={handleSubmit}
                         isProcessing={isProcessing}
                         progress={progress}
                     />
-                </div>
+                </Card>
 
                 {/* Tips Section */}
-                <div className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 glass-panel rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 lg:p-8 animate-scale-in border border-white/5 bg-white/5">
-                    <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold mb-3 sm:mb-4 md:mb-5 lg:mb-6 flex items-center gap-2 sm:gap-3 text-primary">
-                        <span className="text-lg sm:text-xl md:text-2xl">
-                            💡
-                        </span>
+                <Card
+                    variant="glass"
+                    padding="md"
+                    className="animate-slide-in-up"
+                >
+                    <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <span className="text-xl">💡</span>
                         {locale === 'ko'
                             ? '더 좋은 결과를 위한 팁'
                             : 'Tips for Better Results'}
                     </h3>
-                    <ul className="grid sm:grid-cols-2 gap-3 sm:gap-4 md:gap-5 text-white/80 text-sm sm:text-base">
-                        {locale === 'ko' ? (
-                            <>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            구체적인 장면
-                                            묘사
-                                        </strong>
-                                        "어두운 숲"보다
-                                        "달빛이 비치는
-                                        고요한 대나무 숲"이
-                                        더 좋습니다
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            등장인물의 특징
-                                        </strong>
-                                        외모, 성격, 행동
-                                        등을 자세히
-                                        적어주세요
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            감정과 분위기
-                                        </strong>
-                                        꿈에서 느낀 감정과
-                                        전체적인 분위기를
-                                        포함하세요
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            주요 사건
-                                        </strong>
-                                        꿈에서 일어난 중요한
-                                        사건이나 전환점을
-                                        기록하세요
-                                    </span>
-                                </li>
-                            </>
-                        ) : (
-                            <>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            Specific scene
-                                            descriptions
-                                        </strong>
-                                        "A quiet bamboo
-                                        forest illuminated
-                                        by moonlight" is
-                                        better than "dark
-                                        forest"
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            Character traits
-                                        </strong>
-                                        Describe appearance,
-                                        personality, and
-                                        actions in detail
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            Emotions and
-                                            atmosphere
-                                        </strong>
-                                        Include the feelings
-                                        and overall mood of
-                                        your dream
-                                    </span>
-                                </li>
-                                <li className="flex items-start gap-3 p-4 rounded-xl bg-black/20 hover:bg-black/40 transition-colors border border-white/5">
-                                    <span className="text-primary text-lg mt-0.5">
-                                        ✓
-                                    </span>
-                                    <span>
-                                        <strong className="text-white block mb-1">
-                                            Key events
-                                        </strong>
-                                        Record important
-                                        events or turning
-                                        points in your dream
-                                    </span>
-                                </li>
-                            </>
-                        )}
-                    </ul>
+                    <div className="grid sm:grid-cols-2 gap-3">
+                        {tips.map((tip, idx) => (
+                            <div
+                                key={idx}
+                                className="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-primary/20 transition-colors"
+                            >
+                                <span className="text-xl shrink-0">
+                                    {tip.icon}
+                                </span>
+                                <div>
+                                    <h4 className="font-semibold text-white mb-1">
+                                        {tip.title}
+                                    </h4>
+                                    <p className="text-sm text-white/60">
+                                        {tip.desc}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </Card>
+
+                {/* Process Steps */}
+                <div className="mt-12 grid sm:grid-cols-3 gap-4 text-center">
+                    {[
+                        {
+                            step: '1',
+                            label:
+                                locale === 'ko'
+                                    ? '꿈 입력'
+                                    : 'Input Dream',
+                            icon: '✍️',
+                        },
+                        {
+                            step: '2',
+                            label:
+                                locale === 'ko'
+                                    ? 'AI 분석'
+                                    : 'AI Analysis',
+                            icon: '🤖',
+                        },
+                        {
+                            step: '3',
+                            label:
+                                locale === 'ko'
+                                    ? 'IP 생성'
+                                    : 'Create IP',
+                            icon: '🎨',
+                        },
+                    ].map((item, idx) => (
+                        <div key={idx} className="relative">
+                            <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl">
+                                {item.icon}
+                            </div>
+                            <p className="text-sm font-medium text-white/70">
+                                {item.label}
+                            </p>
+                            {idx < 2 && (
+                                <div className="hidden sm:block absolute top-6 left-[60%] w-[80%] h-0.5 bg-linear-to-r from-white/10 to-transparent" />
+                            )}
+                        </div>
+                    ))}
                 </div>
             </div>
         </PageContainer>

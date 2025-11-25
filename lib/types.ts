@@ -111,6 +111,8 @@ export interface DreamIPPackage {
         totalSteps: number;
         stepKey: string; // 'analyzing', 'generatingStory', etc.
     };
+    creatorAddress?: string; // Dream IP를 생성한 사용자의 지갑 주소 (보안용)
+    ownerAddress?: string; // Story Protocol에 등록한 사용자의 지갑 주소
 }
 
 /**
@@ -120,14 +122,44 @@ export interface DreamIPMetadata {
     version: '1.0';
     dreamHash: string;
     title: string;
+    title_en?: string; // 영어 제목
     summary: string;
+    summary_en?: string; // 영어 요약
     genres: DreamGenre[];
+    genres_en?: string[]; // 영어 장르
     tones: DreamTone[];
+    tones_en?: string[]; // 영어 톤
     characters: string[];
+    characters_en?: string[]; // 영어 캐릭터
     world: string;
-    visualsUrls: string[];
-    storyContentUrl: string;
+    world_en?: string; // 영어 세계관
+    objects: string[];
+    locations: string[];
+    emotions: string[];
+    // 스토리 정보
+    synopsis?: string; // 시놉시스
+    synopsis_en?: string; // 영어 시놉시스
+    sceneBits?: string[]; // 장면 비트
+    sceneBits_en?: string[]; // 영어 장면 비트
+    lore?: string; // 세계관 설정
+    lore_en?: string; // 영어 세계관 설정
+    // 시각적 에셋 상세 정보
+    visuals: Array<{
+        id: string;
+        type:
+            | 'key_visual'
+            | 'character'
+            | 'world'
+            | 'object';
+        url: string;
+        title?: string;
+        title_en?: string;
+        description?: string;
+        description_en?: string;
+    }>;
+    // 기타
     createdAt: string;
+    updatedAt?: string;
 }
 
 /**

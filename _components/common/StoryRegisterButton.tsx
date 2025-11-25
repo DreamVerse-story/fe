@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useStoryProtocol } from '@/lib/hooks/useStoryProtocol';
 import { useTranslation } from '@/lib/i18n/context';
 import { useToast } from './Toast';
 
 interface StoryRegisterButtonProps {
     dreamId: string;
+    dream?: any; // Dream IP 객체 (선택사항, 이미 등록 여부 확인용)
     className?: string;
 }
 
@@ -18,14 +19,60 @@ interface StoryRegisterButtonProps {
  */
 export function StoryRegisterButton({
     dreamId,
+    dream,
     className = '',
-}: StoryRegisterButtonProps) {
-    const { isConnected, address, storyClient } =
+    autoTrigger = false,
+}: StoryRegisterButtonProps & { autoTrigger?: boolean }) {
+    const { isConnected, address, storyClient, isLoading } =
         useStoryProtocol();
     const { locale } = useTranslation();
     const { showToast } = useToast();
     const [isRegistering, setIsRegistering] =
         useState(false);
+    const [hasAutoTriggered, setHasAutoTriggered] =
+        useState(false);
+
+    // 이미 등록된 IP Asset이 있는지 확인
+    const dreamAny = dream as any;
+    const isAlreadyRegistered = !!dreamAny?.ipAssetId;
+    const registeredOwnerAddress =
+        dreamAny?.ownerAddress ||
+        dreamAny?.registeredAddress;
+    const isCurrentOwner =
+        isAlreadyRegistered &&
+        registeredOwnerAddress &&
+        address &&
+        registeredOwnerAddress.toLowerCase() ===
+            address.toLowerCase();
+
+    // Auto trigger effect
+    useEffect(() => {
+        if (
+            autoTrigger &&
+            !hasAutoTriggered &&
+            isConnected &&
+            address &&
+            !isLoading &&
+            storyClient &&
+            !isAlreadyRegistered &&
+            !isRegistering
+        ) {
+            setHasAutoTriggered(true);
+            // Give a small delay for UI to settle
+            setTimeout(() => {
+                handleRegister();
+            }, 500);
+        }
+    }, [
+        autoTrigger,
+        hasAutoTriggered,
+        isConnected,
+        address,
+        isLoading,
+        storyClient,
+        isAlreadyRegistered,
+        isRegistering,
+    ]);
 
     const handleRegister = async () => {
         if (!isConnected || !address) {
@@ -38,11 +85,22 @@ export function StoryRegisterButton({
             return;
         }
 
-        if (!storyClient) {
+        // Story Protocol 클라이언트 로딩 중이면 대기
+        if (isLoading) {
             showToast(
                 locale === 'ko'
                     ? 'Story Protocol 클라이언트를 초기화하는 중입니다...'
                     : 'Initializing Story Protocol client...',
+                'info'
+            );
+            return;
+        }
+
+        if (!storyClient) {
+            showToast(
+                locale === 'ko'
+                    ? 'Story Protocol 클라이언트를 초기화할 수 없습니다. 잠시 후 다시 시도해주세요.'
+                    : 'Failed to initialize Story Protocol client. Please try again later.',
                 'error'
             );
             return;
@@ -61,28 +119,90 @@ export function StoryRegisterButton({
         setIsRegistering(true);
 
         try {
-            // 1. Dream IP 데이터 가져오기
-            showToast(
-                locale === 'ko'
-                    ? '📦 Dream IP 데이터를 가져오는 중...'
-                    : '📦 Fetching Dream IP data...',
-                'info'
-            );
-
-            const dreamResponse = await fetch(
-                `/api/dreams/${dreamId}`
-            );
-            const dreamData = await dreamResponse.json();
-
-            if (!dreamData.success || !dreamData.dream) {
-                throw new Error(
-                    'Dream IP를 찾을 수 없습니다.'
+            // 1. Dream IP 데이터 가져오기 (prop이 없으면 API 호출)
+            let dreamData: any;
+            if (dream) {
+                // prop으로 전달된 dream 사용
+                dreamData = { success: true, dream };
+            } else {
+                // API로 가져오기
+                showToast(
+                    locale === 'ko'
+                        ? '📦 Dream IP 데이터를 가져오는 중...'
+                        : '📦 Fetching Dream IP data...',
+                    'info'
                 );
+
+                const dreamResponse = await fetch(
+                    `/api/dreams/${dreamId}`
+                );
+                dreamData = await dreamResponse.json();
+
+                if (
+                    !dreamData.success ||
+                    !dreamData.dream
+                ) {
+                    throw new Error(
+                        'Dream IP를 찾을 수 없습니다.'
+                    );
+                }
             }
 
-            const dream = dreamData.dream;
+            const dreamPackage = dreamData.dream;
 
-            // 2. IPFS에 메타데이터 업로드 (서버에서 처리)
+            // 2. 생성자 검증 (가장 중요!)
+            // Dream IP를 생성한 사용자만 Story Protocol에 등록할 수 있음
+            const dreamAny = dreamPackage as any;
+            const creatorAddress = dreamAny?.creatorAddress;
+
+            if (creatorAddress) {
+                // 생성자 지갑 주소와 현재 연결된 지갑 주소 비교
+                const isCreator =
+                    creatorAddress.toLowerCase() ===
+                    address.toLowerCase();
+
+                if (!isCreator) {
+                    throw new Error(
+                        locale === 'ko'
+                            ? '이 Dream IP는 다른 사용자가 생성했습니다.\n\n생성자만 Story Protocol에 등록할 수 있습니다.'
+                            : 'This Dream IP was created by another user.\n\nOnly the creator can register it to Story Protocol.'
+                    );
+                }
+            }
+
+            // 3. 이미 등록된 IP Asset이 있는지 확인 및 소유자 검증
+            if (dreamAny?.ipAssetId) {
+                // 이미 등록된 경우, 소유자 확인
+                const registeredOwnerAddress =
+                    dreamAny?.ownerAddress ||
+                    dreamAny?.registeredAddress;
+
+                if (registeredOwnerAddress) {
+                    // 지갑 주소 비교 (대소문자 무시)
+                    const isOwner =
+                        registeredOwnerAddress.toLowerCase() ===
+                        address.toLowerCase();
+
+                    if (!isOwner) {
+                        throw new Error(
+                            locale === 'ko'
+                                ? '이 Dream IP는 이미 다른 지갑으로 등록되었습니다.\n\n소유자만 다시 등록할 수 있습니다.'
+                                : 'This Dream IP is already registered to another wallet.\n\nOnly the owner can re-register.'
+                        );
+                    }
+
+                    // 소유자인 경우, 이미 등록되었다는 안내
+                    showToast(
+                        locale === 'ko'
+                            ? '이미 Story Protocol에 등록된 Dream IP입니다.'
+                            : 'This Dream IP is already registered to Story Protocol.',
+                        'info'
+                    );
+                    return; // 등록 중단
+                }
+            }
+
+            // 4. IPFS에 메타데이터 업로드 (서버에서 처리)
             showToast(
                 locale === 'ko'
                     ? '☁️ IPFS에 메타데이터 업로드 중...'
@@ -113,7 +233,7 @@ export function StoryRegisterButton({
                 );
             }
 
-            // 3. Story Protocol에 IP Asset 등록 (사용자 지갑으로 직접 서명!)
+            // 5. Story Protocol에 IP Asset 등록 (사용자 지갑으로 직접 서명!)
             showToast(
                 locale === 'ko'
                     ? '🔐 지갑에서 트랜잭션을 승인해주세요...'
@@ -131,9 +251,9 @@ export function StoryRegisterButton({
             // 메타데이터 해시 생성 (bytes32 형식)
             // dreamHash는 이미 64자 hex 문자열 (32 bytes)이므로 0x만 추가
             const ipMetadataHash = (
-                dream.dreamHash.startsWith('0x')
-                    ? dream.dreamHash
-                    : `0x${dream.dreamHash}`
+                dreamPackage.dreamHash.startsWith('0x')
+                    ? dreamPackage.dreamHash
+                    : `0x${dreamPackage.dreamHash}`
             ) as `0x${string}`;
 
             const nftMetadataHash = ipMetadataHash; // 같은 해시 사용
@@ -160,15 +280,17 @@ export function StoryRegisterButton({
                 'info'
             );
 
-            // 4. MongoDB에 결과 저장
+            // 6. MongoDB에 결과 저장 (지갑 주소도 함께 저장)
             await fetch(`/api/dreams/${dreamId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ipfsCid: ipfsData.ipfsCid,
+                    ipfsCid: ipfsData.ipMetadataCid, // IP Metadata CID 저장
+                    nftMetadataCid: ipfsData.nftMetadataCid, // NFT Metadata CID 저장
                     ipAssetId: response.ipId,
+                    ownerAddress: address, // 소유자 지갑 주소 저장
                     txHash: response.txHash,
                 }),
             });
@@ -185,6 +307,11 @@ export function StoryRegisterButton({
                       )}...`,
                 'success'
             );
+
+            // 페이지 새로고침하여 라이선스 설정 버튼 표시
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         } catch (error: any) {
             console.error(
                 'Story Protocol 등록 오류:',
@@ -221,17 +348,60 @@ export function StoryRegisterButton({
         }
     };
 
+    // 이미 등록되었고 현재 사용자가 소유자인 경우 버튼 비활성화
+    // 또는 Story Protocol 클라이언트가 로딩 중일 때도 비활성화
+    const isDisabled =
+        !isConnected ||
+        isLoading ||
+        isRegistering ||
+        !storyClient ||
+        (isAlreadyRegistered && isCurrentOwner);
+
     return (
         <button
             onClick={handleRegister}
-            disabled={!isConnected || isRegistering}
+            disabled={isDisabled}
             className={`glass-button px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium text-sm sm:text-base flex items-center gap-1.5 sm:gap-2 min-h-[44px] ${
-                !isConnected || isRegistering
+                isDisabled
                     ? 'opacity-50 cursor-not-allowed'
                     : 'text-white hover:text-secondary'
             } ${className}`}
+            title={
+                isAlreadyRegistered && isCurrentOwner
+                    ? locale === 'ko'
+                        ? '이미 등록된 Dream IP입니다.'
+                        : 'This Dream IP is already registered.'
+                    : undefined
+            }
         >
-            {isRegistering ? (
+            {isLoading ? (
+                <>
+                    <svg
+                        className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 animate-spin"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                    >
+                        <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                        />
+                        <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                    </svg>
+                    <span className="hidden sm:inline">
+                        {locale === 'ko'
+                            ? '초기화 중...'
+                            : 'Initializing...'}
+                    </span>
+                </>
+            ) : isRegistering ? (
                 <>
                     <svg
                         className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 animate-spin"

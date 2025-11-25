@@ -1,10 +1,11 @@
 /**
- * Dream IP 검색 페이지
- * Design Concept: "The Lucid Anchor" - Discovery Mode
+ * Dream IP 탐색 페이지 (Explore/Market)
+ * 민팅된 Dream IP를 검색하고 필터링
  */
 
 'use client';
 export const dynamic = 'force-dynamic';
+
 import {
     useState,
     useEffect,
@@ -12,19 +13,14 @@ import {
     Suspense,
 } from 'react';
 import { useAtom } from 'jotai';
+import { useAccount } from 'wagmi';
 import { useSearchParams } from 'next/navigation';
 import {
     DreamIPCard,
-    LoadingPage,
+    LoadingSpinner,
 } from '@/_components/common';
 import { PageContainer } from '@/_components/layout';
-import {
-    Input,
-    Checkbox,
-    Select,
-    Badge,
-    Card,
-} from '@/_components/ui';
+import { Input, Card, Button } from '@/_components/ui';
 import { useTranslation } from '@/lib/i18n/context';
 import {
     dreamsAtom,
@@ -37,6 +33,7 @@ import type { DreamIPPackage } from '@/lib/types';
 
 function SearchPageContent() {
     const { t, locale } = useTranslation();
+    const { address } = useAccount();
     const searchParams = useSearchParams();
 
     // State from Jotai
@@ -52,6 +49,7 @@ function SearchPageContent() {
     const [sortBy, setSortBy] = useAtom(sortByAtom);
 
     const [loading, setLoading] = useState(true);
+    const [showFilters, setShowFilters] = useState(false);
 
     // Initial Load
     useEffect(() => {
@@ -71,7 +69,8 @@ function SearchPageContent() {
                 setDreams(
                     data.dreams.filter(
                         (d: DreamIPPackage) =>
-                            d.status === 'completed'
+                            d.status === 'completed' &&
+                            (d as any).ipAssetId
                     )
                 );
             }
@@ -276,8 +275,28 @@ function SearchPageContent() {
         return originalTone;
     };
 
+    // 활성 필터 개수
+    const activeFiltersCount =
+        selectedGenres.length + selectedTones.length;
+
+    // 필터 초기화
+    const clearFilters = () => {
+        setSearchQuery('');
+        setSelectedGenres([]);
+        setSelectedTones([]);
+    };
+
     if (loading) {
-        return <LoadingPage message={t.common.loading} />;
+        return (
+            <PageContainer
+                showBackground={true}
+                backgroundType="default"
+            >
+                <div className="flex items-center justify-center min-h-[60vh]">
+                    <LoadingSpinner size="lg" />
+                </div>
+            </PageContainer>
+        );
     }
 
     return (
@@ -285,152 +304,98 @@ function SearchPageContent() {
             showBackground={true}
             backgroundType="default"
         >
-            <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 md:gap-8">
-                {/* Sidebar Filters */}
-                <aside className="w-full lg:w-64 xl:w-80 shrink-0 space-y-4 sm:space-y-6 md:space-y-8">
-                    <Card
-                        variant="glass"
-                        padding="md"
-                        className="sticky top-16 sm:top-20 md:top-24 lg:top-28 max-h-[calc(100vh-5rem)] sm:max-h-[calc(100vh-6rem)] overflow-y-auto custom-scrollbar"
-                    >
-                        <div className="mb-4 sm:mb-6 md:mb-8">
-                            <h3 className="text-sm sm:text-base font-bold text-white/90 uppercase tracking-widest mb-3 sm:mb-4">
-                                {t.search.filters.keyword}
-                            </h3>
-                            <Input
-                                variant="search"
-                                type="text"
-                                value={searchQuery}
-                                onChange={(
-                                    e: React.ChangeEvent<HTMLInputElement>
-                                ) =>
-                                    setSearchQuery(
-                                        e.target.value
-                                    )
-                                }
-                                placeholder={
-                                    t.search.filters
-                                        .keywordPlaceholder
-                                }
-                                icon={
-                                    <svg
-                                        className="w-4 h-4 sm:w-5 sm:h-5"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                        />
-                                    </svg>
-                                }
-                            />
-                        </div>
+            <div className="max-w-7xl mx-auto">
+                {/* Header */}
+                <div className="mb-8 sm:mb-10">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
+                        {locale === 'ko'
+                            ? 'Dream IP 탐색'
+                            : 'Explore Dream IPs'}
+                    </h1>
+                    <p className="text-white/60 text-lg">
+                        {locale === 'ko'
+                            ? `${dreams.length}개의 민팅된 Dream IP를 둘러보세요`
+                            : `Browse ${dreams.length} minted Dream IPs`}
+                    </p>
+                </div>
 
-                        <div className="mb-4 sm:mb-6 md:mb-8">
-                            <h3 className="text-sm sm:text-base font-bold text-white/90 uppercase tracking-widest mb-3 sm:mb-4">
-                                {t.search.filters.genre}
-                            </h3>
-                            <div className="space-y-1.5 sm:space-y-2 max-h-40 sm:max-h-48 overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
-                                {allGenres.map((genre) => (
-                                    <Checkbox
-                                        key={genre}
-                                        checked={selectedGenres.includes(
-                                            genre
-                                        )}
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLInputElement>
-                                        ) => {
-                                            if (
-                                                e.target
-                                                    .checked
-                                            ) {
-                                                setSelectedGenres(
-                                                    [
-                                                        ...selectedGenres,
-                                                        genre,
-                                                    ]
-                                                );
-                                            } else {
-                                                setSelectedGenres(
-                                                    selectedGenres.filter(
-                                                        (
-                                                            g
-                                                        ) =>
-                                                            g !==
-                                                            genre
-                                                    )
-                                                );
-                                            }
-                                        }}
-                                        label={getGenreDisplayText(
-                                            genre
-                                        )}
+                {/* Search & Filter Bar */}
+                <div className="flex flex-col sm:flex-row gap-4 mb-8">
+                    {/* Search */}
+                    <div className="flex-1 relative">
+                        <Input
+                            variant="search"
+                            type="text"
+                            value={searchQuery}
+                            onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
+                                setSearchQuery(
+                                    e.target.value
+                                )
+                            }
+                            placeholder={
+                                t.search.filters
+                                    .keywordPlaceholder
+                            }
+                            className="pl-12"
+                            icon={
+                                <svg
+                                    className="w-5 h-5 text-white/40"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth={2}
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                                     />
-                                ))}
-                            </div>
-                        </div>
+                                </svg>
+                            }
+                        />
+                    </div>
 
-                        <div>
-                            <h3 className="text-sm sm:text-base font-bold text-white/90 uppercase tracking-widest mb-3 sm:mb-4">
-                                {t.search.filters.tone}
-                            </h3>
-                            <div className="space-y-1.5 sm:space-y-2 max-h-40 sm:max-h-48 overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
-                                {allTones.map((tone) => (
-                                    <Checkbox
-                                        key={tone}
-                                        checked={selectedTones.includes(
-                                            tone
-                                        )}
-                                        onChange={(
-                                            e: React.ChangeEvent<HTMLInputElement>
-                                        ) => {
-                                            if (
-                                                e.target
-                                                    .checked
-                                            ) {
-                                                setSelectedTones(
-                                                    [
-                                                        ...selectedTones,
-                                                        tone,
-                                                    ]
-                                                );
-                                            } else {
-                                                setSelectedTones(
-                                                    selectedTones.filter(
-                                                        (
-                                                            t
-                                                        ) =>
-                                                            t !==
-                                                            tone
-                                                    )
-                                                );
-                                            }
-                                        }}
-                                        label={getToneDisplayText(
-                                            tone
-                                        )}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    </Card>
-                </aside>
-
-                {/* Results Grid */}
-                <div className="flex-1 min-w-0">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 md:mb-8">
-                        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">
-                            {filteredDreams.length}{' '}
-                            <span className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl font-normal">
-                                {t.search.results.items}
+                    {/* Filter Toggle & Sort */}
+                    <div className="flex gap-3">
+                        <Button
+                            variant={
+                                showFilters
+                                    ? 'primary'
+                                    : 'ghost'
+                            }
+                            onClick={() =>
+                                setShowFilters(!showFilters)
+                            }
+                            className="relative"
+                        >
+                            <svg
+                                className="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
+                                />
+                            </svg>
+                            <span className="hidden sm:inline">
+                                {locale === 'ko'
+                                    ? '필터'
+                                    : 'Filters'}
                             </span>
-                        </h2>
+                            {activeFiltersCount > 0 && (
+                                <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-black text-xs font-bold rounded-full flex items-center justify-center">
+                                    {activeFiltersCount}
+                                </span>
+                            )}
+                        </Button>
 
-                        <Select
+                        <select
                             value={sortBy}
                             onChange={(
                                 e: React.ChangeEvent<HTMLSelectElement>
@@ -442,7 +407,7 @@ function SearchPageContent() {
                                         | 'popular'
                                 )
                             }
-                            className="w-full sm:w-auto min-w-[160px]"
+                            className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-primary/50 min-w-[140px]"
                         >
                             <option value="newest">
                                 {
@@ -453,58 +418,220 @@ function SearchPageContent() {
                             <option value="oldest">
                                 {locale === 'ko'
                                     ? '오래된순'
-                                    : 'Oldest First'}
+                                    : 'Oldest'}
                             </option>
                             <option value="popular">
                                 {locale === 'ko'
                                     ? '인기순'
-                                    : 'Most Popular'}
+                                    : 'Popular'}
                             </option>
-                        </Select>
+                        </select>
                     </div>
-
-                    {filteredDreams.length > 0 ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4 md:gap-5 lg:gap-6">
-                            {filteredDreams.map((dream) => (
-                                <div
-                                    key={dream.id}
-                                    className="transform hover:-translate-y-2 transition-transform duration-300"
-                                >
-                                    <DreamIPCard
-                                        dream={dream}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <Card
-                            variant="default"
-                            padding="lg"
-                            className="text-center border-dashed border-2 border-white/10 bg-black/20"
-                        >
-                            <div className="text-3xl sm:text-4xl md:text-5xl mb-3 sm:mb-4 opacity-50">
-                                🔍
-                            </div>
-                            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-2">
-                                {t.search.results.empty}
-                            </h3>
-                            <p className="text-white/90 text-sm sm:text-base md:text-lg">
-                                {locale === 'ko'
-                                    ? '필터나 검색어를 조정해보세요.'
-                                    : 'Try adjusting your filters or search query.'}
-                            </p>
-                        </Card>
-                    )}
                 </div>
+
+                {/* Filters Panel */}
+                {showFilters && (
+                    <Card
+                        variant="glass"
+                        padding="md"
+                        className="mb-8 animate-slide-in-up"
+                    >
+                        <div className="flex flex-col sm:flex-row gap-6">
+                            {/* Genres */}
+                            <div className="flex-1">
+                                <h4 className="text-sm font-semibold text-white/70 uppercase tracking-wider mb-3">
+                                    {t.search.filters.genre}
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {allGenres.map(
+                                        (genre) => (
+                                            <button
+                                                key={genre}
+                                                onClick={() => {
+                                                    if (
+                                                        selectedGenres.includes(
+                                                            genre
+                                                        )
+                                                    ) {
+                                                        setSelectedGenres(
+                                                            selectedGenres.filter(
+                                                                (
+                                                                    g
+                                                                ) =>
+                                                                    g !==
+                                                                    genre
+                                                            )
+                                                        );
+                                                    } else {
+                                                        setSelectedGenres(
+                                                            [
+                                                                ...selectedGenres,
+                                                                genre,
+                                                            ]
+                                                        );
+                                                    }
+                                                }}
+                                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                                                    selectedGenres.includes(
+                                                        genre
+                                                    )
+                                                        ? 'bg-primary text-black'
+                                                        : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+                                                }`}
+                                            >
+                                                {getGenreDisplayText(
+                                                    genre
+                                                )}
+                                            </button>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Tones */}
+                            <div className="flex-1">
+                                <h4 className="text-sm font-semibold text-white/70 uppercase tracking-wider mb-3">
+                                    {t.search.filters.tone}
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {allTones.map(
+                                        (tone) => (
+                                            <button
+                                                key={tone}
+                                                onClick={() => {
+                                                    if (
+                                                        selectedTones.includes(
+                                                            tone
+                                                        )
+                                                    ) {
+                                                        setSelectedTones(
+                                                            selectedTones.filter(
+                                                                (
+                                                                    t
+                                                                ) =>
+                                                                    t !==
+                                                                    tone
+                                                            )
+                                                        );
+                                                    } else {
+                                                        setSelectedTones(
+                                                            [
+                                                                ...selectedTones,
+                                                                tone,
+                                                            ]
+                                                        );
+                                                    }
+                                                }}
+                                                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                                                    selectedTones.includes(
+                                                        tone
+                                                    )
+                                                        ? 'bg-secondary text-white'
+                                                        : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white'
+                                                }`}
+                                            >
+                                                {getToneDisplayText(
+                                                    tone
+                                                )}
+                                            </button>
+                                        )
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Clear Filters */}
+                        {activeFiltersCount > 0 && (
+                            <div className="mt-4 pt-4 border-t border-white/10 flex justify-end">
+                                <button
+                                    onClick={clearFilters}
+                                    className="text-sm text-white/60 hover:text-white transition-colors"
+                                >
+                                    {locale === 'ko'
+                                        ? '필터 초기화'
+                                        : 'Clear all filters'}
+                                </button>
+                            </div>
+                        )}
+                    </Card>
+                )}
+
+                {/* Results Count */}
+                <div className="flex items-center justify-between mb-6">
+                    <p className="text-white/60">
+                        <span className="text-white font-semibold">
+                            {filteredDreams.length}
+                        </span>{' '}
+                        {t.search.results.items}
+                    </p>
+                </div>
+
+                {/* Results Grid */}
+                {filteredDreams.length > 0 ? (
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {filteredDreams.map((dream) => {
+                            const isOwner = !!(
+                                address &&
+                                dream.creatorAddress &&
+                                dream.creatorAddress.toLowerCase() ===
+                                    address.toLowerCase()
+                            );
+                            return (
+                                <DreamIPCard
+                                    key={dream.id}
+                                    dream={dream}
+                                    isOwner={isOwner}
+                                />
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <Card
+                        variant="glass"
+                        padding="lg"
+                        className="text-center py-16"
+                    >
+                        <div className="text-5xl mb-6 opacity-30">
+                            🔍
+                        </div>
+                        <h3 className="text-2xl font-bold text-white mb-3">
+                            {t.search.results.empty}
+                        </h3>
+                        <p className="text-white/60 mb-6">
+                            {locale === 'ko'
+                                ? '검색 조건에 맞는 Dream IP가 없습니다.'
+                                : 'No Dream IPs match your search criteria.'}
+                        </p>
+                        {activeFiltersCount > 0 && (
+                            <Button
+                                variant="ghost"
+                                onClick={clearFilters}
+                            >
+                                {locale === 'ko'
+                                    ? '필터 초기화'
+                                    : 'Clear Filters'}
+                            </Button>
+                        )}
+                    </Card>
+                )}
             </div>
         </PageContainer>
     );
 }
 
-export default function SearchPage() {
+export default function ExplorePage() {
     return (
         <Suspense
-            fallback={<LoadingPage message="Loading..." />}
+            fallback={
+                <PageContainer
+                    showBackground={true}
+                    backgroundType="default"
+                >
+                    <div className="flex items-center justify-center min-h-[60vh]">
+                        <LoadingSpinner size="lg" />
+                    </div>
+                </PageContainer>
+            }
         >
             <SearchPageContent />
         </Suspense>

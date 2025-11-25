@@ -21,15 +21,15 @@ interface BadgeProps {
 
 const variantStyles = {
     primary:
-        'bg-primary/10 text-primary border border-primary/20',
+        'bg-primary/10 text-primary border-2 border-primary/30',
     secondary:
-        'bg-secondary/10 text-secondary border border-secondary/20',
+        'bg-secondary/10 text-secondary border-2 border-secondary/30',
     success:
-        'bg-green-500/20 text-green-400 border border-green-500/30',
+        'bg-green-500/20 text-green-400 border-2 border-green-500/40',
     warning:
-        'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
-    danger: 'bg-red-500/20 text-red-400 border border-red-500/30',
-    info: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
+        'bg-yellow-500/20 text-yellow-400 border-2 border-yellow-500/40',
+    danger: 'bg-red-500/20 text-red-400 border-2 border-red-500/40',
+    info: 'bg-blue-500/20 text-blue-400 border-2 border-blue-500/40',
 };
 
 const sizeStyles = {

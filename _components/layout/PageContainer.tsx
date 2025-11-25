@@ -15,6 +15,7 @@ interface PageContainerProps {
     showBackground?: boolean;
     backgroundType?: 'default' | 'subtle';
     className?: string;
+    fullWidth?: boolean;
 }
 
 export function PageContainer({
@@ -22,6 +23,7 @@ export function PageContainer({
     showBackground = true,
     backgroundType = 'default',
     className = '',
+    fullWidth = false,
 }: PageContainerProps) {
     return (
         <div className="min-h-screen bg-background text-foreground overflow-x-hidden selection:bg-primary/30 flex flex-col">
@@ -40,7 +42,7 @@ export function PageContainer({
 
             {/* Main Content */}
             <main
-                className={`relative z-10 flex-1 w-full max-w-[1800px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 ${className}`}
+                className={`relative z-10 flex-1 w-full ${fullWidth ? '' : 'max-w-[1800px]'} mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-12 sm:py-16 md:py-20 lg:py-24 xl:py-32 ${className}`}
             >
                 {children}
             </main>

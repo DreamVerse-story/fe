@@ -5,7 +5,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { PageContainer } from '@/_components/layout';
 import { LoadingPage } from '@/_components/common';
 import { DreamIPDetailContent } from '@/_components/common/DreamIPDetail';
@@ -18,6 +18,8 @@ export default function DreamDetailPage() {
         useState<DreamIPPackage | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const searchParams = useSearchParams();
+    const isNew = searchParams.get('new') === 'true';
 
     useEffect(() => {
         const loadDream = async () => {
@@ -119,6 +121,8 @@ export default function DreamDetailPage() {
         );
     }
 
+
+
     return (
         <PageContainer
             showBackground={true}
@@ -128,6 +132,7 @@ export default function DreamDetailPage() {
                 dream={dream}
                 onBack={handleBack}
                 onDelete={handleDelete}
+                isNew={isNew}
             />
         </PageContainer>
     );

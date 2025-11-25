@@ -22,12 +22,13 @@ export const Checkbox = forwardRef<
                     ref={ref}
                     type="checkbox"
                     className={`
-                            peer h-3.5 w-3.5 sm:h-4 sm:w-4
+                            peer h-4 w-4
                             cursor-pointer appearance-none rounded
-                            border border-white/20 bg-white/5
+                            border-2 border-white/30 bg-white/10
                             transition-all
                             checked:border-primary checked:bg-primary
-                            hover:border-primary/50
+                            hover:border-primary/60 hover:bg-white/15
+                            shadow-sm
                             ${className}
                         `}
                     {...props}
@@ -47,7 +48,7 @@ export const Checkbox = forwardRef<
                 </svg>
             </div>
             {label && (
-                <span className="text-white/80 group-hover:text-white transition-colors text-xs sm:text-sm md:text-base">
+                <span className="text-white/90 group-hover:text-white transition-colors text-sm font-medium">
                     {label}
                 </span>
             )}
