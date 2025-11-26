@@ -36,9 +36,17 @@ export async function GET(
             );
         }
 
+        // imageUrl 제거 (base64 데이터로 인한 성능 이슈 방지)
+        const dreamWithoutImageUrl = {
+            ...dream,
+            visuals: dream.visuals.map(
+                ({ imageUrl, ...visual }) => visual
+            ),
+        };
+
         return NextResponse.json({
             success: true,
-            dream,
+            dream: dreamWithoutImageUrl,
         });
     } catch (error) {
         console.error('Dream 조회 오류:', error);
@@ -106,9 +114,19 @@ export async function PATCH(
 
         await saveDream(updatedDream);
 
+        // imageUrl 제거 (base64 데이터로 인한 성능 이슈 방지)
+        const dreamWithoutImageUrl = {
+            ...updatedDream,
+            visuals: (
+                updatedDream as DreamIPPackage
+            ).visuals.map(
+                ({ imageUrl, ...visual }) => visual
+            ),
+        };
+
         return NextResponse.json({
             success: true,
-            dream: updatedDream,
+            dream: dreamWithoutImageUrl,
         });
     } catch (error) {
         console.error('Dream 업데이트 오류:', error);

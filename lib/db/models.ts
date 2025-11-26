@@ -55,9 +55,82 @@ export function dreamDocumentToPackage(
     const { _id, ...rest } = doc;
     return {
         ...rest,
-        createdAt: doc.createdAt.toISOString(),
-        updatedAt: doc.updatedAt.toISOString(),
+        createdAt:
+            doc.createdAt?.toISOString() ||
+            new Date().toISOString(),
+        updatedAt:
+            doc.updatedAt?.toISOString() ||
+            new Date().toISOString(),
     };
+}
+
+/**
+ * Projection된 문서를 DreamIPPackage로 변환 (목록 조회용)
+ * 누락된 필드에 기본값 제공
+ */
+export function dreamDocumentToPackagePartial(
+    doc: Partial<DreamDocument>
+): DreamIPPackage {
+    const { _id, ...rest } = doc;
+
+    // Date 객체를 ISO 문자열로 변환
+    const createdAt = doc.createdAt
+        ? doc.createdAt instanceof Date
+            ? doc.createdAt.toISOString()
+            : typeof doc.createdAt === 'string'
+            ? doc.createdAt
+            : new Date().toISOString()
+        : new Date().toISOString();
+
+    const updatedAt = doc.updatedAt
+        ? doc.updatedAt instanceof Date
+            ? doc.updatedAt.toISOString()
+            : typeof doc.updatedAt === 'string'
+            ? doc.updatedAt
+            : new Date().toISOString()
+        : createdAt;
+
+    // analysis 객체 병합 (projection으로 일부 필드만 있을 수 있음)
+    const analysis = {
+        title: '',
+        summary: '',
+        characters: [],
+        world: '',
+        objects: [],
+        locations: [],
+        tones: [],
+        genres: [],
+        emotions: [],
+        ...doc.analysis,
+    };
+
+    return {
+        ...rest,
+        id: doc.id || '',
+        createdAt,
+        updatedAt,
+        // 누락된 필수 필드에 기본값 제공
+        dreamRecord: doc.dreamRecord || {
+            id: doc.id || '',
+            userId: doc.userId || '',
+            dreamText: '',
+            recordedAt: createdAt,
+        },
+        analysis,
+        visuals: doc.visuals || [],
+        story: doc.story || {
+            synopsis: '',
+            sceneBits: [],
+            lore: '',
+        },
+        dreamHash: doc.dreamHash || '',
+        isPublic: doc.isPublic ?? false,
+        status: (doc.status || 'draft') as
+            | 'draft'
+            | 'processing'
+            | 'completed'
+            | 'failed',
+    } as DreamIPPackage;
 }
 
 /**
