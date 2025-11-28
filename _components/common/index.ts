@@ -18,3 +18,4 @@ export { LicenseSetupButton } from './LicenseSetupButton';
 export { BuyLicenseButton } from './BuyLicenseButton';
 export { ClaimRoyaltyButton } from './ClaimRoyaltyButton';
 export { PayRoyaltyButton } from './PayRoyaltyButton';
+export * from './MintingCard';

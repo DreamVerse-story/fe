@@ -248,3 +248,177 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.3);
 }
+
+/* 3D Card Animations */
+@keyframes float-3d {
+    0%, 100% {
+        transform: translateY(0) rotateX(0) rotateY(0);
+    }
+    25% {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+    }
+    50% {
+        transform: translateY(0) rotateX(0) rotateY(0);
+    }
+    75% {
+        transform: translateY(10px) rotateX(-5deg) rotateY(-5deg);
+    }
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); transform: translate(-2px, 1px); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+    40% { clip-path: inset(40% 0 50% 0); transform: translate(-2px, 2px); }
+    60% { clip-path: inset(80% 0 5% 0); transform: translate(2px, -2px); }
+    80% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 1px); }
+    100% { clip-path: inset(30% 0 50% 0); transform: translate(1px, -1px); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 60% 0); transform: translate(2px, -1px); }
+    20% { clip-path: inset(80% 0 5% 0); transform: translate(-2px, 2px); }
+    40% { clip-path: inset(30% 0 20% 0); transform: translate(2px, -2px); }
+    60% { clip-path: inset(10% 0 80% 0); transform: translate(-1px, 1px); }
+    80% { clip-path: inset(50% 0 30% 0); transform: translate(1px, -1px); }
+    100% { clip-path: inset(20% 0 70% 0); transform: translate(-2px, 1px); }
+}
+
+@keyframes strobe {
+    0%, 90% { opacity: 1; }
+    92% { opacity: 0; }
+    94% { opacity: 1; }
+    96% { opacity: 0; }
+    98% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+.animate-float-3d {
+    animation: float-3d 6s ease-in-out infinite;
+}
+
+.animate-glitch-1 {
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+}
+
+.animate-glitch-2 {
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.animate-strobe {
+    animation: strobe 4s infinite;
+}
+
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+}
+
+/* Cyberpunk Extras */
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.animate-scanline {
+    animation: scanline 2s linear infinite;
+}
+
+.cyber-border {
+    position: relative;
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 85%,
+        90% 100%,
+        0 100%
+    );
+}
+
+.cyber-border::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid var(--primary);
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 85%,
+        90% 100%,
+        0 100%
+    );
+    pointer-events: none;
+}
+
+.cyber-text {
+    text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+    font-family: var(--font-mono);
+}
+
+.cyber-glitch-text {
+    position: relative;
+}
+
+.cyber-glitch-text::before,
+.cyber-glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.cyber-glitch-text::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
+}
+
+.cyber-glitch-text::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    animation: glitch-anim-2 5s infinite linear alternate-reverse;
+}
+
+@keyframes breathe {
+    0%, 100% { opacity: 0.4; transform: translateX(0); }
+    50% { opacity: 0.8; transform: translateX(-10px); }
+}
+
+.animate-breathe {
+    animation: breathe 4s ease-in-out infinite;
+}
+
+@keyframes dream-colors {
+    0% { 
+        background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 50%, #0d001a 100%);
+    }
+    33% { 
+        background: linear-gradient(135deg, #2d1b4e 0%, #4a1e5c 50%, #1a0b2e 100%);
+    }
+    66% { 
+        background: linear-gradient(135deg, #1e1b4e 0%, #3d2d6e 50%, #0d001a 100%);
+    }
+    100% { 
+        background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 50%, #0d001a 100%);
+    }
+}
+
+.animate-dream-colors {
+    animation: dream-colors 8s ease-in-out infinite;
+    background-size: 200% 200%;
+}

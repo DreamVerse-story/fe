@@ -10,6 +10,7 @@ import Link from 'next/link';
 import {
     DreamIPCard,
     LoadingSpinner,
+    MintingCard,
 } from '@/_components/common';
 import { PageContainer } from '@/_components/layout';
 import { Button, Card } from '@/_components/ui';
@@ -78,6 +79,9 @@ export default function HomePage() {
                 </div>
 
                 <div className="text-center max-w-4xl mx-auto px-4 relative z-10">
+                    {/* 3D Minting Card */}
+                    <MintingCard dreams={recentDreams} />
+
                     {/* Badge */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border-2 border-primary/30 mb-8 animate-fade-in shadow-sm">
                         <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
