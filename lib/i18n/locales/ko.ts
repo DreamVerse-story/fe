@@ -16,9 +16,9 @@ export const ko: Translation = {
     home: {
         hero: {
             title: '당신의 꿈을 IP 자산으로',
-            subtitle: 'IP Dream Incubator',
+            subtitle: 'DreamVerse',
             description:
-                'AI가 당신의 꿈을 분석하고, 스토리와 비주얼을 자동 생성합니다. 꿈이 곧 창작물이 되는 세상을 경험하세요.',
+                'DreamVerse는 개인의 꿈을 온체인 IP로 변환하는 AI 기반 Web3 플랫폼입니다. 꿈이 곧 창작물이 되는 세상을 경험하세요.',
             recordButton: '꿈 기록하기',
             galleryButton: '갤러리 둘러보기',
             searchLink: '🔍 검색',
@@ -76,7 +76,7 @@ export const ko: Translation = {
     },
 
     gallery: {
-        title: 'Dream IP 갤러리',
+        title: 'DreamVerse 갤러리',
         subtitle: '생성된 Dream IP 패키지를 둘러보세요',
         loading: '로딩 중...',
         empty: '아직 생성된 Dream IP가 없습니다',
@@ -106,7 +106,7 @@ export const ko: Translation = {
     },
 
     stats: {
-        title: 'Dream IP 통계',
+        title: 'DreamVerse 통계',
         subtitle:
             '생성된 Dream IP의 통계와 인사이트를 확인하세요',
         cards: {

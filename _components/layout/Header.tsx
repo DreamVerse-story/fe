@@ -107,18 +107,20 @@ export function Header() {
                         href="/"
                         className="group flex items-center gap-2 sm:gap-3"
                     >
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-linear-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-shadow">
-                            <span className="text-black font-black text-sm sm:text-base">
-                                D
-                            </span>
+                        <div className="w-9 h-9 sm:w-10 sm:h-10 relative transition-transform group-hover:scale-105">
+                            <img
+                                src="/assets/gpt-logo.png"
+                                alt="DreamVerse Logo"
+                                className="w-full h-full object-contain drop-shadow-lg"
+                            />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-base sm:text-lg font-bold text-white tracking-tight leading-none">
-                                Dream IP
+                            <span className="text-xl sm:text-2xl font-bold text-white tracking-tight leading-none">
+                                DreamVerse
                             </span>
-                            <span className="text-[10px] text-white/40 font-medium tracking-widest">
-                                INCUBATOR
-                            </span>
+                            {/* <span className="text-[10px] text-white/40 font-medium tracking-widest">
+                                WEB3 PLATFORM
+                            </span> */}
                         </div>
                     </Link>
 

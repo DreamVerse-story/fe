@@ -127,8 +127,8 @@ export default function HomePage() {
                         style={{ animationDelay: '0.1s' }}
                     >
                         {locale === 'ko'
-                            ? 'AI가 당신의 꿈을 분석하고, 스토리와 비주얼을 생성하여 블록체인에 등록합니다. 라이선스 판매로 수익을 창출하세요.'
-                            : 'AI analyzes your dreams, generates stories and visuals, and registers them on blockchain. Earn from license sales.'}
+                            ? 'DreamVerse는 개인의 꿈을 온체인 IP로 변환하는 AI 기반 Web3 플랫폼입니다. 당신의 꿈을 기록하고, 수익을 창출하는 디지털 자산으로 만드세요.'
+                            : 'DreamVerse is an AI-powered Web3 platform that transforms personal dreams into fully on-chain intellectual property.'}
                     </p>
 
                     {/* CTA Buttons */}
@@ -173,8 +173,8 @@ export default function HomePage() {
                                 className="w-full sm:w-auto px-8"
                             >
                                 {locale === 'ko'
-                                    ? 'Dream IP 탐색'
-                                    : 'Explore Dreams'}
+                                    ? 'DreamVerse 탐색'
+                                    : 'Explore DreamVerse'}
                                 <svg
                                     className="w-5 h-5"
                                     fill="none"
@@ -203,8 +203,8 @@ export default function HomePage() {
                             </p>
                             <p className="text-white/50 text-sm">
                                 {locale === 'ko'
-                                    ? '총 Dream IP'
-                                    : 'Total Dreams'}
+                                    ? '총 IP 자산'
+                                    : 'Total IP Assets'}
                             </p>
                         </div>
                         <div className="w-px h-12 bg-white/10" />
@@ -321,7 +321,7 @@ export default function HomePage() {
 
                             {/* Connector Line (except last) */}
                             {index < 2 && (
-                                <div className="hidden sm:block absolute top-1/2 -right-4 lg:-right-5 w-8 lg:w-10 h-0.5 bg-gradient-to-r from-white/10 to-primary/30" />
+                                <div className="hidden sm:block absolute top-1/2 -right-4 lg:-right-5 w-8 lg:w-10 h-0.5 bg-linear-to-r from-white/10 to-primary/30" />
                             )}
                         </Card>
                     ))}
@@ -334,13 +334,13 @@ export default function HomePage() {
                     <div>
                         <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3">
                             {locale === 'ko'
-                                ? '최근 Dream IP'
-                                : 'Recent Dream IPs'}
+                                ? '최근 등록된 꿈'
+                                : 'Recent Dreams'}
                         </h2>
                         <p className="text-white/60 text-lg">
                             {locale === 'ko'
-                                ? '방금 민팅된 Dream IP를 확인하세요'
-                                : 'Check out the freshly minted Dream IPs'}
+                                ? '방금 민팅된 꿈 IP를 확인하세요'
+                                : 'Check out the freshly minted Dream IP Assets'}
                         </p>
                     </div>
                     <Link
@@ -414,7 +414,7 @@ export default function HomePage() {
                 <Card
                     variant="elevated"
                     padding="lg"
-                    className="text-center bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 border-primary/20"
+                    className="text-center bg-linear-to-br from-primary/10 via-transparent to-secondary/10 border-primary/20"
                 >
                     <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
                         {locale === 'ko'

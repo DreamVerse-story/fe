@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: 'IP Dream Incubator - Turn Your Dreams Into IP Assets',
+    title: 'DreamVerse - Turn Your Dreams Into IP Assets',
     description:
-        'A platform that transforms dreams into IP assets using AI',
+        'DreamVerse is an AI-powered Web3 platform that transforms personal dreams into fully on-chain intellectual property.',
 };
 
 export default function RootLayout({

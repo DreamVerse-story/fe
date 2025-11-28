@@ -16,9 +16,9 @@ export const en: Translation = {
     home: {
         hero: {
             title: 'Turn Your Dreams Into IP Assets',
-            subtitle: 'IP Dream Incubator',
+            subtitle: 'DreamVerse',
             description:
-                'AI analyzes your dreams and automatically generates stories and visuals. Experience a world where dreams become creative works.',
+                'DreamVerse is an AI-powered Web3 platform that transforms personal dreams into fully on-chain intellectual property. Experience a world where dreams become creative works.',
             recordButton: 'Record a Dream',
             galleryButton: 'Explore Gallery',
             searchLink: '🔍 Search',
@@ -78,7 +78,7 @@ export const en: Translation = {
     },
 
     gallery: {
-        title: 'Dream IP Gallery',
+        title: 'DreamVerse Gallery',
         subtitle: 'Explore generated Dream IP packages',
         loading: 'Loading...',
         empty: 'No Dream IPs created yet',
@@ -109,7 +109,7 @@ export const en: Translation = {
     },
 
     stats: {
-        title: 'Dream IP Statistics',
+        title: 'DreamVerse Statistics',
         subtitle:
             'View statistics and insights of generated Dream IPs',
         cards: {
