@@ -135,12 +135,19 @@ export function dreamDocumentToPackagePartial(
 
 /**
  * API 타입을 MongoDB 문서로 변환
+ * imageUrl은 저장하지 않음 (base64 데이터로 인한 성능 이슈 방지)
  */
 export function dreamPackageToDocument(
     pkg: DreamIPPackage
 ): Omit<DreamDocument, '_id'> {
+    // visuals 배열에서 imageUrl 제거 (타입 단언 사용)
+    const visualsWithoutImageUrl = pkg.visuals.map(
+        ({ imageUrl, ...visual }) => visual
+    ) as any[]; // MongoDB 저장 시 imageUrl이 없는 상태로 저장
+
     return {
         ...pkg,
+        visuals: visualsWithoutImageUrl, // imageUrl이 제거된 visuals
         userId: pkg.dreamRecord.userId,
         genres: pkg.analysis.genres || [],
         tones: pkg.analysis.tones || [],

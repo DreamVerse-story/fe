@@ -75,6 +75,7 @@ export async function PATCH(
                 ownerAddress?: string;
                 ipfsCid?: string;
                 nftMetadataCid?: string;
+                licenseTermsId?: string; // 라이선스 조건 ID
                 txHash?: string;
             };
 
@@ -107,6 +108,10 @@ export async function PATCH(
         if (body.nftMetadataCid) {
             updatedDream.nftMetadataCid =
                 body.nftMetadataCid;
+        }
+        if (body.licenseTermsId) {
+            updatedDream.licenseTermsId =
+                body.licenseTermsId;
         }
         if (body.txHash) {
             updatedDream.txHash = body.txHash;

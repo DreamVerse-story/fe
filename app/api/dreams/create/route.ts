@@ -88,7 +88,21 @@ export async function POST(request: NextRequest) {
         };
 
         // 3. 초기 상태 저장
-        await saveDream(initialPackage);
+        try {
+            await saveDream(initialPackage);
+        } catch (saveError) {
+            console.error(
+                '초기 상태 저장 실패:',
+                saveError
+            );
+            throw new Error(
+                `Dream 초기 상태 저장 실패: ${
+                    saveError instanceof Error
+                        ? saveError.message
+                        : String(saveError)
+                }`
+            );
+        }
 
         // 4. 즉시 dreamId 반환하고 백그라운드에서 처리 시작
         // 클라이언트가 즉시 polling을 시작할 수 있도록

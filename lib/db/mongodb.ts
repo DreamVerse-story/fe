@@ -59,4 +59,5 @@ export async function getDatabase(): Promise<Db> {
 export const COLLECTIONS = {
     DREAMS: 'dreams',
     USERS: 'users',
+    LICENSES: 'licenses', // 라이선스 구매 정보
 } as const;

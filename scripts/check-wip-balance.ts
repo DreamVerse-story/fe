@@ -13,7 +13,7 @@ import {
     http,
     formatEther,
 } from 'viem';
-import { storyAeneid } from '../lib/blockchain/wagmi-config';
+import { storyAeneid } from '../lib/blockchain/chains';
 import { WIP_TOKEN_ADDRESS } from '@story-protocol/core-sdk';
 
 // ERC20 balanceOf 함수 ABI

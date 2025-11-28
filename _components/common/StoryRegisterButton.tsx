@@ -5,7 +5,12 @@ import { useStoryProtocol } from '@/lib/hooks/useStoryProtocol';
 import { useTranslation } from '@/lib/i18n/context';
 import { useToast } from './Toast';
 import { useChainId, useSwitchChain } from 'wagmi';
-import { storyAeneid } from '@/lib/blockchain/wagmi-config';
+import { storyAeneid } from '@/lib/blockchain/chains';
+import {
+    PILFlavor,
+    WIP_TOKEN_ADDRESS,
+} from '@story-protocol/core-sdk';
+import { parseEther, zeroAddress } from 'viem';
 
 interface StoryRegisterButtonProps {
     dreamId: string;
@@ -37,6 +42,14 @@ export function StoryRegisterButton({
         useState(false);
     const [hasAutoTriggered, setHasAutoTriggered] =
         useState(false);
+    const [showLicenseModal, setShowLicenseModal] =
+        useState(false);
+
+    // 라이선스 조건 상태 (PILFlavor.commercialRemix 기본값)
+    const [licenseTerms, setLicenseTerms] = useState({
+        commercialRevShare: 5, // 상업적 사용 로열티 (%)
+        defaultMintingFee: '0.1', // 기본 민팅 수수료 (IP)
+    });
 
     // 이미 등록된 IP Asset이 있는지 확인
     const dreamAny = dream as any;
@@ -112,16 +125,32 @@ export function StoryRegisterButton({
             return;
         }
 
-        if (
-            !confirm(
+        // 라이선스 설정 모달 표시
+        setShowLicenseModal(true);
+    };
+
+    const handleRegisterWithLicense = async () => {
+        if (!isConnected || !address) {
+            showToast(
                 locale === 'ko'
-                    ? 'Story Protocol에 이 Dream IP를 등록하시겠습니까?\n\n지갑에서 트랜잭션을 승인해주세요.'
-                    : 'Register this Dream IP to Story Protocol?\n\nPlease approve the transaction in your wallet.'
-            )
-        ) {
+                    ? '먼저 지갑을 연결해주세요.'
+                    : 'Please connect your wallet first.',
+                'error'
+            );
             return;
         }
 
+        if (!storyClient) {
+            showToast(
+                locale === 'ko'
+                    ? 'Story Protocol 클라이언트를 초기화할 수 없습니다. 잠시 후 다시 시도해주세요.'
+                    : 'Failed to initialize Story Protocol client. Please try again later.',
+                'error'
+            );
+            return;
+        }
+
+        setShowLicenseModal(false);
         setIsRegistering(true);
 
         try {
@@ -382,7 +411,30 @@ export function StoryRegisterButton({
 
             const nftMetadataHash = ipMetadataHash; // 같은 해시 사용
 
-            // 스크립트와 동일한 설정으로 등록
+            // 기본 라이선스 조건 구성 (PILFlavor.commercialRemix 사용)
+            const royaltyPolicy =
+                process.env.NEXT_PUBLIC_ROYALTY_POLICY ||
+                '0xBe54FB168b3c982b7AaE60dB6CF75Bd8447b390E'; // Aeneid Testnet 기본값
+
+            // PILFlavor.commercialRemix를 사용하여 라이선스 조건 구성
+            const licenseTermsData = [
+                {
+                    terms: PILFlavor.commercialRemix({
+                        commercialRevShare:
+                            licenseTerms.commercialRevShare ||
+                            5, // 기본값 5%
+                        defaultMintingFee: parseEther(
+                            licenseTerms.defaultMintingFee ||
+                                '0.1'
+                        ), // 기본값 1 IP
+                        currency: WIP_TOKEN_ADDRESS,
+                        royaltyPolicy:
+                            royaltyPolicy as `0x${string}`,
+                    }),
+                },
+            ];
+
+            // 스크립트와 동일한 설정으로 등록 (커스텀 라이선스 포함)
             const response =
                 await storyClient.ipAsset.registerIpAsset({
                     nft: {
@@ -390,6 +442,7 @@ export function StoryRegisterButton({
                         spgNftContract,
                         recipient: address as `0x${string}`, // 수신자 명시적 지정 (스크립트와 동일하게)
                     },
+                    licenseTermsData: licenseTermsData,
                     ipMetadata: {
                         ipMetadataURI,
                         ipMetadataHash,
@@ -398,6 +451,14 @@ export function StoryRegisterButton({
                     },
                 });
 
+            // 콘솔 로그 출력
+            console.log(
+                `Root IPA created at transaction hash ${response.txHash}, IPA ID: ${response.ipId}`
+            );
+            console.log(
+                `View on the explorer: https://aeneid.explorer.story.foundation/ipa/${response.ipId}`
+            );
+
             showToast(
                 locale === 'ko'
                     ? '⏳ 블록체인에서 처리 중...'
@@ -405,20 +466,49 @@ export function StoryRegisterButton({
                 'info'
             );
 
-            // 6. MongoDB에 결과 저장 (지갑 주소도 함께 저장)
-            await fetch(`/api/dreams/${dreamId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    ipfsCid: ipfsData.ipMetadataCid, // IP Metadata CID 저장
-                    nftMetadataCid: ipfsData.nftMetadataCid, // NFT Metadata CID 저장
-                    ipAssetId: response.ipId,
-                    ownerAddress: address, // 소유자 지갑 주소 저장
-                    txHash: response.txHash,
-                }),
-            });
+            // 6. MongoDB에 결과 저장 (지갑 주소, 라이선스 조건 ID도 함께 저장)
+            try {
+                const saveResponse = await fetch(
+                    `/api/dreams/${dreamId}`,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'Content-Type':
+                                'application/json',
+                        },
+                        body: JSON.stringify({
+                            ipfsCid: ipfsData.ipMetadataCid, // IP Metadata CID 저장
+                            nftMetadataCid:
+                                ipfsData.nftMetadataCid, // NFT Metadata CID 저장
+                            ipAssetId: response.ipId,
+                            ownerAddress: address, // 소유자 지갑 주소 저장
+                            txHash: response.txHash,
+                        }),
+                    }
+                );
+
+                const saveData = await saveResponse.json();
+
+                if (!saveData.success) {
+                    console.warn(
+                        'MongoDB 저장 경고:',
+                        saveData.error
+                    );
+                    // MongoDB 저장 실패해도 등록은 성공했으므로 경고만 표시
+                }
+            } catch (saveError: any) {
+                console.error(
+                    'MongoDB 저장 오류:',
+                    saveError
+                );
+                // MongoDB 저장 실패해도 등록은 성공했으므로 경고만 표시
+                showToast(
+                    locale === 'ko'
+                        ? '⚠️ 등록은 완료되었지만 데이터베이스 저장에 실패했습니다.'
+                        : '⚠️ Registration completed but database save failed.',
+                    'warning'
+                );
+            }
 
             showToast(
                 locale === 'ko'
@@ -433,10 +523,13 @@ export function StoryRegisterButton({
                 'success'
             );
 
+            // 상태를 먼저 업데이트한 후 페이지 새로고침
+            setIsRegistering(false);
+
             // 페이지 새로고침하여 라이선스 설정 버튼 표시
             setTimeout(() => {
                 window.location.reload();
-            }, 2000);
+            }, 1500);
         } catch (error: any) {
             console.error(
                 'Story Protocol 등록 오류:',
@@ -494,101 +587,209 @@ export function StoryRegisterButton({
         (isAlreadyRegistered && isCurrentOwner);
 
     return (
-        <button
-            onClick={handleRegister}
-            disabled={isDisabled}
-            className={`glass-button px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium text-sm sm:text-base flex items-center gap-1.5 sm:gap-2 min-h-[44px] ${
-                isDisabled
-                    ? 'opacity-50 cursor-not-allowed'
-                    : 'text-white hover:text-secondary'
-            } ${className}`}
-            title={
-                isAlreadyRegistered && isCurrentOwner
-                    ? locale === 'ko'
-                        ? '이미 등록된 Dream IP입니다.'
-                        : 'This Dream IP is already registered.'
-                    : undefined
-            }
-        >
-            {isLoading ? (
-                <>
-                    <svg
-                        className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 animate-spin"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
+        <>
+            <button
+                onClick={handleRegister}
+                disabled={isDisabled}
+                className={`glass-button px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl font-medium text-sm sm:text-base flex items-center gap-1.5 sm:gap-2 min-h-[44px] ${
+                    isDisabled
+                        ? 'opacity-50 cursor-not-allowed'
+                        : 'text-white hover:text-secondary'
+                } ${className}`}
+                title={
+                    isAlreadyRegistered && isCurrentOwner
+                        ? locale === 'ko'
+                            ? '이미 등록된 Dream IP입니다.'
+                            : 'This Dream IP is already registered.'
+                        : undefined
+                }
+            >
+                {isLoading ? (
+                    <>
+                        <svg
+                            className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 animate-spin"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            />
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                        </svg>
+                        <span className="hidden sm:inline">
+                            {locale === 'ko'
+                                ? '초기화 중...'
+                                : 'Initializing...'}
+                        </span>
+                    </>
+                ) : isRegistering ? (
+                    <>
+                        <svg
+                            className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 animate-spin"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                            />
+                            <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            />
+                        </svg>
+                        <span className="hidden sm:inline">
+                            {locale === 'ko'
+                                ? '등록 중...'
+                                : 'Registering...'}
+                        </span>
+                    </>
+                ) : (
+                    <>
+                        <svg
+                            className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
+                            fill="none"
                             stroke="currentColor"
-                            strokeWidth="4"
-                        />
-                        <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                    </svg>
-                    <span className="hidden sm:inline">
-                        {locale === 'ko'
-                            ? '초기화 중...'
-                            : 'Initializing...'}
-                    </span>
-                </>
-            ) : isRegistering ? (
-                <>
-                    <svg
-                        className="w-4 h-4 sm:w-5 sm:h-5 shrink-0 animate-spin"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                        />
-                        <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                    </svg>
-                    <span className="hidden sm:inline">
-                        {locale === 'ko'
-                            ? '등록 중...'
-                            : 'Registering...'}
-                    </span>
-                </>
-            ) : (
-                <>
-                    <svg
-                        className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                        />
-                    </svg>
-                    <span className="hidden sm:inline">
-                        {locale === 'ko'
-                            ? 'Story Protocol 등록'
-                            : 'Register to Story'}
-                    </span>
-                    <span className="sm:hidden">
-                        Register
-                    </span>
-                </>
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                            />
+                        </svg>
+                        <span className="hidden sm:inline">
+                            {locale === 'ko'
+                                ? 'Story Protocol 등록'
+                                : 'Register to Story'}
+                        </span>
+                        <span className="sm:hidden">
+                            Register
+                        </span>
+                    </>
+                )}
+            </button>
+
+            {/* 라이선스 설정 모달 */}
+            {showLicenseModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+                    <div className="glass-panel rounded-2xl p-6 sm:p-8 max-w-lg w-full max-h-[90vh] overflow-y-auto border border-white/10">
+                        <h3 className="text-2xl font-bold text-white mb-6">
+                            {locale === 'ko'
+                                ? '라이선스 조건 설정'
+                                : 'Setup License Terms'}
+                        </h3>
+
+                        <div className="space-y-6">
+                            {/* 상업적 사용 로열티 */}
+                            <div>
+                                <label className="block text-white mb-2">
+                                    {locale === 'ko'
+                                        ? '상업적 사용 로열티 (%)'
+                                        : 'Commercial Use Royalty (%)'}
+                                </label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    max="100"
+                                    value={
+                                        licenseTerms.commercialRevShare
+                                    }
+                                    onChange={(e) =>
+                                        setLicenseTerms({
+                                            ...licenseTerms,
+                                            commercialRevShare:
+                                                parseInt(
+                                                    e.target
+                                                        .value
+                                                ) || 0,
+                                        })
+                                    }
+                                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+                                />
+                            </div>
+
+                            {/* 기본 민팅 수수료 */}
+                            <div>
+                                <label className="block text-white mb-2">
+                                    {locale === 'ko'
+                                        ? '기본 민팅 수수료 (IP)'
+                                        : 'Default Minting Fee (IP)'}
+                                </label>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    step="0.1"
+                                    value={
+                                        licenseTerms.defaultMintingFee
+                                    }
+                                    onChange={(e) =>
+                                        setLicenseTerms({
+                                            ...licenseTerms,
+                                            defaultMintingFee:
+                                                e.target
+                                                    .value,
+                                        })
+                                    }
+                                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white"
+                                />
+                            </div>
+
+                            <div className="text-sm text-white/70 pt-2 border-t border-white/10">
+                                {locale === 'ko'
+                                    ? '💡 Commercial Remix 라이선스: 상업적 사용이 허용되며, 설정한 로열티 비율이 적용됩니다.'
+                                    : '💡 Commercial Remix License: Commercial use is allowed with the specified royalty rate.'}
+                            </div>
+
+                            {/* 버튼 */}
+                            <div className="flex gap-3 pt-4">
+                                <button
+                                    onClick={() =>
+                                        setShowLicenseModal(
+                                            false
+                                        )
+                                    }
+                                    className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-white transition-colors"
+                                >
+                                    {locale === 'ko'
+                                        ? '취소'
+                                        : 'Cancel'}
+                                </button>
+                                <button
+                                    onClick={
+                                        handleRegisterWithLicense
+                                    }
+                                    disabled={isRegistering}
+                                    className="flex-1 px-4 py-2 bg-secondary hover:bg-secondary/80 rounded-lg text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {isRegistering
+                                        ? locale === 'ko'
+                                            ? '등록 중...'
+                                            : 'Registering...'
+                                        : locale === 'ko'
+                                        ? '등록하기'
+                                        : 'Register'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
-        </button>
+        </>
     );
 }

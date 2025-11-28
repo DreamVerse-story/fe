@@ -101,23 +101,37 @@ export async function getDreamsByUserId(
 
 /**
  * Dream IP 패키지 저장 (생성 또는 업데이트)
+ * imageUrl은 저장하지 않음 (base64 데이터로 인한 성능 이슈 방지)
  */
 export async function saveDream(
     dream: DreamIPPackage
 ): Promise<void> {
-    const collection = await getDreamsCollection();
-    const document = dreamPackageToDocument(dream);
+    try {
+        const collection = await getDreamsCollection();
+        // dreamPackageToDocument에서 이미 imageUrl이 제거됨
+        const document = dreamPackageToDocument(dream);
 
-    await collection.updateOne(
-        { id: dream.id },
-        {
-            $set: {
-                ...document,
-                updatedAt: new Date(),
+        // 저장 시 imageUrl이 제거된 문서 저장 (타입 안전성을 위해 any 사용)
+        await collection.updateOne(
+            { id: dream.id },
+            {
+                $set: {
+                    ...(document as any),
+                    updatedAt: new Date(),
+                },
             },
-        },
-        { upsert: true }
-    );
+            { upsert: true }
+        );
+    } catch (error) {
+        console.error('saveDream 오류:', error);
+        throw new Error(
+            `Dream 저장 실패: ${
+                error instanceof Error
+                    ? error.message
+                    : String(error)
+            }`
+        );
+    }
 }
 
 /**

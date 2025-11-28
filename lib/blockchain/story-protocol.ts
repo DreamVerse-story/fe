@@ -152,27 +152,42 @@ export async function attachLicenseTerms(
  * Dream IP 라이선스 발행 (토큰화)
  *
  * @param ipAssetId - IP Asset ID
+ * @param licenseTermsId - 라이선스 조건 ID (IP Asset에 첨부된 라이선스 조건)
  * @param amount - 발행할 라이선스 수량
- * @param receiverAddress - 수신자 주소
+ * @param receiverAddress - 수신자 주소 (선택사항, 없으면 트랜잭션 발신자)
+ * @param maxMintingFee - 최대 민팅 수수료 (기본값: 0 = 비활성화)
+ * @param maxRevenueShare - 최대 수익 공유 (기본값: 100)
  */
 export async function mintLicenseTokens(
     ipAssetId: string,
+    licenseTermsId: bigint | string,
     amount: number,
-    receiverAddress: string
+    receiverAddress?: string,
+    maxMintingFee: bigint = BigInt(0),
+    maxRevenueShare: number = 100
 ) {
     console.log('🎫 라이선스 토큰 발행 중:', {
         ipAssetId,
+        licenseTermsId,
         amount,
+        receiverAddress,
     });
 
     const client = getStoryClient();
 
     const response = await client.license.mintLicenseTokens(
         {
-            licenseTermsId: BigInt(1),
+            licenseTermsId:
+                typeof licenseTermsId === 'string'
+                    ? BigInt(licenseTermsId)
+                    : licenseTermsId,
             licensorIpId: ipAssetId as `0x${string}`,
-            receiver: receiverAddress as `0x${string}`,
+            receiver: receiverAddress
+                ? (receiverAddress as `0x${string}`)
+                : undefined, // 없으면 트랜잭션 발신자에게 발행
             amount: BigInt(amount),
+            maxMintingFee: maxMintingFee,
+            maxRevenueShare: maxRevenueShare,
         }
     );
 

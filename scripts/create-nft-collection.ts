@@ -8,7 +8,7 @@
 import { getStoryClientWithWallet } from '../lib/blockchain/story-client';
 import { createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { storyAeneid } from '../lib/blockchain/wagmi-config';
+import { storyAeneid } from '../lib/blockchain/chains';
 
 async function main() {
     console.log('🎨 Dream IP NFT 컬렉션 생성 시작...\n');
