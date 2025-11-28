@@ -1,0 +1,15 @@
+fix: Improve Story Protocol NFT registration and resolve chainId mismatch
+
+- Unify Story Protocol client chainId to 1315 (matching script configuration)
+- Add automatic network switching using wagmi
+- Explicitly specify recipient parameter in registerIpAsset call
+- Remove unnecessary debug logs
+- Add NFT registration test script (scripts/register-nft.ts)
+- Add WIP token balance check script (scripts/check-wip-balance.ts)
+
+Changes:
+- _components/common/StoryRegisterButton.tsx: Auto network switching, recipient parameter, log cleanup
+- lib/blockchain/story-client.ts: Unify chainId to numeric 1315
+- scripts/register-nft.ts: NFT registration test script using private key
+- scripts/check-wip-balance.ts: WIP token balance and mintFeeToken check script
+

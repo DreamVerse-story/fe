@@ -91,10 +91,11 @@ export function getStoryClientWithWallet(
 
     // custom transport를 사용하여 window.ethereum과 연동
     // 이렇게 하면 eth_sendTransaction이 올바르게 호출됨
+    // 스크립트와 동일하게 숫자 1315 사용 (스크립트가 작동하므로 이게 맞음)
     const config: StoryConfig = {
         account: walletClient.account, // ← account만 전달
         transport: custom((window as any).ethereum), // ← window.ethereum 사용
-        chainId: chainId as any,
+        chainId: 1315 as any, // 스크립트와 동일하게 숫자 사용
     };
 
     storyClient = StoryClient.newClient(config);

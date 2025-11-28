@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useStoryProtocol } from '@/lib/hooks/useStoryProtocol';
 import { useTranslation } from '@/lib/i18n/context';
 import { useToast } from './Toast';
+import { useChainId, useSwitchChain } from 'wagmi';
+import { storyAeneid } from '@/lib/blockchain/wagmi-config';
 
 interface StoryRegisterButtonProps {
     dreamId: string;
@@ -27,6 +29,10 @@ export function StoryRegisterButton({
         useStoryProtocol();
     const { locale } = useTranslation();
     const { showToast } = useToast();
+
+    // wagmi hooks로 네트워크 관리
+    const chainId = useChainId();
+    const { switchChain } = useSwitchChain();
     const [isRegistering, setIsRegistering] =
         useState(false);
     const [hasAutoTriggered, setHasAutoTriggered] =
@@ -119,6 +125,124 @@ export function StoryRegisterButton({
         setIsRegistering(true);
 
         try {
+            // 0. 환경 변수 및 설정 검증
+            const spgNftContract = process.env
+                .NEXT_PUBLIC_SPG_NFT_IMPL as `0x${string}`;
+            if (!spgNftContract) {
+                throw new Error(
+                    locale === 'ko'
+                        ? 'NEXT_PUBLIC_SPG_NFT_IMPL 환경 변수가 설정되지 않았습니다.'
+                        : 'NEXT_PUBLIC_SPG_NFT_IMPL environment variable is not set.'
+                );
+            }
+
+            // wagmi를 사용한 네트워크 확인 및 자동 전환
+            if (chainId !== 1315) {
+                showToast(
+                    locale === 'ko'
+                        ? '🔄 Aeneid Testnet으로 네트워크 전환 중...'
+                        : '🔄 Switching to Aeneid Testnet...',
+                    'info'
+                );
+
+                try {
+                    // wagmi의 switchChain 사용 (더 안정적)
+                    await switchChain({ chainId: 1315 });
+
+                    showToast(
+                        locale === 'ko'
+                            ? '✅ Aeneid Testnet으로 전환 완료'
+                            : '✅ Switched to Aeneid Testnet',
+                        'success'
+                    );
+
+                    // 네트워크 전환 후 잠시 대기 (UI 업데이트 시간)
+                    await new Promise((resolve) =>
+                        setTimeout(resolve, 1000)
+                    );
+                } catch (switchError: any) {
+                    // wagmi 실패 시 window.ethereum으로 폴백
+                    if (
+                        typeof window !== 'undefined' &&
+                        (window as any).ethereum
+                    ) {
+                        try {
+                            await (
+                                window as any
+                            ).ethereum.request({
+                                method: 'wallet_switchEthereumChain',
+                                params: [
+                                    { chainId: '0x523' },
+                                ], // 1315 in hex
+                            });
+                        } catch (fallbackError: any) {
+                            // 네트워크가 추가되지 않은 경우 추가
+                            if (
+                                fallbackError.code ===
+                                    4902 ||
+                                fallbackError.message?.includes(
+                                    'Unrecognized chain'
+                                )
+                            ) {
+                                await (
+                                    window as any
+                                ).ethereum.request({
+                                    method: 'wallet_addEthereumChain',
+                                    params: [
+                                        {
+                                            chainId:
+                                                '0x523', // 1315 in hex
+                                            chainName:
+                                                'Story Aeneid Testnet',
+                                            nativeCurrency:
+                                                {
+                                                    name: 'IP',
+                                                    symbol: 'IP',
+                                                    decimals: 18,
+                                                },
+                                            rpcUrls: [
+                                                'https://aeneid.storyrpc.io',
+                                            ],
+                                            blockExplorerUrls:
+                                                [
+                                                    'https://aeneid.explorer.story.foundation',
+                                                ],
+                                        },
+                                    ],
+                                });
+                            } else {
+                                throw fallbackError;
+                            }
+                        }
+                    } else {
+                        throw switchError;
+                    }
+                }
+
+                // 전환 후 다시 확인 (window.ethereum으로)
+                if (
+                    typeof window !== 'undefined' &&
+                    (window as any).ethereum
+                ) {
+                    const finalChainId = await (
+                        window as any
+                    ).ethereum.request({
+                        method: 'eth_chainId',
+                    });
+                    const finalChainIdNumber = parseInt(
+                        finalChainId,
+                        16
+                    );
+                    if (finalChainIdNumber !== 1315) {
+                        throw new Error(
+                            locale === 'ko'
+                                ? '네트워크 전환에 실패했습니다. MetaMask에서 수동으로 Aeneid Testnet (Chain ID: 1315)으로 전환해주세요.'
+                                : 'Failed to switch network. Please manually switch to Aeneid Testnet (Chain ID: 1315) in MetaMask.'
+                        );
+                    }
+                }
+            }
+
             // 1. Dream IP 데이터 가져오기 (prop이 없으면 API 호출)
             let dreamData: any;
             if (dream) {
@@ -258,12 +382,13 @@ export function StoryRegisterButton({
 
             const nftMetadataHash = ipMetadataHash; // 같은 해시 사용
 
+            // 스크립트와 동일한 설정으로 등록
             const response =
                 await storyClient.ipAsset.registerIpAsset({
                     nft: {
                         type: 'mint',
-                        spgNftContract: process.env
-                            .NEXT_PUBLIC_SPG_NFT_IMPL as `0x${string}`,
+                        spgNftContract,
+                        recipient: address as `0x${string}`, // 수신자 명시적 지정 (스크립트와 동일하게)
                     },
                     ipMetadata: {
                         ipMetadataURI,
@@ -321,12 +446,23 @@ export function StoryRegisterButton({
             // 사용자가 트랜잭션을 거부한 경우
             if (
                 error.message?.includes('User rejected') ||
-                error.message?.includes('User denied')
+                error.message?.includes('User denied') ||
+                error.message?.includes('user rejected')
             ) {
                 showToast(
                     locale === 'ko'
                         ? '트랜잭션이 취소되었습니다.'
                         : 'Transaction was cancelled.',
+                    'error'
+                );
+            } else if (
+                error.message?.includes('mintFeeToken') ||
+                error.message?.includes('publicMinting')
+            ) {
+                showToast(
+                    locale === 'ko'
+                        ? 'NFT 컬렉션의 민팅 설정에 문제가 있습니다.\n\n`scripts/create-nft-collection.ts`를 실행하여 자신만의 컬렉션을 생성하고 `.env.local`에 `NEXT_PUBLIC_SPG_NFT_IMPL`을 업데이트한 후 다시 시도해주세요.'
+                        : "There is an issue with the NFT collection's minting settings. Please run `scripts/create-nft-collection.ts` to create your own collection, update `NEXT_PUBLIC_SPG_NFT_IMPL` in `.env.local`, and try again.",
                     'error'
                 );
             } else {
