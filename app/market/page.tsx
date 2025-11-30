@@ -139,24 +139,24 @@ function SearchPageContent() {
                 if (selectedGenres.length > 0) {
                     const dreamGenres =
                         dream.analysis.genres || [];
-                    // Check if dream has ANY of the selected genres
-                    const hasSelectedGenre =
-                        dreamGenres.some((genre) =>
-                            selectedGenres.includes(genre)
+                    // Check if dream has ALL of the selected genres (AND logic)
+                    const hasAllSelectedGenres =
+                        selectedGenres.every((genre) =>
+                            dreamGenres.includes(genre)
                         );
-                    if (!hasSelectedGenre) return false;
+                    if (!hasAllSelectedGenres) return false;
                 }
 
                 // Tone Filter (compare using original Korean values)
                 if (selectedTones.length > 0) {
                     const dreamTones =
                         dream.analysis.tones || [];
-                    // Check if dream has ANY of the selected tones
-                    const hasSelectedTone = dreamTones.some(
-                        (tone) =>
-                            selectedTones.includes(tone)
-                    );
-                    if (!hasSelectedTone) return false;
+                    // Check if dream has ALL of the selected tones (AND logic)
+                    const hasAllSelectedTones =
+                        selectedTones.every((tone) =>
+                            dreamTones.includes(tone)
+                        );
+                    if (!hasAllSelectedTones) return false;
                 }
 
                 return true;
